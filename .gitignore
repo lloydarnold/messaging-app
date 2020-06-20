@@ -96,6 +96,10 @@ dist
 # Serverless directories
 .serverless/
 
+#Random
+.bash*
+.sudo*
+
 # FuseBox cache
 .fusebox/
 
