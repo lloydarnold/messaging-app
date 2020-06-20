@@ -1,0 +1,198 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node',
+1 verbose cli   '/usr/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '--save',
+1 verbose cli   'socket.ionpm',
+1 verbose cli   'install',
+1 verbose cli   '--save',
+1 verbose cli   'express' ]
+2 info using npm@3.5.2
+3 info using node@v8.10.0
+4 silly loadCurrentTree Starting
+5 silly install loadCurrentTree
+6 silly install readLocalPackageData
+7 silly fetchPackageMetaData socket.ionpm
+8 silly fetchPackageMetaData install
+9 silly fetchPackageMetaData express
+10 silly fetchNamedPackageData socket.ionpm
+11 silly mapToRegistry name socket.ionpm
+12 silly mapToRegistry using default registry
+13 silly mapToRegistry registry https://registry.npmjs.org/
+14 silly mapToRegistry uri https://registry.npmjs.org/socket.ionpm
+15 silly fetchNamedPackageData install
+16 silly mapToRegistry name install
+17 silly mapToRegistry using default registry
+18 silly mapToRegistry registry https://registry.npmjs.org/
+19 silly mapToRegistry uri https://registry.npmjs.org/install
+20 silly fetchNamedPackageData express
+21 silly mapToRegistry name express
+22 silly mapToRegistry using default registry
+23 silly mapToRegistry registry https://registry.npmjs.org/
+24 silly mapToRegistry uri https://registry.npmjs.org/express
+25 verbose request uri https://registry.npmjs.org/socket.ionpm
+26 verbose request no auth needed
+27 info attempt registry request try #1 at 10:50:17 AM
+28 verbose request id 76a0a2dae023e7d0
+29 http request GET https://registry.npmjs.org/socket.ionpm
+30 verbose request uri https://registry.npmjs.org/install
+31 verbose request no auth needed
+32 info attempt registry request try #1 at 10:50:17 AM
+33 http request GET https://registry.npmjs.org/install
+34 verbose request uri https://registry.npmjs.org/express
+35 verbose request no auth needed
+36 info attempt registry request try #1 at 10:50:17 AM
+37 http request GET https://registry.npmjs.org/express
+38 http 200 https://registry.npmjs.org/install
+39 verbose headers { date: 'Sat, 20 Jun 2020 10:50:17 GMT',
+39 verbose headers   'content-type': 'application/json',
+39 verbose headers   'transfer-encoding': 'chunked',
+39 verbose headers   connection: 'keep-alive',
+39 verbose headers   'set-cookie':
+39 verbose headers    [ '__cfduid=dc9814b865d93c9540c0475e89014ee1b1592650217; expires=Mon, 20-Jul-20 10:50:17 GMT; path=/; domain=.npmjs.org; HttpOnly; SameSite=Lax' ],
+39 verbose headers   'cf-ray': '5a64ed93cae3e10a-IAD',
+39 verbose headers   age: '654',
+39 verbose headers   'cache-control': 'public, max-age=300',
+39 verbose headers   etag: 'W/"98289b25e7a6388be49c9c967fba04f6"',
+39 verbose headers   'last-modified': 'Wed, 03 Jul 2019 15:51:26 GMT',
+39 verbose headers   vary: 'accept-encoding, accept',
+39 verbose headers   'cf-cache-status': 'HIT',
+39 verbose headers   'cf-request-id': '0372f2d05c0000e10ac30ae200000001',
+39 verbose headers   'expect-ct': 'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"',
+39 verbose headers   server: 'cloudflare',
+39 verbose headers   'content-encoding': 'gzip' }
+40 silly get cb [ 200,
+40 silly get   { date: 'Sat, 20 Jun 2020 10:50:17 GMT',
+40 silly get     'content-type': 'application/json',
+40 silly get     'transfer-encoding': 'chunked',
+40 silly get     connection: 'keep-alive',
+40 silly get     'set-cookie':
+40 silly get      [ '__cfduid=dc9814b865d93c9540c0475e89014ee1b1592650217; expires=Mon, 20-Jul-20 10:50:17 GMT; path=/; domain=.npmjs.org; HttpOnly; SameSite=Lax' ],
+40 silly get     'cf-ray': '5a64ed93cae3e10a-IAD',
+40 silly get     age: '654',
+40 silly get     'cache-control': 'public, max-age=300',
+40 silly get     etag: 'W/"98289b25e7a6388be49c9c967fba04f6"',
+40 silly get     'last-modified': 'Wed, 03 Jul 2019 15:51:26 GMT',
+40 silly get     vary: 'accept-encoding, accept',
+40 silly get     'cf-cache-status': 'HIT',
+40 silly get     'cf-request-id': '0372f2d05c0000e10ac30ae200000001',
+40 silly get     'expect-ct': 'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"',
+40 silly get     server: 'cloudflare',
+40 silly get     'content-encoding': 'gzip' } ]
+41 verbose get saving install to /home/ubuntu/.npm/registry.npmjs.org/install/.cache.json
+42 http 200 https://registry.npmjs.org/express
+43 verbose headers { date: 'Sat, 20 Jun 2020 10:50:17 GMT',
+43 verbose headers   'content-type': 'application/json',
+43 verbose headers   'transfer-encoding': 'chunked',
+43 verbose headers   connection: 'keep-alive',
+43 verbose headers   'set-cookie':
+43 verbose headers    [ '__cfduid=d6db6fe3f79c4c62b4c3debe536423da81592650217; expires=Mon, 20-Jul-20 10:50:17 GMT; path=/; domain=.npmjs.org; HttpOnly; SameSite=Lax' ],
+43 verbose headers   'cf-ray': '5a64ed93ce6ae0ee-IAD',
+43 verbose headers   age: '4716',
+43 verbose headers   'cache-control': 'public, max-age=300',
+43 verbose headers   etag: 'W/"1c8f3fb2e967e5a61cbec2c48d8f1664"',
+43 verbose headers   'last-modified': 'Wed, 06 May 2020 04:17:21 GMT',
+43 verbose headers   vary: 'accept-encoding, accept',
+43 verbose headers   'cf-cache-status': 'HIT',
+43 verbose headers   'cf-request-id': '0372f2d0590000e0ee79822200000001',
+43 verbose headers   'expect-ct': 'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"',
+43 verbose headers   server: 'cloudflare',
+43 verbose headers   'content-encoding': 'gzip' }
+44 silly get cb [ 200,
+44 silly get   { date: 'Sat, 20 Jun 2020 10:50:17 GMT',
+44 silly get     'content-type': 'application/json',
+44 silly get     'transfer-encoding': 'chunked',
+44 silly get     connection: 'keep-alive',
+44 silly get     'set-cookie':
+44 silly get      [ '__cfduid=d6db6fe3f79c4c62b4c3debe536423da81592650217; expires=Mon, 20-Jul-20 10:50:17 GMT; path=/; domain=.npmjs.org; HttpOnly; SameSite=Lax' ],
+44 silly get     'cf-ray': '5a64ed93ce6ae0ee-IAD',
+44 silly get     age: '4716',
+44 silly get     'cache-control': 'public, max-age=300',
+44 silly get     etag: 'W/"1c8f3fb2e967e5a61cbec2c48d8f1664"',
+44 silly get     'last-modified': 'Wed, 06 May 2020 04:17:21 GMT',
+44 silly get     vary: 'accept-encoding, accept',
+44 silly get     'cf-cache-status': 'HIT',
+44 silly get     'cf-request-id': '0372f2d0590000e0ee79822200000001',
+44 silly get     'expect-ct': 'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"',
+44 silly get     server: 'cloudflare',
+44 silly get     'content-encoding': 'gzip' } ]
+45 verbose get saving express to /home/ubuntu/.npm/registry.npmjs.org/express/.cache.json
+46 http 404 https://registry.npmjs.org/socket.ionpm
+47 verbose headers { date: 'Sat, 20 Jun 2020 10:50:17 GMT',
+47 verbose headers   'content-type': 'application/json',
+47 verbose headers   'content-length': '21',
+47 verbose headers   connection: 'keep-alive',
+47 verbose headers   'set-cookie':
+47 verbose headers    [ '__cfduid=d2bfd559b1948765505e5fe0746a95f691592650217; expires=Mon, 20-Jul-20 10:50:17 GMT; path=/; domain=.npmjs.org; HttpOnly; SameSite=Lax' ],
+47 verbose headers   'cf-ray': '5a64ed93cd8074c7-IAD',
+47 verbose headers   vary: 'Accept-Encoding',
+47 verbose headers   'cf-cache-status': 'EXPIRED',
+47 verbose headers   'cf-request-id': '0372f2d05d000074c758203200000001',
+47 verbose headers   'expect-ct': 'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"',
+47 verbose headers   server: 'cloudflare' }
+48 silly get cb [ 404,
+48 silly get   { date: 'Sat, 20 Jun 2020 10:50:17 GMT',
+48 silly get     'content-type': 'application/json',
+48 silly get     'content-length': '21',
+48 silly get     connection: 'keep-alive',
+48 silly get     'set-cookie':
+48 silly get      [ '__cfduid=d2bfd559b1948765505e5fe0746a95f691592650217; expires=Mon, 20-Jul-20 10:50:17 GMT; path=/; domain=.npmjs.org; HttpOnly; SameSite=Lax' ],
+48 silly get     'cf-ray': '5a64ed93cd8074c7-IAD',
+48 silly get     vary: 'Accept-Encoding',
+48 silly get     'cf-cache-status': 'EXPIRED',
+48 silly get     'cf-request-id': '0372f2d05d000074c758203200000001',
+48 silly get     'expect-ct': 'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"',
+48 silly get     server: 'cloudflare' } ]
+49 silly fetchPackageMetaData Error: Not found : socket.ionpm
+49 silly fetchPackageMetaData     at makeError (/usr/share/npm/node_modules/npm-registry-client/lib/request.js:264:12)
+49 silly fetchPackageMetaData     at CachingRegistryClient.<anonymous> (/usr/share/npm/node_modules/npm-registry-client/lib/request.js:252:14)
+49 silly fetchPackageMetaData     at Request._callback (/usr/share/npm/node_modules/npm-registry-client/lib/request.js:172:14)
+49 silly fetchPackageMetaData     at Request.self.callback (/usr/share/npm/node_modules/request/request.js:198:22)
+49 silly fetchPackageMetaData     at emitTwo (events.js:126:13)
+49 silly fetchPackageMetaData     at Request.emit (events.js:214:7)
+49 silly fetchPackageMetaData     at Request.<anonymous> (/usr/share/npm/node_modules/request/request.js:1082:10)
+49 silly fetchPackageMetaData     at emitOne (events.js:121:20)
+49 silly fetchPackageMetaData     at Request.emit (events.js:211:7)
+49 silly fetchPackageMetaData     at IncomingMessage.<anonymous> (/usr/share/npm/node_modules/request/request.js:1009:12)
+49 silly fetchPackageMetaData  error for socket.ionpm { Error: Not found : socket.ionpm
+49 silly fetchPackageMetaData     at makeError (/usr/share/npm/node_modules/npm-registry-client/lib/request.js:264:12)
+49 silly fetchPackageMetaData     at CachingRegistryClient.<anonymous> (/usr/share/npm/node_modules/npm-registry-client/lib/request.js:252:14)
+49 silly fetchPackageMetaData     at Request._callback (/usr/share/npm/node_modules/npm-registry-client/lib/request.js:172:14)
+49 silly fetchPackageMetaData     at Request.self.callback (/usr/share/npm/node_modules/request/request.js:198:22)
+49 silly fetchPackageMetaData     at emitTwo (events.js:126:13)
+49 silly fetchPackageMetaData     at Request.emit (events.js:214:7)
+49 silly fetchPackageMetaData     at Request.<anonymous> (/usr/share/npm/node_modules/request/request.js:1082:10)
+49 silly fetchPackageMetaData     at emitOne (events.js:121:20)
+49 silly fetchPackageMetaData     at Request.emit (events.js:211:7)
+49 silly fetchPackageMetaData     at IncomingMessage.<anonymous> (/usr/share/npm/node_modules/request/request.js:1009:12) pkgid: 'socket.ionpm', statusCode: 404, code: 'E404' }
+50 silly rollbackFailedOptional Starting
+51 silly rollbackFailedOptional Finishing
+52 silly runTopLevelLifecycles Starting
+53 silly runTopLevelLifecycles Finishing
+54 silly install printInstalled
+55 verbose stack Error: Not found : socket.ionpm
+55 verbose stack     at makeError (/usr/share/npm/node_modules/npm-registry-client/lib/request.js:264:12)
+55 verbose stack     at CachingRegistryClient.<anonymous> (/usr/share/npm/node_modules/npm-registry-client/lib/request.js:252:14)
+55 verbose stack     at Request._callback (/usr/share/npm/node_modules/npm-registry-client/lib/request.js:172:14)
+55 verbose stack     at Request.self.callback (/usr/share/npm/node_modules/request/request.js:198:22)
+55 verbose stack     at emitTwo (events.js:126:13)
+55 verbose stack     at Request.emit (events.js:214:7)
+55 verbose stack     at Request.<anonymous> (/usr/share/npm/node_modules/request/request.js:1082:10)
+55 verbose stack     at emitOne (events.js:121:20)
+55 verbose stack     at Request.emit (events.js:211:7)
+55 verbose stack     at IncomingMessage.<anonymous> (/usr/share/npm/node_modules/request/request.js:1009:12)
+56 verbose statusCode 404
+57 verbose pkgid socket.ionpm
+58 verbose cwd /home/ubuntu/Server
+59 error Linux 4.15.0-1065-aws
+60 error argv "/usr/bin/node" "/usr/bin/npm" "install" "--save" "socket.ionpm" "install" "--save" "express"
+61 error node v8.10.0
+62 error npm  v3.5.2
+63 error code E404
+64 error 404 Not found : socket.ionpm
+65 error 404
+66 error 404 'socket.ionpm' is not in the npm registry.
+67 error 404 You should bug the author to publish it (or use the name yourself!)
+68 error 404 Note that you can also install from a
+69 error 404 tarball, folder, http url, or git url.
+70 verbose exit [ 1, true ]

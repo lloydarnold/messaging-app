@@ -1,0 +1,12 @@
+{
+  "name": "messenger-server",
+  "version": "1.0.0",
+  "description": "A simple backend server to test messaging app for Black Excellence Network",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Lloyd Arnold",
+  "license": "MIT"
+}
