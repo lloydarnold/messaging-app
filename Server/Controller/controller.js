@@ -10,9 +10,11 @@ module.exports = function (app,io){
     }));
     
     app.get('/',function(req,res){
+	// Serve index.html file when server receives a request
         res.sendFile(path.resolve(__dirname+"/../../Client/index.html"));
     });
     
+    // Deal with register request
     app.post('/register',function(req,res){
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader("Access-Control-Allow-Method","'GET, POST, OPTIONS, PUT, PATCH, DELETE'");
@@ -22,21 +24,29 @@ module.exports = function (app,io){
             "password":req.body.password,
             "phone":req.body.phone,
             "email":req.body.email,
+	    "type":re.body.type,
+	    "mentor":req.body.mentor,
         };
+	// This outputs new user to the console (for debugging).
+	    // As per needs, this could be changed to another log (potentially via a discord bot to allow for monitoring)
         console.log(user);
         
+	// .findOne method does exactly what one would expect
         models.user.findOne({"handle":req.body.handle},function(err,doc){
             if(err){
+		// If error, send this
                 res.json(err); 
             }
             if(doc == null){
-                models.user.create(user,function(err,doc){
+                // If user doesn't exist, make them
+		models.user.create(user,function(err,doc){
                     if(err) res.json(err);
                     else{
                         res.send("success");
                     }
                 });
             }else{
+		// If user DOES exist, complain
                 res.send("User already found");
             }
         })
@@ -44,7 +54,7 @@ module.exports = function (app,io){
     });
     
     
-    var handle=null;
+    var handle=null;		// handle is username
     var private=null;
     var users={};
     var keys={};
@@ -53,8 +63,9 @@ module.exports = function (app,io){
         console.log(req.body.handle);
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader("Access-Control-Allow-Method","'GET, POST, OPTIONS, PUT, PATCH, DELETE'");
-        handle = req.body.handle;
-        models.user.findOne({"handle":req.body.handle, "password":req.body.password},function(err,doc){
+        handle = req.body.handle;	// Get handle from login box
+       	// Look up user by handle & password ( passwords are being stored in plaintext -- TODO should be hashed in future update)
+	models.user.findOne({"handle":req.body.handle, "password":req.body.password},function(err,doc){
             if(err){
                 res.send(err); 
             }
@@ -69,7 +80,8 @@ module.exports = function (app,io){
             
     });
     });
-    
+  
+    // We be using sockets for the communication (sockets.io module)
     io.on('connection',function(socket){
         console.log("Connection :User is connected  "+handle);
         console.log("Connection : " +socket.id);
@@ -99,11 +111,12 @@ module.exports = function (app,io){
                         continue;
                     }
                 }
+		// Again, using console log for debug output
                 console.log("pending list: "+pending);
                 console.log("friends list: "+friends);
                 io.to(socket.id).emit('friend_list', friends);
                 io.to(socket.id).emit('pending_list', pending);
-                io.emit('users',users);
+                io.emit('users',users);	// This will send output to all connected users 
             }
         });
         
