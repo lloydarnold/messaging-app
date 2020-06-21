@@ -54,7 +54,8 @@ app.directive('myEnter', function () {
 });
 
 
-app.controller('myController',['$scope','socket','$http','$mdDialog','$compile','$location','$state','$localStorage', '$sessionStorage',function($scope,socket,$http,$mdDialog,$compile,$location,$state,$localStorage, $sessionStorage){
+app.controller('myController',['$scope','socket','$http','$mdDialog','$compile','$location','$state','$localStorage',
+ '$sessionStorage',function($scope,socket,$http,$mdDialog,$compile,$location,$state,$localStorage, $sessionStorage){
     url= location.host;
     $scope.users=[];
     $scope.online_friends=[];
@@ -67,7 +68,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         console.log("Get handle : "+$scope.user);
     });
 
-    
+
 
     socket.on('friend_list', function(data) {
         console.log("Friends list : "+data);
@@ -95,9 +96,9 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
                         $scope.online_friends.push(i);
                     }
                     else{
-                        $scope.users.push(i);                        
+                        $scope.users.push(i);
                     }
-                    
+
                 }
             }
             console.log("users list : "+$scope.allfriends);
@@ -105,7 +106,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
             console.log("users list : "+$scope.online_friends);
         });
     });
-    
+
     $scope.confirm=function(){
         var data = {
             "friend_handle":$scope.friend,
@@ -127,7 +128,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
             console.log(data)
         });
     };
-    
+
     $scope.showConfirm = function(data) {
         // Appending dialog to document.body to cover sidenav in docs app
         var confirm = $mdDialog.confirm()
@@ -168,15 +169,15 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
 
         });
     });
-//    
+//
 //    socket.on('all_friend_list', function(data) {
 //        $scope.$apply(function () {
 //            $scope.allfriends.push.apply($scope.allfriends,data);
 //        });
 //    });
-//    
+//
 
-    $scope.friend_request = function(user) {   
+    $scope.friend_request = function(user) {
         $scope.friend = user;
     };
 
@@ -189,10 +190,10 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
             period="PM";
         }
         form_date=monthNames[date.getMonth()]+" "+date.getDate()+", "+hour+":"+date.getMinutes()+" "+period;
-        return form_date;        
+        return form_date;
     }
-    
-    
+
+
     socket.on('group', function(data) {
         var div = document.createElement('div');
         if(data.split("#*@")[1]!=$scope.user){
@@ -210,7 +211,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
             document.getElementById("group").scrollTop=document.getElementById("group").scrollHeight;
         }
     });
-    
+
     $scope.group_message= function(message){
         div = document.createElement('div');
         div.innerHTML='<div class="direct-chat-msg"> \
@@ -228,7 +229,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         socket.emit('group message',message+"#*@"+$scope.user);
         $scope.groupMessage=null;
     }
-    
+
     var insertMessage = function(from,to,msg){
         console.log(from + " " + to);
         if (to in $scope.messages){
@@ -242,14 +243,14 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         $scope.messages[to].push({
             "sender":from,
             "msg" : msg,
-            "date" : getDate()  
+            "date" : getDate()
         });
         localStorage.setItem(to,JSON.stringify($scope.messages[to]));
         localStorage.setItem(from,JSON.stringify($scope.messages[from]));
         console.log(localStorage.getItem(to));
     }
 
-    socket.on('private message', function(data) {        
+    socket.on('private message', function(data) {
         var div = document.createElement('div');
         div.innerHTML='<div class="direct-chat-msg right">\
                         <div class="direct-chat-info clearfix">\
@@ -271,7 +272,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
             document.getElementById(data.split("#*@")[2]).appendChild(div);
         }
         insertMessage(data.split("#*@")[2],data.split("#*@")[2],data.split("#*@")[1]);
-        document.getElementById(data.split("#*@")[2]).scrollTop=document.getElementById(data.split("#*@")[2]).scrollHeight;        
+        document.getElementById(data.split("#*@")[2]).scrollTop=document.getElementById(data.split("#*@")[2]).scrollHeight;
     });
 
     $scope.send_message=function(chat,message){
@@ -294,14 +295,14 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         $scope.message=null;
     }
 
-    
+
     popups=[];
-    
+
     $scope.chat_popup = function(chat_friend){
         console.log(chat_friend);
         console.log(popups);
         for(var iii = 0; iii < popups.length; iii++)
-        {   
+        {
             //already registered. Bring it to front.
             if($scope.chat_friend == popups[iii])
             {
@@ -312,7 +313,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
                 display_popups();
             }
         }
-        
+
         console.log($scope.messages);
         console.log($scope.messages[chat_friend]);
 //        for(var i=0; i<$scope.messages[chat_friend].length; i++){
@@ -350,8 +351,8 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
                         </div>\
                         </div>';
         $compile(div)($scope);
-        
-        
+
+
         if(popups.length>1){
             document.getElementById(chat_friend+"01").className=document.getElementById(popups[popups.length-2]+"01").className.replace(/(?:^|\s)popup-box-on(?!\S)/g , '');
         }
@@ -398,17 +399,17 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         console.log($scope.online_friends);
 //        $compile(body)($scope);
         popups.push(chat_friend);
-        
+
     }
-    
-    
+
+
     //this is used to close a popup
     $scope.close_chat= function(chat_friend)
     {
         chat_box=null;
         console.log(chat_friend);
         console.log(popups);
-        
+
         for(var iii = 0; iii < popups.length; iii++)
         {
             if(chat_friend == popups[iii])
@@ -419,16 +420,16 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
                 chat_box.parentElement.removeChild(chat_box);
                 popups.splice(iii,1);
             }
-        }   
+        }
     }
-//    
+//
 //    //displays the popups. Displays based on the maximum number of popups that can be displayed on the current viewport width
 //    function display_popups()
 //    {
 //        document.getElementById(popups[popups.length-2]+"01").className=document.getElementById(popups[popups.length-2]+"01").className.replace(/(?:^|\s)popup-box-on(?!\S)/g , '');
 //        document.getElementById(popups[popups.length-1]+"01").className += "popup-box-on";
 //    }
-    
+
 }]);
 
 app.service('encrypt', function() {
