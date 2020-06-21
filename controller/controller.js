@@ -6,14 +6,14 @@ var bodyParser = require('body-parser');
 
 module.exports = function (app,io){
     app.use( bodyParser.json() );
-    app.use(bodyParser.urlencoded({     
+    app.use(bodyParser.urlencoded({
         extended: true
     }));
-    
+
     app.get('/',function(req,res){
         res.sendFile(path.resolve(__dirname+"/../views/index.html"));
     });
-    
+
     app.post('/register',function(req,res){
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader("Access-Control-Allow-Method","'GET, POST, OPTIONS, PUT, PATCH, DELETE'");
@@ -25,10 +25,10 @@ module.exports = function (app,io){
             "email":req.body.email,
         };
         console.log(user);
-        
+
         models.user.findOne({"handle":req.body.handle},function(err,doc){
             if(err){
-                res.json(err); 
+                res.json(err);
             }
             if(doc == null){
                 models.user.create(user,function(err,doc){
@@ -41,15 +41,15 @@ module.exports = function (app,io){
                 res.send("User already found");
             }
         })
-        
+
     });
-    
-    
+
+
     var handle=null;
     var private=null;
     var users={};
     var keys={};
-    
+
     app.post('/login',function(req,res){
         console.log(req.body.handle);
         res.setHeader('Access-Control-Allow-Origin', '*');
@@ -57,7 +57,7 @@ module.exports = function (app,io){
         handle = req.body.handle;
         models.user.findOne({"handle":req.body.handle, "password":req.body.password},function(err,doc){
             if(err){
-                res.send(err); 
+                res.send(err);
             }
             if(doc==null){
                 res.send("User has not registered");
@@ -67,10 +67,10 @@ module.exports = function (app,io){
 //                res.sendFile(path.resolve(__dirname+"/../views/chat1.html"));
                 res.send("success");
             }
-            
+
     });
     });
-    
+
     io.on('connection',function(socket){
         console.log("Connection :User is connected  "+handle);
         console.log("Connection : " +socket.id);
@@ -88,7 +88,7 @@ module.exports = function (app,io){
                 console.log("friends list: "+doc);
                 list=doc[0].friends.slice();
                 console.log(list);
-                
+
                 for(var i in list){
                     if(list[i].status=="Friend"){
                         friends.push(list[i].name);
@@ -107,13 +107,13 @@ module.exports = function (app,io){
                 io.emit('users',users);
             }
         });
-        
-        
+
+
         socket.on('group message',function(msg){
             console.log(msg);
             io.emit('group',msg);
         });
-        
+
         socket.on('private message',function(msg){
             console.log('message  :'+msg.split("#*@")[0]);
             models.messages.create({
@@ -123,7 +123,7 @@ module.exports = function (app,io){
                 "date" : new Date()});
             io.to(users[msg.split("#*@")[0]]).emit('private message', msg);
         });
-        
+
         socket.on('disconnect', function(){
             delete users[keys[socket.id]];
             delete keys[socket.id];
@@ -131,7 +131,7 @@ module.exports = function (app,io){
             console.log(users);
         });
     });
-    
+
     app.post('/friend_request',function(req,res){
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader("Access-Control-Allow-Method","'GET, POST, OPTIONS, PUT, PATCH, DELETE'");
@@ -166,7 +166,7 @@ module.exports = function (app,io){
             }
         });
     });
-    
+
     app.post('/friend_request/confirmed',function(req,res){
         console.log("friend request confirmed : "+req.body);
         if(req.body.confirm=="Yes"){
@@ -218,7 +218,7 @@ module.exports = function (app,io){
             });
         }
         else{
-            
+
             console.log("friend request confirmed : Inside No confirmed");
             models.user.update({
                 "handle":req.body.my_handle
@@ -236,5 +236,5 @@ module.exports = function (app,io){
         });
         }
     });
-    
+
 }
