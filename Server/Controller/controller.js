@@ -5,16 +5,16 @@ var bodyParser = require('body-parser');
 
 module.exports = function (app,io){
     app.use( bodyParser.json() );
-    app.use(bodyParser.urlencoded({     
+    app.use(bodyParser.urlencoded({
         extended: true
     }));
-    
+
     app.get('/',function(req,res){
 	// Serve index.html file when server receives a request
         res.sendFile(path.resolve(__dirname+"/../../Client/index.html"));
-	console.log("Serving file")
+      	console.log("Serving file");
     });
-    
+
     // Deal with register request
     app.post('/register',function(req,res){
         res.setHeader('Access-Control-Allow-Origin', '*');
@@ -28,15 +28,16 @@ module.exports = function (app,io){
 	    "type":re.body.type,
 	    "mentor":req.body.mentor,
         };
+
 	// This outputs new user to the console (for debugging).
-	    // As per needs, this could be changed to another log (potentially via a discord bot to allow for monitoring)
-        console.log(user);
-        
+	// As per needs, this could be changed to another log (potentially via a discord bot to allow for monitoring)
+    console.log(user);
+
 	// .findOne method does exactly what one would expect
         models.user.findOne({"handle":req.body.handle},function(err,doc){
             if(err){
 		// If error, send this
-                res.json(err); 
+                res.json(err);
             }
             if(doc == null){
                 // If user doesn't exist, make them
@@ -51,24 +52,24 @@ module.exports = function (app,io){
                 res.send("User already found");
             }
         })
-        
+
     });
-    
-    
+
+
     var handle=null;		// handle is username
     var private=null;
     var users={};
     var keys={};
-    
+
     app.post('/login',function(req,res){
         console.log(req.body.handle);
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader("Access-Control-Allow-Method","'GET, POST, OPTIONS, PUT, PATCH, DELETE'");
         handle = req.body.handle;	// Get handle from login box
        	// Look up user by handle & password ( passwords are being stored in plaintext -- TODO should be hashed in future update)
-	models.user.findOne({"handle":req.body.handle, "password":req.body.password},function(err,doc){
+	      models.user.findOne({"handle":req.body.handle, "password":req.body.password},function(err,doc){
             if(err){
-                res.send(err); 
+                res.send(err);
             }
             if(doc==null){
                 res.send("User has not registered");
@@ -78,10 +79,10 @@ module.exports = function (app,io){
 //                res.sendFile(path.resolve(__dirname+"/../views/chat1.html"));
                 res.send("success");
             }
-            
+
     });
     });
-  
+
     // We be using sockets for the communication (sockets.io module)
     io.on('connection',function(socket){
         console.log("Connection :User is connected  "+handle);
@@ -100,7 +101,7 @@ module.exports = function (app,io){
                 console.log("friends list: "+doc);
                 list=doc[0].friends.slice();
                 console.log(list);
-                
+
                 for(var i in list){
                     if(list[i].status=="Friend"){
                         friends.push(list[i].name);
@@ -117,16 +118,16 @@ module.exports = function (app,io){
                 console.log("friends list: "+friends);
                 io.to(socket.id).emit('friend_list', friends);
                 io.to(socket.id).emit('pending_list', pending);
-                io.emit('users',users);	// This will send output to all connected users 
+                io.emit('users',users);	// This will send message to all connected users
             }
         });
-        
-        
+
+
         socket.on('group message',function(msg){
             console.log(msg);
             io.emit('group',msg);
         });
-        
+
         socket.on('private message',function(msg){
             console.log('message  :'+msg.split("#*@")[0]);
             models.messages.create({
@@ -136,7 +137,7 @@ module.exports = function (app,io){
                 "date" : new Date()});
             io.to(users[msg.split("#*@")[0]]).emit('private message', msg);
         });
-        
+
         socket.on('disconnect', function(){
             delete users[keys[socket.id]];
             delete keys[socket.id];
@@ -144,7 +145,7 @@ module.exports = function (app,io){
             console.log(users);
         });
     });
-    
+
     app.post('/friend_request',function(req,res){
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader("Access-Control-Allow-Method","'GET, POST, OPTIONS, PUT, PATCH, DELETE'");
@@ -179,7 +180,7 @@ module.exports = function (app,io){
             }
         });
     });
-    
+
     app.post('/friend_request/confirmed',function(req,res){
         console.log("friend request confirmed : "+req.body);
         if(req.body.confirm=="Yes"){
@@ -231,7 +232,7 @@ module.exports = function (app,io){
             });
         }
         else{
-            
+
             console.log("friend request confirmed : Inside No confirmed");
             models.user.update({
                 "handle":req.body.my_handle
@@ -249,6 +250,5 @@ module.exports = function (app,io){
         });
         }
     });
-    
-}
 
+}
