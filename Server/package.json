@@ -2,6 +2,10 @@
   "name": "messenger-server",
   "version": "1.0.0",
   "description": "A simple backend server to test messaging app for Black Excellence Network",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lloydarnold/messaging-app"
+  },
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,6 +15,8 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.1",
+    "ip": "^1.1.5",
+    "mongoose": "^5.9.19",
     "socket.io": "^2.3.0"
   }
 }
