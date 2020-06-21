@@ -2,8 +2,10 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
-mongoose.connect("mongodb://localhost:27017/chat");
+// Connect to our database
+mongoose.connect('mongodb://localhost:27017/chat', { useMongoClient: true } );
 
+// Output result of connection to logs
 mongoose.connection.on('open', function (ref) {
     console.log('Connected to mongo server.');
 });
