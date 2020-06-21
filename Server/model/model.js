@@ -21,7 +21,7 @@ module.exports.user=mongoose.model('User',new Schema({
     phone:String,
     email:String,
     group:String,
-    primary-contact:String,
+    primary_contact:String,
 },{strict: false}));
 
 module.exports.online=mongoose.model('online',new Schema({

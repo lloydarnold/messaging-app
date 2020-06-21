@@ -4,7 +4,7 @@
   "description": "A simple backend server to test messaging app for Black Excellence Network",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lloydarnold/messaging-app"
+    "url": "git+https://github.com/lloydarnold/messaging-app.git"
   },
   "main": "server.js",
   "scripts": {
@@ -18,5 +18,10 @@
     "ip": "^1.1.5",
     "mongoose": "^5.9.19",
     "socket.io": "^2.3.0"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/lloydarnold/messaging-app/issues"
+  },
+  "homepage": "https://github.com/lloydarnold/messaging-app#readme",
+  "devDependencies": {}
 }

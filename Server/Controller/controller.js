@@ -12,6 +12,7 @@ module.exports = function (app,io){
     app.get('/',function(req,res){
 	// Serve index.html file when server receives a request
         res.sendFile(path.resolve(__dirname+"/../../Client/index.html"));
+	console.log("Serving file")
     });
     
     // Deal with register request
