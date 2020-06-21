@@ -96,8 +96,9 @@ module.exports = function (app,io){
                 pending=[];
                 all_friends=[];
                 console.log("friends list: "+doc);
-                    list=doc[0].friends.slice();
-                console.log(list);
+                try { list=doc[0].friends.slice(); }    // catch errors thrown if friends list doesn't exist
+                catch(err) { list = {} }
+                finally { console.log(list); }
 
                 for(var i in list){
                     if(list[i].status=="Friend"){
