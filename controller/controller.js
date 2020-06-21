@@ -23,21 +23,26 @@ module.exports = function (app,io){
             "password":req.body.password,
             "phone":req.body.phone,
             "email":req.body.email,
+            "mentor/mentee":req.body.primary_contact,
         };
         console.log(user);
 
+        // Lookup our user handle, to see if they exist -- N.B. This doesn't limit one account per email address,
+        // or validate their email -- this could be implemented in a future update
         models.user.findOne({"handle":req.body.handle},function(err,doc){
             if(err){
                 res.json(err);
             }
             if(doc == null){
+                // If they do not, create them
                 models.user.create(user,function(err,doc){
                     if(err) res.json(err);
                     else{
                         res.send("success");
                     }
                 });
-            }else{
+            } else {
+                // Tell their end that the user already exists
                 res.send("User already found");
             }
         })
@@ -55,6 +60,7 @@ module.exports = function (app,io){
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader("Access-Control-Allow-Method","'GET, POST, OPTIONS, PUT, PATCH, DELETE'");
         handle = req.body.handle;
+
         models.user.findOne({"handle":req.body.handle, "password":req.body.password},function(err,doc){
             if(err){
                 res.send(err);
@@ -72,6 +78,10 @@ module.exports = function (app,io){
     });
 
     io.on('connection',function(socket){
+        if (handle == null) {
+          // app.sendFile(path.resolve(__dirname+"/../views/index.html"));
+          return;
+        }
         console.log("Connection :User is connected  "+handle);
         console.log("Connection : " +socket.id);
         io.to(socket.id).emit('handle', handle);
@@ -86,7 +96,7 @@ module.exports = function (app,io){
                 pending=[];
                 all_friends=[];
                 console.log("friends list: "+doc);
-                list=doc[0].friends.slice();
+                    list=doc[0].friends.slice();
                 console.log(list);
 
                 for(var i in list){
@@ -100,8 +110,8 @@ module.exports = function (app,io){
                         continue;
                     }
                 }
-                console.log("pending list: "+pending);
-                console.log("friends list: "+friends);
+                console.log("pending list: " +pending);
+                console.log("friends list: " +friends);
                 io.to(socket.id).emit('friend_list', friends);
                 io.to(socket.id).emit('pending_list', pending);
                 io.emit('users',users);
@@ -110,11 +120,17 @@ module.exports = function (app,io){
 
 
         socket.on('group message',function(msg){
+          // global messaging is turned on, for now.
+          // TODO : save messages
+
             console.log(msg);
             io.emit('group',msg);
         });
 
         socket.on('private message',function(msg){
+
+          // TODO : save messages
+
             console.log('message  :'+msg.split("#*@")[0]);
             models.messages.create({
                 "message":msg.split("#*@")[1],
@@ -122,13 +138,16 @@ module.exports = function (app,io){
                 "reciever":msg.split("#*@")[0],
                 "date" : new Date()});
             io.to(users[msg.split("#*@")[0]]).emit('private message', msg);
+
         });
 
         socket.on('disconnect', function(){
+            // when the user disconnects, remove current info
             delete users[keys[socket.id]];
             delete keys[socket.id];
             io.emit('users',users);
             console.log(users);
+
         });
     });
 
