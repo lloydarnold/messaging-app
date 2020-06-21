@@ -20,12 +20,15 @@ module.exports.user=mongoose.model('User',new Schema({
     password: String,
     phone:String,
     email:String,
-    friends:[]
+    group:String,
+    primary_contact:String,
 },{strict: false}));
+
 module.exports.online=mongoose.model('online',new Schema({
     handle:String,
     connection_id:String
 }));
+
 module.exports.messages=mongoose.model('message',new Schema({
     message : String,
     sender  : String,
