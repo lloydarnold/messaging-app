@@ -25,6 +25,7 @@ module.exports = function (app,io){
             "password":req.body.password,
             "phone":req.body.phone,
             "email":req.body.email,
+            "isAdmin":false,
             "mentor/mentee":req.body.primary_contact,
         };
         console.log(user);
@@ -36,7 +37,7 @@ module.exports = function (app,io){
                 res.json(err);
             }
             if(doc == null){
-                // If they do not, create them
+                // If they do not, try to create them. If this doesn't work, log error
                 models.user.create(user,function(err,doc){
                     if(err) res.json(err);
                     else{
@@ -75,7 +76,6 @@ module.exports = function (app,io){
             }
             else{
                 console.log("Asas"+__dirname);
-//                res.sendFile(path.resolve(__dirname+"/../views/chat1.html"));
                 res.send("success");
             }
 
@@ -95,8 +95,8 @@ module.exports = function (app,io){
         users[handle]=socket.id;  // Give their connection a unique ID
         keys[socket.id]=handle;
 
-        console.log("Users list : "+users);   // More debug output
-        console.log("keys list : "+keys);
+        console.log("Users list : " + users);   // More debug output
+        console.log("keys list : " + keys);
 
         models.user.find({"handle" : handle},{friends:1,_id:0},function(err,doc){
             if(err){ res.json(err); } // If we get hit by a big, give it to thems
