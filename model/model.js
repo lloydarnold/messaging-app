@@ -24,6 +24,8 @@ module.exports.user=mongoose.model('User',new Schema({
     email:String,
     group:String,
     primary_contact:String,
+    isAdmin:Boolean,
+    userType:String
 },{strict: false}));
 
 module.exports.online=mongoose.model('online',new Schema({
