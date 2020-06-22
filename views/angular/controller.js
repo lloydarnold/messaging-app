@@ -13,7 +13,7 @@ app.factory('socket', ['$rootScope', function($rootScope) {
     };
 }]);
 
-app.config(['$stateProvider','$urlRouterProvider',function($stateProvider,$urlRouterProvider){
+app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlRouterProvider){
     $urlRouterProvider.otherwise('/');
     $stateProvider
     .state('login',{
@@ -71,11 +71,11 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
 
 
     socket.on('friend_list', function(data) {
-        console.log("Friends list : "+data);
+        console.log("Friends list : " + data);
         $scope.$apply(function () {
             $scope.allfriends.push.apply($scope.allfriends,data);
         });
-        console.log("Friends list : "+$scope.allfriends);
+        console.log("Friends list : " + $scope.allfriends);
     });
 
     socket.on('pending_list', function(data) {
@@ -113,12 +113,6 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
             "my_handle":$scope.user
         };
 
-//        var config = {
-//            headers : {
-//                'Content-Type': 'application/json'
-//            }
-//        };
-
         $http({method: 'POST',url:'http://'+url+'/friend_request',data})//, headers:config})
             .success(function (data) {
             console.log(data)
@@ -138,6 +132,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         .ok('Ok')
         .cancel('No');
 
+        //
         $mdDialog.show(confirm).then(function() {
             data['confirm']="Yes";
             $http({method: 'POST',url:'http://'+url+'/friend_request/confirmed', data//, headers:{
@@ -159,7 +154,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
     });
 
     socket.on('friend', function(data) {
-        console.log("Connection Established"+data);
+        console.log("Connection Established" + data);
         $scope.$apply(function () {
             if (!$scope.online_friends.includes(data)){
                 console.log(data);
