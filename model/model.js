@@ -35,7 +35,7 @@ module.exports.online=mongoose.model('online',new Schema({
 
 // This is current model for message
 // TODO make messages a nested document
-// top is convo ID (hash of names involved?) and contents is messages sent
+// top is convo ID (hash of names involved? -- maybe just append names) and contents is messages sent
 module.exports.messages=mongoose.model('message',new Schema({
     message : String,
     sender  : String,
