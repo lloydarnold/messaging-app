@@ -100,7 +100,7 @@
                     <ul class="users-list clearfix" >
                         <li ng-repeat="friend in online_friends track by $index">
                             <button ng-click="chat_popup(friend)">
-                                <img src="" alt="User Image">
+                                <!-- <img src="" alt="User Image"> -->
                                 <a class="users-list-name">{{friend}}</a></button>
                         </li>
                     </ul>
@@ -118,6 +118,7 @@
     </div>
     <!-- /.row -->
     <!-- Modal -->
+    <!-- Pop-up for when user sends friend request -->
     <div id="myModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
@@ -127,7 +128,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Are you sure you want to connect to {{friend}}?</h4>
                 </div>
-                
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="confirm()">ok</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">cancel</button>
