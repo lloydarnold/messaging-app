@@ -14,7 +14,7 @@ mongoose.connection.on('error', function (err) {
     console.log(err);
 });
 
-mongoose.connect('mongodb://localhost/mongodb');
+// mongoose.connect('mongodb://localhost/mongodb');
 
 module.exports.user=mongoose.model('User',new Schema({
     name:String,
