@@ -1,11 +1,15 @@
 <nav class="navbar navbar-dark bg-primary">
-    <div class="container-fluid text-center">  
+
+    <div class="container-fluid text-center">
+
         <a href="#" class="dropdown-toggle pull-right" data-toggle="dropdown">
-            <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+            <img src="views/adminLTE/img/user2-160x160.jpg" class="user-image" alt="User Image">
             <span class="hidden-xs text">{{user | uppercase}}</span>
         </a>
     </div>
+
 </nav>
+
 <div class="hold-transition skin-blue sidebar-mini">
 
     <!-- /.box -->
@@ -52,10 +56,10 @@
                 <div class="box-body direct-chat-messages">
                     <ul class="users-list clearfix" >
                         <li ng-repeat="user in users">
-                            <button  data-toggle="modal" data-target="#myModal" ng-click="friend_request(user)"> 
+                            <button  data-toggle="modal" data-target="#myModal" ng-click="friend_request(user)">
                                 <img src="" alt="User Image">
                                 <a class="users-list-name">{{user}}</a></button>
-                        </li>  
+                        </li>
                     </ul>
                     <!-- /.users-list -->
                 </div>
@@ -88,10 +92,10 @@
                 <div class="box-body direct-chat-messages">
                     <ul class="users-list clearfix" >
                         <li ng-repeat="friend in online_friends track by $index">
-                            <button ng-click="chat_popup(friend)"> 
+                            <button ng-click="chat_popup(friend)">
                                 <img src="" alt="User Image">
                                 <a class="users-list-name">{{friend}}</a></button>
-                        </li>  
+                        </li>
                     </ul>
                     <!-- /.users-list -->
                 </div>
