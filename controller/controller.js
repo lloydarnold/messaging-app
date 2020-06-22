@@ -10,10 +10,12 @@ module.exports = function (app,io){
         extended: true
     }));
 
+    // The endpoint for a root request -- this is what happens when the user first accesses the server
     app.get('/',function(req,res){
         res.sendFile(path.resolve(__dirname+"/../views/index.html"));
     });
 
+    // Self explanatory I think, but is the endpoint for a register request
     app.post('/register',function(req,res){
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader("Access-Control-Allow-Method","'GET, POST, OPTIONS, PUT, PATCH, DELETE'");
@@ -28,7 +30,7 @@ module.exports = function (app,io){
         console.log(user);
 
         // Lookup our user handle, to see if they exist -- N.B. This doesn't limit one account per email address,
-        // or validate their email -- this could be implemented in a future update
+        // or validate their email -- this could be implemented in a future update (validation should be done on frontend)
         models.user.findOne({"handle":req.body.handle},function(err,doc){
             if(err){
                 res.json(err);
@@ -49,18 +51,21 @@ module.exports = function (app,io){
 
     });
 
-
+    // Initialise session variables
     var handle=null;
     var private=null;
     var users={};
     var keys={};
 
+    // Handle user login request
     app.post('/login',function(req,res){
         console.log(req.body.handle);
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader("Access-Control-Allow-Method","'GET, POST, OPTIONS, PUT, PATCH, DELETE'");
         handle = req.body.handle;
 
+        // Lookup user by handle + password -- if they don't match, it won't work
+        // N.B. no error message as of yet (doesn't say if problem was with handle or with password)
         models.user.findOne({"handle":req.body.handle, "password":req.body.password},function(err,doc){
             if(err){
                 res.send(err);
@@ -77,6 +82,7 @@ module.exports = function (app,io){
     });
     });
 
+    // When the users log in is successful, and they connect
     io.on('connection',function(socket){
         if (handle == null) {
           // app.sendFile(path.resolve(__dirname+"/../views/index.html"));
@@ -84,13 +90,16 @@ module.exports = function (app,io){
         }
         console.log("Connection :User is connected  "+handle);
         console.log("Connection : " +socket.id);
+
         io.to(socket.id).emit('handle', handle);
-        users[handle]=socket.id;
+        users[handle]=socket.id;  // Give their connection a unique ID
         keys[socket.id]=handle;
-        console.log("Users list : "+users);
+
+        console.log("Users list : "+users);   // More debug output
         console.log("keys list : "+keys);
+
         models.user.find({"handle" : handle},{friends:1,_id:0},function(err,doc){
-            if(err){res.json(err);}
+            if(err){ res.json(err); } // If we get hit by a big, give it to thems
             else{
                 friends=[];
                 pending=[];
@@ -111,18 +120,21 @@ module.exports = function (app,io){
                         continue;
                     }
                 }
+
                 console.log("pending list: " +pending);
                 console.log("friends list: " +friends);
-                io.to(socket.id).emit('friend_list', friends);
+
+                io.to(socket.id).emit('friend_list', friends);    // Send friends list down socket
                 io.to(socket.id).emit('pending_list', pending);
-                io.emit('users',users);
+
+                io.emit('users', users);
             }
         });
 
 
         socket.on('group message',function(msg){
           // global messaging is turned on, for now.
-          // TODO : save messages
+          // TODO : save global messages to a log
 
             console.log(msg);
             io.emit('group',msg);
@@ -143,11 +155,11 @@ module.exports = function (app,io){
         });
 
         socket.on('disconnect', function(){
-            // when the user disconnects, remove current info
+            // when the user disconnects, remove them from online
             delete users[keys[socket.id]];
             delete keys[socket.id];
-            io.emit('users',users);
-            console.log(users);
+            io.emit('users',users);   // Send new online user list to all other users
+            console.log(users);       // Output new user list to our console
 
         });
     });
