@@ -104,10 +104,12 @@ module.exports = function (app,io){
             /*console.log("mentor: " + doc);
             console.log("mentor: " + doc.primary_contact);*/
             primary_contact = doc.primary_contact; // assign local variable primary contact to value yoinked from db
+
+            io.to(socket.id).emit('primary_contact', primary_contact);      // we need to send them their primary contact (mentor or mentee)
+            primary_contact = null;
           }
         });
 
-        io.to(socket.id).emit('primary_contact', primary_contact);      // we need to send them their primary contact (mentor or mentee)
         users[handle]=socket.id;  // Give their connection a unique ID
         keys[socket.id]=handle;
 

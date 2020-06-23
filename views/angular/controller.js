@@ -70,8 +70,8 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
 
     socket.on('primary_contact', function(data) {
       $scope.primary_contact = data;
+      // console.log("Primary contact :" + $scope.primary_contact);
     });
-
 
     socket.on('friend_list', function(data) {
         // console.log("Friends list : " + data);
