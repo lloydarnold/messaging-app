@@ -25,6 +25,7 @@ module.exports = function (app,io){
             "password":req.body.password,
             "phone":req.body.phone,
             "email":req.body.email,
+            "userType":req.body.mentor_mentee,
             "isAdmin":false,
             "mentor/mentee":req.body.primary_contact,
         };
