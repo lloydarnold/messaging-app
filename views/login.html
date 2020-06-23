@@ -71,10 +71,25 @@
                         <input type="text" class="form-control" id="handle" placeholder="Enter Handle" ng-model="user.handle">
                     </div>
 
+                    <!-- <div class="radio-button-group">
+                      <label> You are? </label>
+                        <label for="mentor_mentee"> A mentor </label>
+                        <input type="radio" id="mentor" name="mentor_mentee" value="mentor"></input> <!-- TODO come back here !!! - ->
+
+                        <label for="mentor_mentee"> A mentee </label>
+                        <input type="radio" id="mentee" name="mentor_mentee" value="mentee"></input> <!-- TODO come back here !!! - ->
+
+                    </div> -->
+
                     <div class="form-group">
-                        <label for="mentor_mentee"<span class="glyphicon glyphicon-leaf"></span> You are? </label>
-                        <input type="radio" ></input> <!-- TODO come back here !!! -->
+                      <label for="mentor_mentee"><span class="glyphicon glyphicon-leaf"></span> You are? </label>
+                      <select class="form-control" id="mentor_mentee" placeholder="Please select" ng-model="user.mentor_mentee">
+                        <option value="mentor"> Mentor </option>
+                        <option value="mentee"> Mentee </option>
+                      </select>
+
                     </div>
+
 
                     <div class="form-group">
                         <label for="primary_contact"><span class="glyphicon glyphicon-user"></span> Mentor</label>
