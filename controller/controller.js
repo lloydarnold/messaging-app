@@ -100,12 +100,12 @@ module.exports = function (app,io){
         console.log("keys list : " + keys);
 
         models.user.find({"handle" : handle},{friends:1,_id:0},function(err,doc){
-            if(err){ res.json(err); } // If we get hit by a big, give it to thems
+            if(err){ res.json(err); } // If we get hit by a bug, give it to thems
             else{
                 friends=[];
                 pending=[];
                 all_friends=[];
-                console.log("friends list: "+doc);
+                // console.log("friends list: "+doc);
                 try { list=doc[0].friends.slice(); }    // catch errors thrown if friends list doesn't exist
                 catch(err) { list = {} }
                 finally { console.log(list); }
@@ -128,7 +128,7 @@ module.exports = function (app,io){
                 io.to(socket.id).emit('friend_list', friends);    // Send friends list down socket
                 io.to(socket.id).emit('pending_list', pending);
 
-                io.emit('users', users);
+                io.emit('users', users);                         // Update list of online users (do we still need ?)
             }
         });
 
@@ -137,8 +137,8 @@ module.exports = function (app,io){
           // global messaging is turned on, for now.
           // TODO : save global messages to a log
 
-            console.log(msg);
-            io.emit('group',msg);
+              console.log(msg);
+              io.emit('group',msg);
         });
 
         socket.on('private message',function(msg){
