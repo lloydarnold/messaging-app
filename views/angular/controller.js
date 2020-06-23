@@ -197,7 +197,6 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
                             <span class="direct-chat-name pull-right">'+data.split("#*@")[1]+'</span>\
                             <span class="direct-chat-timestamp pull-left">'+getDate()+'</span>\
                             </div>\
-                            <img class="direct-chat-img" src="" alt="message user image">\
                             <div class="direct-chat-text">'
                             +data.split("#*@")[0]+
                             '</div>\
@@ -208,13 +207,13 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
     });
 
     $scope.group_message= function(message){
+        if (message == null) { return; } // Cheeky guard clause, stop null messages from being sent
         div = document.createElement('div');
         div.innerHTML='<div class="direct-chat-msg"> \
                         <div class="direct-chat-info clearfix">\
                         <span class="direct-chat-name pull-left">'+$scope.user+'</span>\
                         <span class="direct-chat-timestamp pull-right">'+getDate()+'</span>\
                         </div>\
-                        <img class="direct-chat-img" src=""\ alt="message user image">\
                         <div class="direct-chat-text">'
                         +message+
                         '</div>\
