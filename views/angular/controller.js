@@ -248,8 +248,9 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
     }
 
     socket.on('private message', function(data) {
-        if (message == null) { return; } // Cheeky guard clause, stop null messages from being sent
+        console.log("barry, we got em.");
         var div = document.createElement('div');
+
         div.innerHTML='<div class="direct-chat-msg right">\
                         <div class="direct-chat-info clearfix">\
                         <span class="direct-chat-name pull-right    ">'+data.split("#*@")[2]+'</span>\
@@ -261,13 +262,27 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
                         </div>';
         var chat_box=document.getElementById(data.split("#*@")[2]);
         console.log(chat_box);
-        if(chat_box!=null){
+
+        div.innerHTML='<div class="direct-chat-msg right">\
+                        <div class="direct-chat-info clearfix">\
+                        <span class="direct-chat-name pull-right">'+data.split("#*@")[2]+'</span>\
+                        <span class="direct-chat-timestamp pull-left">'+getDate()+'</span>\
+                        </div>\
+                        <div class="direct-chat-text">'
+                        +data.split("#*@")[1]+
+                        '</div>\
+                        </div>';
+        document.getElementById("group").appendChild(div);
+        document.getElementById("group").scrollTop=document.getElementById("group").scrollHeight;
+
+      /*  if(chat_box!=null){
             chat_box.appendChild(div);
         }
         else{
             $scope.chat_popup(data.split("#*@")[2]);
             document.getElementById(data.split("#*@")[2]).appendChild(div);
-        }
+        } */
+
         insertMessage(data.split("#*@")[2],data.split("#*@")[2],data.split("#*@")[1]);
         document.getElementById(data.split("#*@")[2]).scrollTop=document.getElementById(data.split("#*@")[2]).scrollHeight;
     });
@@ -293,7 +308,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         console.log($scope.primary_contact);
 
         //console.log( 'private message', $scope.primary_contact +"#*@"+message+"#*@"+$scope.user+"#*@"+getDate() );
-        
+
         socket.emit('private message', $scope.primary_contact +"#*@"+message+"#*@"+$scope.user+"#*@"+getDate());
         insertMessage($scope.user, $scope.primary_contact ,message);
 
