@@ -71,11 +71,11 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
 
 
     socket.on('friend_list', function(data) {
-        console.log("Friends list : " + data);
+        // console.log("Friends list : " + data);
         $scope.$apply(function () {
             $scope.allfriends.push.apply($scope.allfriends,data);
         });
-        console.log("Friends list : " + $scope.allfriends);
+        // console.log("Friends list : " + $scope.allfriends);
     });
 
     socket.on('pending_list', function(data) {
@@ -314,7 +314,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         $scope.message=null;
     }
 
-
+/*
     popups=[];
 
     $scope.chat_popup = function(chat_friend){
@@ -447,7 +447,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
 //        document.getElementById(popups[popups.length-2]+"01").className=document.getElementById(popups[popups.length-2]+"01").className.replace(/(?:^|\s)popup-box-on(?!\S)/g , '');
 //        document.getElementById(popups[popups.length-1]+"01").className += "popup-box-on";
 //    }
-
+*/
 }]);
 
 app.service('encrypt', function() {
