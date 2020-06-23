@@ -65,9 +65,12 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
 
     socket.on('handle', function(data) {
         $scope.user = data;
-        console.log("Get handle : "+$scope.user);
+        console.log("Get handle : " + $scope.user);
     });
 
+    socket.on('primary_contact', function(data) {
+      $scope.primary_contact = data;
+    });
 
 
     socket.on('friend_list', function(data) {
@@ -286,8 +289,11 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         document.getElementById("group").appendChild(div);
         document.getElementById("group").scrollTop=document.getElementById("group").scrollHeight;
 
-        socket.emit('private message',chat+"#*@"+message+"#*@"+$scope.user+"#*@"+getDate());
-        insertMessage($scope.user,chat,message);
+        console.log($scope.user);
+        console.log($scope.primary_contact);
+
+        socket.emit('private message', "primary" +"#*@"+message+"#*@"+$scope.user+"#*@"+getDate());
+        insertMessage($scope.user, $scope.primary_contact ,message);
 
         $scope.message=null;
     }
@@ -298,7 +304,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         div = document.createElement('div');
         div.innerHTML='<div class="direct-chat-msg"> \
                         <div class="direct-chat-info clearfix">\
-                        <span class="direct-chat-name pull-left">'+$scope.user+'</span>\
+                        <span class="direct-chat-name pull-left">'+ $scope.user+ '</span>\
                         <span class="direct-chat-timestamp pull-right">'+getDate()+'</span>\
                         </div>\
                         <div class="direct-chat-text">'
