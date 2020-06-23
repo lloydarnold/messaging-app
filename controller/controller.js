@@ -20,7 +20,7 @@ module.exports = function (app,io){
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader("Access-Control-Allow-Method","'GET, POST, OPTIONS, PUT, PATCH, DELETE'");
         var user={
-            "name":req.body.name,
+            "name":req.body.name,         // For an explanation of data model, see model.js
             "handle":req.body.handle,
             "password":req.body.password,
             "phone":req.body.phone,
@@ -47,6 +47,7 @@ module.exports = function (app,io){
                 });
             } else {
                 // Tell their end that the user already exists
+                // N.B. don't think that this does anything atm -- // TODO: add a message clientside ?
                 res.send("User already found");
             }
         })
@@ -85,12 +86,12 @@ module.exports = function (app,io){
 
     // When the users log in is successful, and they connect
     io.on('connection',function(socket){
-        if (handle == null) {
-          // app.sendFile(path.resolve(__dirname+"/../views/index.html"));
+        if (handle == null) {         // guard clause -- stops user from ruining everything (but doesn't log them out)
+          // app.sendFile(path.resolve(__dirname+"/../views/index.html"));      // TODO: find way of kicking them
           return;
         }
-        console.log("Connection :User is connected  "+handle);
-        console.log("Connection : " +socket.id);
+        console.log("Connection : User is connected  "+handle);
+        console.log("Connection : " + socket.id);
 
         io.to(socket.id).emit('handle', handle);
         users[handle]=socket.id;  // Give their connection a unique ID
@@ -128,7 +129,7 @@ module.exports = function (app,io){
                 io.to(socket.id).emit('friend_list', friends);    // Send friends list down socket
                 io.to(socket.id).emit('pending_list', pending);   // TODO review if ANY of this is still necessary
 
-                io.emit('users', users);                         // Update list of online users (do we still need ?)
+                io.emit('users', users);                         // Update list of online users (do we still need this?)
             }
         });
 
@@ -141,17 +142,18 @@ module.exports = function (app,io){
               io.emit('group',msg);
         });
 
+        // When we receive a private message, handle it
         socket.on('private message',function(msg){
 
           // TODO : save messages
 
             console.log('message  :'+msg.split("#*@")[0]);
-            models.messages.create({
-                "message":msg.split("#*@")[1],
-                "sender" :msg.split("#*@")[2],
+            models.messages.create({                // we create a new message as per messages model in model.js
+                "message":msg.split("#*@")[1],      // we split on "#*@" -- this is as good a separator as any
+                "sender" :msg.split("#*@")[2],      // important details are: sender, receiver, datestamp
                 "reciever":msg.split("#*@")[0],
                 "date" : new Date()});
-            io.to(users[msg.split("#*@")[0]]).emit('private message', msg);
+            io.to(users[msg.split("#*@")[0]]).emit('private message', msg);     // After processed into an object, send it
 
         });
 
@@ -165,7 +167,9 @@ module.exports = function (app,io){
         });
     });
 
-    app.post('/friend_request',function(req,res){
+    // The code below allows for the sending of peer to peer friend requests, a feature that has been suspended
+
+  /*  app.post('/friend_request',function(req,res){
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader("Access-Control-Allow-Method","'GET, POST, OPTIONS, PUT, PATCH, DELETE'");
         friend=true;
@@ -173,7 +177,7 @@ module.exports = function (app,io){
             if(err){res.json(err);}
             else if(doc.length!=0){
                 console.log("Friend request : "+doc.length);
-                console.log("Friend request : friend request already sent "+doc);
+                console.log("Friend request : friend request already sent " + doc);
                 res.send("Friend request already sent ");
             }
             else{
@@ -198,9 +202,9 @@ module.exports = function (app,io){
                 io.to(users[req.body.friend_handle]).emit('message', req.body);
             }
         });
-    });
+    }); */
 
-    app.post('/friend_request/confirmed',function(req,res){
+    /* app.post('/friend_request/confirmed',function(req,res){
         console.log("friend request confirmed : "+req.body);
         if(req.body.confirm=="Yes"){
             models.user.find({
@@ -268,6 +272,6 @@ module.exports = function (app,io){
             }
         });
         }
-    });
+    }); */
 
 }
