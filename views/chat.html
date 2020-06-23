@@ -20,7 +20,7 @@
 
             <div class="box box-primary direct-chat direct-chat-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Mentor Chat</h3>
+                    <h3 class="box-title"> Mentor Chat </h3>
                 </div>
 
                 <div class="box-body">
@@ -32,11 +32,16 @@
                 <div class="box-footer">
                     <div>
                         <div class="input-group">   <!-- TODO change this over to direct chat with mentor / mentee -->
+
                             <input type="text" name="message" placeholder="Type Message ..." class="form-control" ng-model="groupMessage" my-enter="group_message('{{groupMessage}}')">
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-primary btn-flat" ng-click="group_message(groupMessage)">Send</button>
                             </span>
                         </div>
+
+                        <!-- <button class="bg_none pull-right" ng-click="send_message('+chat_friend+',message)"><i class="glyphicon  glyphicon-thumbs-up"></i> </button>\ -->
+
+
                     </div>
                 </div
 
