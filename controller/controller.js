@@ -27,7 +27,7 @@ module.exports = function (app,io){
             "email":req.body.email,
             "userType":req.body.mentor_mentee,
             "isAdmin":false,
-            "mentor/mentee":req.body.primary_contact,
+            "primary_contact":req.body.primary_contact,
         };
         console.log(user);
 
@@ -91,12 +91,21 @@ module.exports = function (app,io){
           // app.sendFile(path.resolve(__dirname+"/../views/index.html"));      // TODO: find way of kicking them
           return;
         }
-        console.log("Connection : User is connected  "+handle);
+        console.log("Connection : User is connected "+handle);
         console.log("Connection : " + socket.id);
 
         io.to(socket.id).emit('handle', handle);
 
         // TODO: lookup primary contact in DB & set it
+
+        models.user.findOne({"handle":handle},{primary_contact:1, _id:0}, function(err, doc) {
+          if (err) { console.log(err); }
+          else {
+            /*console.log("mentor: " + doc);
+            console.log("mentor: " + doc.primary_contact);*/
+            primary_contact = doc.primary_contact; // assign local variable primary contact to value yoinked from db
+          }
+        });
 
         io.to(socket.id).emit('primary_contact', primary_contact);      // we need to send them their primary contact (mentor or mentee)
         users[handle]=socket.id;  // Give their connection a unique ID
@@ -105,14 +114,14 @@ module.exports = function (app,io){
         console.log("Users list : " + users);   // More debug output
         console.log("keys list : " + keys);
 
-        models.user.find({"handle" : handle},{friends:1,_id:0},function(err,doc){
+        models.user.findOne({"handle" : handle},{friends:1,_id:0},function(err,doc){
             if(err){ res.json(err); } // If we get hit by a bug, give it to thems
             else{
                 friends=[];
                 pending=[];
                 all_friends=[];
                 // console.log("friends list: "+doc);
-                try { list=doc[0].friends.slice(); }    // catch errors thrown if friends list doesn't exist
+                try { list=doc.friends.slice(); }    // catch errors thrown if friends list doesn't exist
                 catch(err) { list = {} }
                 finally { console.log(list); }
 
