@@ -269,6 +269,29 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         document.getElementById(data.split("#*@")[2]).scrollTop=document.getElementById(data.split("#*@")[2]).scrollHeight;
     });
 
+    $scope.send_message_primary=function(chat,message){
+        if (message == null) { return; } // Cheeky guard clause, stop null messages from being sent
+        console.log(chat);
+        div = document.createElement('div');
+        div.innerHTML='<div class="direct-chat-msg"> \
+                        <div class="direct-chat-info clearfix">\
+                        <span class="direct-chat-name pull-left">'+$scope.user+'</span>\
+                        <span class="direct-chat-timestamp pull-right">'+getDate()+'</span>\
+                        </div>\
+                        <div class="direct-chat-text">'
+                        +message+
+                        '</div>\
+                        </div>';
+
+        document.getElementById("group").appendChild(div);
+        document.getElementById("group").scrollTop=document.getElementById("group").scrollHeight;
+
+        socket.emit('private message',chat+"#*@"+message+"#*@"+$scope.user+"#*@"+getDate());
+        insertMessage($scope.user,chat,message);
+
+        $scope.message=null;
+    }
+
     $scope.send_message=function(chat,message){
         if (message == null) { return; } // Cheeky guard clause, stop null messages from being sent
         console.log(chat);
