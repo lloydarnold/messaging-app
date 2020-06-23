@@ -122,11 +122,11 @@ module.exports = function (app,io){
                     }
                 }
 
-                console.log("pending list: " +pending);
-                console.log("friends list: " +friends);
+                /* console.log("pending list: " +pending);
+                console.log("friends list: " +friends); */
 
                 io.to(socket.id).emit('friend_list', friends);    // Send friends list down socket
-                io.to(socket.id).emit('pending_list', pending);
+                io.to(socket.id).emit('pending_list', pending);   // TODO review if ANY of this is still necessary
 
                 io.emit('users', users);                         // Update list of online users (do we still need ?)
             }
