@@ -245,13 +245,13 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
     }
 
     socket.on('private message', function(data) {
+        if (message == null) { return; } // Cheeky guard clause, stop null messages from being sent
         var div = document.createElement('div');
         div.innerHTML='<div class="direct-chat-msg right">\
                         <div class="direct-chat-info clearfix">\
                         <span class="direct-chat-name pull-right    ">'+data.split("#*@")[2]+'</span>\
                         <span class="direct-chat-timestamp pull-left">'+getDate()+'</span>\
                         </div>\
-                        <img class="direct-chat-img" src="" alt="message user image">\
                         <div class="direct-chat-text">'
                         +data.split("#*@")[1]+
                         '</div>\
@@ -270,6 +270,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
     });
 
     $scope.send_message=function(chat,message){
+        if (message == null) { return; } // Cheeky guard clause, stop null messages from being sent
         console.log(chat);
         div = document.createElement('div');
         div.innerHTML='<div class="direct-chat-msg"> \
@@ -277,15 +278,16 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
                         <span class="direct-chat-name pull-left">'+$scope.user+'</span>\
                         <span class="direct-chat-timestamp pull-right">'+getDate()+'</span>\
                         </div>\
-                        <img class="direct-chat-img" src=""\ alt="message user image">\
                         <div class="direct-chat-text">'
                         +message+
                         '</div>\
                         </div>';
         document.getElementById(chat).appendChild(div);
         document.getElementById(chat).scrollTop=document.getElementById(chat).scrollHeight;
+
         socket.emit('private message',chat+"#*@"+message+"#*@"+$scope.user+"#*@"+getDate());
         insertMessage($scope.user,chat,message);
+
         $scope.message=null;
     }
 
@@ -315,34 +317,34 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
 //        }
         div = document.createElement('div');
         div.innerHTML='<div class="popup-box popup-box-on chat-popup" id="'+chat_friend+'01">\
-                        <div class="popup-head">\
-                        <div class="popup-head-left pull-left"><img alt="pic">'+chat_friend+'</div>\
-                        <div class="popup-head-right pull-right">\
-                        <div class="btn-group">\
-                        <button class="chat-header-button" data-toggle="dropdown" type="button" aria-expanded="false">\
-                        <i class="glyphicon glyphicon-cog"></i> </button>\
-                        <ul role="menu" class="dropdown-menu pull-right">\
-                        <li><a href="#">Block</a></li>\
-                        <li><a href="#">Clear Chat</a></li>\
-                        <li><a href="#">Email Chat</a></li>\
-                        </ul>\
-                        </div>\
-                        <button  ng-click="close_chat(\''+chat_friend+'\')" class="chat-header-button pull-right" type="button">  <i class="glyphicon glyphicon-remove"></i></button>\
-                        </div>\
-                        </div>\
-                        <div class="box-body popup-messages">\
-                        <div class="direct-chat-messages" id="'+chat_friend+'" >\
-                        </div>\
-                        </div>\
-                        <div class="popup-messages-footer">\
-                        <textarea id="status_message" placeholder="Type a message..." rows="10" cols="40" ng-model="message" my-enter="send_message(\''+chat_friend+'\',\'{{message}}\')"></textarea>\
-                        <div class="btn-footer">\
-                        <button class="bg_none"><i class="glyphicon glyphicon-film"></i> </button>\
-                        <button class="bg_none"><i class="glyphicon glyphicon-camera"></i> </button>\
-                        <button class="bg_none"><i class="glyphicon glyphicon-paperclip"></i> </button>\
-                        <button class="bg_none pull-right" ng-click="send_message('+chat_friend+',message)"><i class="glyphicon  glyphicon-thumbs-up"></i> </button>\
-                        </div>\
-                        </div>\
+                          <div class="popup-head">\
+                            <div class="popup-head-left pull-left"><img alt="pic">'+chat_friend+'</div>\
+                              <div class="popup-head-right pull-right">\
+                                <div class="btn-group">\
+                                  <button class="chat-header-button" data-toggle="dropdown" type="button" aria-expanded="false">\
+                                  <i class="glyphicon glyphicon-cog"></i> </button>\
+                                  <ul role="menu" class="dropdown-menu pull-right">\
+                                    <li><a href="#">Block</a></li>\
+                                    <li><a href="#">Clear Chat</a></li>\
+                                    <li><a href="#">Email Chat</a></li>\
+                                  </ul>\
+                                </div>\
+                                  <button  ng-click="close_chat(\''+chat_friend+'\')" class="chat-header-button pull-right" type="button">  <i class="glyphicon glyphicon-remove"></i></button>\
+                              </div>\
+                            </div>\
+                            <div class="box-body popup-messages">\
+                              <div class="direct-chat-messages" id="'+chat_friend+'" >\
+                              </div>\
+                            </div>\
+                            <div class="popup-messages-footer">\
+                              <textarea id="status_message" placeholder="Type a message..." rows="10" cols="40" ng-model="message" my-enter="send_message(\''+chat_friend+'\',\'{{message}}\')"></textarea>\
+                                <div class="btn-footer">\
+                                  <button class="bg_none"><i class="glyphicon glyphicon-film"></i> </button>\
+                                  <button class="bg_none"><i class="glyphicon glyphicon-camera"></i> </button>\
+                                  <button class="bg_none"><i class="glyphicon glyphicon-paperclip"></i> </button>\
+                                  <button class="bg_none pull-right" ng-click="send_message('+chat_friend+',message)"><i class="glyphicon  glyphicon-thumbs-up"></i> </button>\
+                                </div>\
+                            </div>\
                         </div>';
         $compile(div)($scope);
 
@@ -361,15 +363,15 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
                 if($scope.messages[chat_friend][i].sender==$scope.user){
                     div = document.createElement('div');
                     div.innerHTML='<div class="direct-chat-msg"> \
-<div class="direct-chat-info clearfix">\
-<span class="direct-chat-name pull-left">'+$scope.messages[chat_friend][i].sender+'</span>\
-<span class="direct-chat-timestamp pull-right">'+$scope.messages[chat_friend][i].date+'</span>\
-</div>\
-<img class="direct-chat-img" src=""\ alt="message user image">\
-<div class="direct-chat-text">'
-    +$scope.messages[chat_friend][i].msg+
-    '</div>\
-</div>';
+                                  <div class="direct-chat-info clearfix">\
+                                  <span class="direct-chat-name pull-left">'+$scope.messages[chat_friend][i].sender+'</span>\
+                                  <span class="direct-chat-timestamp pull-right">'+$scope.messages[chat_friend][i].date+'</span>\
+                                  </div>\
+                                  <img class="direct-chat-img" src=""\ alt="message user image">\
+                                  <div class="direct-chat-text">'
+                                  +$scope.messages[chat_friend][i].msg+
+                                  '</div>\
+                                  </div>';
                     document.getElementById(chat_friend).appendChild(div);
                     document.getElementById(chat_friend).scrollTop=document.getElementById(chat_friend).scrollHeight;
                 }
@@ -391,7 +393,6 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
             }
         }
         console.log($scope.online_friends);
-//        $compile(body)($scope);
         popups.push(chat_friend);
 
     }
@@ -437,6 +438,7 @@ app.service('encrypt', function() {
     }
 });
 
+// This is in charge of the register page
 app.controller('registerController',['$scope','encrypt','$http','$state',function($scope,encrypt,$http,$state){
     url= location.host;
 
