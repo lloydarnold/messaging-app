@@ -120,7 +120,8 @@ body
     overflow: auto;
 }
 .direct-chat-messages {
-    overflow: auto;
+    overflow-y: scroll;
+    max-height: 40vh;
     padding: 10px;
     transform: translate(0px, 0px);
 
