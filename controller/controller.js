@@ -56,6 +56,7 @@ module.exports = function (app,io){
 
     // Initialise session variables
     var handle=null;
+    var primary_contact=null;
     var private=null;
     var users={};
     var keys={};
@@ -94,6 +95,10 @@ module.exports = function (app,io){
         console.log("Connection : " + socket.id);
 
         io.to(socket.id).emit('handle', handle);
+
+        // TODO: lookup primary contact in DB & set it
+
+        io.to(socket.id).emit('primary_contact', primary_contact);      // we need to send them their primary contact (mentor or mentee)
         users[handle]=socket.id;  // Give their connection a unique ID
         keys[socket.id]=handle;
 
@@ -156,6 +161,7 @@ module.exports = function (app,io){
             io.to(users[msg.split("#*@")[0]]).emit('private message', msg);     // After processed into an object, send it
 
         });
+
 
         socket.on('disconnect', function(){
             // when the user disconnects, remove them from online
