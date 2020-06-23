@@ -292,7 +292,9 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         console.log($scope.user);
         console.log($scope.primary_contact);
 
-        socket.emit('private message', "primary" +"#*@"+message+"#*@"+$scope.user+"#*@"+getDate());
+        //console.log( 'private message', $scope.primary_contact +"#*@"+message+"#*@"+$scope.user+"#*@"+getDate() );
+        
+        socket.emit('private message', $scope.primary_contact +"#*@"+message+"#*@"+$scope.user+"#*@"+getDate());
         insertMessage($scope.user, $scope.primary_contact ,message);
 
         $scope.message=null;

@@ -151,8 +151,7 @@ module.exports = function (app,io){
 
 
         socket.on('group message',function(msg){
-          // global messaging is turned on, for now.
-          // TODO : save global messages to a log
+          // global messaging is turned off, for now.
 
               console.log(msg);
               io.emit('group',msg);
@@ -163,12 +162,12 @@ module.exports = function (app,io){
 
           // TODO : save messages
 
-            console.log('message  :'+msg.split("#*@")[0]);
+            // console.log('message  :'+msg.split("#*@")[0]);
             models.messages.create({                // we create a new message as per messages model in model.js
-                "message":msg.split("#*@")[1],      // we split on "#*@" -- this is as good a separator as any
-                "sender" :msg.split("#*@")[2],      // important details are: sender, receiver, datestamp
+                "message" :msg.split("#*@")[1],      // we split on "#*@" -- this is as good a separator as any
+                "sender"  :msg.split("#*@")[2],      // important details are: sender, receiver, datestamp
                 "reciever":msg.split("#*@")[0],
-                "date" : new Date()});
+                "date"    : new Date()});
             io.to(users[msg.split("#*@")[0]]).emit('private message', msg);     // After processed into an object, send it
 
         });
