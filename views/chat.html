@@ -1,10 +1,12 @@
 <nav class="navbar navbar-dark bg-primary">
 
     <div class="container-fluid text-center">
+        <!-- THIS IS THE LOG OUT BUTTON maybe i should change that it's a confusion-->
 
         <a href="#" class="dropdown-toggle pull-right" data-toggle="dropdown">
             <img src="views/adminLTE/img/person-64x64.png" class="user-image" alt="User Image">
             <span class="hidden-xs text">{{user | uppercase}}</span>
+
         </a>
     </div>
 
@@ -14,7 +16,7 @@
 
     <!-- /.box -->
     <div class="row">
-        <div class="col-md-6 pull-left">
+        <div class="col-md-6 center-block">
 
             <div class="box box-primary direct-chat direct-chat-primary">
                 <div class="box-header with-border">
@@ -35,15 +37,14 @@
                                 <button type="button" class="btn btn-primary btn-flat" ng-click="group_message(groupMessage)">Send</button>
                             </span>
                         </div>
-
                     </div>
                 </div
 
             </div>
         </div>
 
-        <div class="col-md-3 pull-right">
-            <!-- USERS LIST -->
+<!----        <div class="col-md-3 pull-right">
+            <!-- USERS LIST - ->
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title">Online Members</h3>
@@ -57,7 +58,7 @@
                     </div>
                 </div>
 
-                <!-- /.box-header -->
+                <!-- /.box-header - ->
                 <div class="box-body direct-chat-messages">
                     <ul class="users-list clearfix" >
                         <li ng-repeat="user in users">
@@ -66,22 +67,23 @@
                                 <a class="users-list-name">{{user}}</a></button>
                         </li>
                     </ul>
-                    <!-- /.users-list -->
+                    <!-- /.users-list - ->
                 </div>
 
-                <!-- /.box-body -->
+                <!-- /.box-body - ->
                 <div class="box-footer text-center">
-                    <a href="javascript:void(0)" class="uppercase">Something</a>
+                    <a href="javascript:void(0)" class="uppercase">Nothing</a>
                 </div>
-                <!-- /.box-footer -->
+                <!-- /.box-footer - ->
             </div>
-            <!--/.box -->
+            <!--/.box - ->
         </div>
-        <!-- /.col -->
+        <!-- /.col - ->
+---->
 
-
+<!--
         <div class="col-md-3 pull-right">
-            <!-- USERS LIST -->
+            <!-- Friends list - ->
             <div class="box box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title">Your Friends</h3>
@@ -95,27 +97,28 @@
                     </div>
                 </div>
 
-                <!-- /.box-header -->
+                <!-- /.box-header - ->
                 <div class="box-body direct-chat-messages">
                     <ul class="users-list clearfix" >
                         <li ng-repeat="friend in online_friends track by $index">
                             <button ng-click="chat_popup(friend)">
-                                <!-- <img src="" alt="User Image"> -->
+                                <!-- <img src="" alt="User Image"> - ->
                                 <a class="users-list-name">{{friend}}</a></button>
                         </li>
                     </ul>
-                    <!-- /.users-list -->
+                    <!-- /.users-list - ->
                 </div>
-                <!-- /.box-body -->
+                <!-- /.box-body -- >
                 <div class="box-footer text-center">
                     <a href="javascript:void(0)" class="uppercase">Something</a>
                 </div>
-                <!-- /.box-footer -->
+                <!-- /.box-footer - ->
             </div>
-            <!--/.box -->
-        </div>
+            <!--/.box - ->
+        </div>  -->
 
     </div>
+    
     <!-- /.row -->
     <!-- Modal -->
     <!-- Pop-up for when user sends friend request -->
