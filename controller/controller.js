@@ -172,8 +172,11 @@ module.exports = function (app,io){
                 */
 
             /// TODO: reconfigure messages to send in following order :
-              // MENTOR #*@ MENTEE #*@ MESSAGE #*@ DATE
-            var chatID = msg.split("#*@")[0] + "#*@" + msg.split("#*@")[1];
+              // FROM #*@ MENTOR #*@ MENTEE #*@ MESSAGE #*@ DATE
+            var chatID  = msg.split("#*@")[1] + "#*@" + msg.split("#*@")[1];
+            var message = msg.split("#*@")[3];
+            var date    = msg.split("#*@")[4];
+            var from    = msg.split("#*@")[0];
 
             models.messages.findOne( { "connectionID": chatID }, function(err, doc) {
               if (doc == null) {
