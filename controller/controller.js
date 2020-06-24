@@ -27,7 +27,7 @@ module.exports = function (app,io){
             "email":req.body.email,
             "userType":req.body.mentor_mentee,
             "isAdmin":false,
-            "primary_contact":req.body.primary_contact,
+            "primaryContact":req.body.primaryContact,
         };
         console.log(user);
 
@@ -56,7 +56,7 @@ module.exports = function (app,io){
 
     // Initialise session variables
     var handle=null;
-    var primary_contact=null;
+    var primaryContact=null;
     var private=null;
     var users={};
     var keys={};
@@ -96,17 +96,17 @@ module.exports = function (app,io){
 
         io.to(socket.id).emit('handle', handle);
 
-        // TODO: lookup primary contact in DB & set it
-
-        models.user.findOne({"handle":handle},{primary_contact:1, _id:0}, function(err, doc) {
+        models.user.findOne({"handle":handle},{primaryContact:1, userType:1, _id:0}, function(err, doc) {
           if (err) { console.log(err); }
           else {
             /*console.log("mentor: " + doc);
-            console.log("mentor: " + doc.primary_contact);*/
-            primary_contact = doc.primary_contact; // assign local variable primary contact to value yoinked from db
+            console.log("mentor: " + doc.primaryContact);*/
+            primaryContact = doc.primaryContact; // assign local variable primary contact to value yoinked from db
+            userType = doc.userType;
 
-            io.to(socket.id).emit('primary_contact', primary_contact);      // we need to send them their primary contact (mentor or mentee)
-            primary_contact = null;
+            io.to(socket.id).emit('primaryContact', primaryContact);      // we need to send them their primary contact (mentor or mentee)
+            io.to(socket.it).emit('userType', userType)
+            primaryContact = null;
           }
         });
 
@@ -178,8 +178,10 @@ module.exports = function (app,io){
             models.messages.findOne( { "connectionID": chatID }, function(err, doc) {
               if (doc == null) {
                 // create new chat
+                console.log("new chat");
               } else {
                 // push message to chat
+                console.log("saving to chat");
               }
             });
 

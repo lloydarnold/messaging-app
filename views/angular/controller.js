@@ -68,9 +68,19 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         console.log("Get handle : " + $scope.user);
     });
 
-    socket.on('primary_contact', function(data) {
-      $scope.primary_contact = data;
-      // console.log("Primary contact :" + $scope.primary_contact);
+    socket.on('primaryContact', function(data) {
+      $scope.primaryContact = data;
+      // need to find out if they are mentor or mentee
+    });
+
+    socket.on('userType', function(data) {
+      if (data == "mentor") {
+        $scope.mentor = $scope.user;
+        $scope.mentee = $scope.primaryContact;
+      } else {
+        $scope.mentor = $scope.primaryContact;
+        $scope.mentee = $scope.user;
+      }
     });
 
     socket.on('friend_list', function(data) {
@@ -305,12 +315,12 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         document.getElementById("group").scrollTop=document.getElementById("group").scrollHeight;
 
         console.log($scope.user);
-        console.log($scope.primary_contact);
+        console.log($scope.primaryContact);
 
-        //console.log( 'private message', $scope.primary_contact +"#*@"+message+"#*@"+$scope.user+"#*@"+getDate() );
+        //console.log( 'private message', $scope.primaryContact +"#*@"+message+"#*@"+$scope.user+"#*@"+getDate() );
 
-        socket.emit('private message', $scope.primary_contact +"#*@"+message+"#*@"+$scope.user+"#*@"+getDate());
-        insertMessage($scope.user, $scope.primary_contact ,message);
+        socket.emit('private message', $scope.primaryContact +"#*@"+message+"#*@"+$scope.user+"#*@"+getDate());
+        insertMessage($scope.user, $scope.primaryContact ,message);
 
         $scope.message=null;
     }

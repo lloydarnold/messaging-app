@@ -23,7 +23,7 @@ module.exports.user=mongoose.model('User',new Schema({
     phone:String,             // ditto
     email:String,             // primary contact email -- TODO validate this on input (use clientside js)
     yearGroup:String,         // year group -- TODO increment this every september
-    primary_contact:String,   // mentor or mentee
+    primaryContact:String,   // mentor or mentee
     isAdmin:Boolean,          // by default, set to false -- TODO either add admin accounts manually from server OR do something neat
     userType:String           // mentor or mentee (could set this to boolean isMentor) ?
 },{strict: false}));
