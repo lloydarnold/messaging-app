@@ -74,6 +74,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
     });
 
     socket.on('userType', function(data) {
+      console.log("usertype received");
       if (data == "mentor") {
         $scope.mentor = $scope.user;
         $scope.mentee = $scope.primaryContact;
@@ -319,7 +320,9 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
 
         //console.log( 'private message', $scope.primaryContact +"#*@"+message+"#*@"+$scope.user+"#*@"+getDate() );
 
-        socket.emit('private message', $scope.primaryContact +"#*@"+message+"#*@"+$scope.user+"#*@"+getDate());
+        //socket.emit('private message', $scope.primaryContact +"#*@"+message+"#*@"+$scope.user+"#*@"+getDate());
+        socket.emit('private message', $scope.mentor + "#*@" + $scope.mentee + "#*@" + message + "#*@" + getDate());
+
         insertMessage($scope.user, $scope.primaryContact ,message);
 
         $scope.message=null;
