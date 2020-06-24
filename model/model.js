@@ -44,7 +44,7 @@ module.exports.messages_old = mongoose.model('message_old',new Schema({
 }));
 
 
-module.exports.test = mongoose.model('message', new Schema({
+module.exports.message = mongoose.model('message', new Schema({
   conversationID : String,
   chatLog        : [ new Schema({ message : String,
                                   date    : Date }) ]
