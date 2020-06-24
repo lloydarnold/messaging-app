@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 // Connect to our database
-mongoose.connect('mongodb://localhost:27017/test', {  useMongoClient: true  } );
+mongoose.connect('mongodb://localhost:27017/chat', {  useMongoClient: true  } );
 
 // Output result of connection to logs
 mongoose.connection.on('open', function (ref) {
