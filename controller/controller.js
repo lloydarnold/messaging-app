@@ -105,7 +105,7 @@ module.exports = function (app,io){
             userType = doc.userType;
 
             io.to(socket.id).emit('primaryContact', primaryContact);      // we need to send them their primary contact (mentor or mentee)
-            io.to(socket.it).emit('userType', userType)
+            io.to(socket.it).emit('userType', userType);
             primaryContact = null;
           }
         });
@@ -182,6 +182,15 @@ module.exports = function (app,io){
               if (doc == null) {
                 // create new chat
                 console.log("new chat");
+                models.messages.create( {
+                  "conversationID" : chatID,
+                  "chatLog"        : [ {
+                                        "message" : message,
+                                        "from"    : from,
+                                        "date"    : date
+                                        } ]
+                } )
+
               } else {
                 // push message to chat
                 console.log("saving to chat");
