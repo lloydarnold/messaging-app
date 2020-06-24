@@ -164,11 +164,24 @@ module.exports = function (app,io){
 
             // console.log('message  :'+msg.split("#*@")[0]);
 
-            models.messages.create({                 // we create a new message as per messages model in model.js
+            /* models.messages.create({                 // we create a new message as per messages model in model.js
                 "message" :msg.split("#*@")[1],      // we split on "#*@" -- this is as good a separator as any
                 "sender"  :msg.split("#*@")[2],      // important details are: sender, receiver, datestamp
                 "reciever":msg.split("#*@")[0],
                 "date"    : new Date()});
+                */
+
+            /// TODO: reconfigure messages to send in following order :
+              // MENTOR #*@ MENTEE #*@ MESSAGE #*@ DATE
+            var chatID = msg.split("#*@")[0] + "#*@" + msg.split("#*@")[1];
+
+            models.messages.findOne( { "connectionID": chatID }, function(err, doc) {
+              if (doc == null) {
+                // create new chat
+              } else {
+                // push message to chat
+              }
+            });
 
             io.to(users[msg.split("#*@")[0]]).emit('private message', msg);     // After processed into an object, send it
 
