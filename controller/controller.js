@@ -164,7 +164,7 @@ module.exports = function (app,io){
 
             // console.log('message  :'+msg.split("#*@")[0]);
 
-            models.messages.create({                // we create a new message as per messages model in model.js
+            models.messages.create({                 // we create a new message as per messages model in model.js
                 "message" :msg.split("#*@")[1],      // we split on "#*@" -- this is as good a separator as any
                 "sender"  :msg.split("#*@")[2],      // important details are: sender, receiver, datestamp
                 "reciever":msg.split("#*@")[0],
