@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 // Connect to our database
-mongoose.connect('mongodb://localhost:27017/chat', { useMongoClient: true } );
+mongoose.connect('mongodb://localhost:27017/test', {  useMongoClient: true  } );
 
 // Output result of connection to logs
 mongoose.connection.on('open', function (ref) {
@@ -36,9 +36,16 @@ module.exports.online=mongoose.model('online',new Schema({
 // This is current model for message
 // TODO make messages a nested document
 // top is convo ID (hash of names involved? -- maybe just append names) and contents is messages sent
-module.exports.messages=mongoose.model('message',new Schema({
+module.exports.messages_old = mongoose.model('message_old',new Schema({
     message : String,
     sender  : String,
     reciever: String,
     date    : Date
+}));
+
+
+module.exports.test = mongoose.model('message', new Schema({
+  conversationID : String,
+  chatLog        : [ new Schema({ message : String,
+                                  date    : Date }) ]
 }));
