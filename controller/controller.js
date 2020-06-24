@@ -105,8 +105,10 @@ module.exports = function (app,io){
             userType = doc.userType;
 
             io.to(socket.id).emit('primaryContact', primaryContact);      // we need to send them their primary contact (mentor or mentee)
-            io.to(socket.it).emit('userType', userType);
+            console.log("user type : " + userType);
+            io.to(socket.id).emit('userType', userType);
             primaryContact = null;
+            userType = null;
           }
         });
 
