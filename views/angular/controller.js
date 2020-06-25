@@ -21,7 +21,7 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlR
         views:{
             'body':{
                 templateUrl:'/views/login.html',
-                controller:'registerController'
+                controller:'loginController'
             }
         }
     })
@@ -45,8 +45,6 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlR
     })
 }]);
 
-
-
 app.directive('myEnter', function () {
     return function (scope, element, attrs) {
         element.bind("keydown keypress", function (event) {
@@ -60,7 +58,6 @@ app.directive('myEnter', function () {
         });
     };
 });
-
 
 app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile','$location','$state','$localStorage',
  '$sessionStorage',function($scope,socket,$http,$mdDialog,$compile,$location,$state,$localStorage, $sessionStorage){
@@ -212,7 +209,7 @@ app.service('encrypt', function() {
 });
 
 // This is in charge of the register page
-app.controller('registerController',['$scope','encrypt','$http','$state',function($scope,encrypt,$http,$state){
+app.controller('loginController',['$scope','encrypt','$http','$state',function($scope,encrypt,$http,$state){
     url= location.host;
 
     $scope.user={
@@ -226,6 +223,11 @@ app.controller('registerController',['$scope','encrypt','$http','$state',functio
     $scope.login_data={
         'handle':'',
         'password':''
+    };
+
+    $scope.admin_data={
+      'handle':'',
+      'password':''
     };
 
     $scope.Register = function(){
@@ -248,15 +250,33 @@ app.controller('registerController',['$scope','encrypt','$http','$state',functio
         $http({ method: 'POST', url:'http://'+url+'/login', data:$scope.login_data })//, headers:config})
             .success(function (data) {
             if(data=="success"){
-                console.log("Inside success login");
+                // console.log("Inside success login");
                 $state.go('loggedin');
             }
         })
             .error(function (data) {
             //add error handling
-            console.log(data)
+            console.log(data);
         });
     }
+
+    $scope.adminLogin = function(){
+        console.log("login");
+        $scope.admin_data.password=encrypt.hash($scope.admin_data.password);
+        console.log($scope.login_data);
+        $http({ method: 'POST', url:'http://'+url+'/login', data:$scope.admin_data })//, headers:config})
+            .success(function (data) {
+            if(data=="success"){
+                console.log("Inside success admin login");
+                $state.go('loggedin');
+            }
+        })
+            .error(function (data) {
+            //add error handling
+            console.log(data);
+        });
+    }
+
 }]);
 
 app.controller('adminController', ['$scope','encrypt','$http','$state',function($scope,encrypt,$http,$state){
