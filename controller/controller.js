@@ -200,7 +200,8 @@ module.exports = function (app,io){
             models.messages.findOne( { "conversationID": chatID }, function(err, doc) {
               if (doc == null) {
                 // create new chat
-                console.log("new chat");
+                //console.log("new chat");
+                
                 models.messages.create( {
                   "conversationID" : chatID,
                   "chatLog"        : [ {
