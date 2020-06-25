@@ -30,7 +30,7 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlR
         views:{
             'body':{
                 templateUrl:'/views/chat.html',
-                controller:'myController'
+                controller:'chatController'
             }
         }
     })
@@ -54,7 +54,7 @@ app.directive('myEnter', function () {
 });
 
 
-app.controller('myController',['$scope','socket','$http','$mdDialog','$compile','$location','$state','$localStorage',
+app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile','$location','$state','$localStorage',
  '$sessionStorage',function($scope,socket,$http,$mdDialog,$compile,$location,$state,$localStorage, $sessionStorage){
     url= location.host;
     $scope.users=[];
