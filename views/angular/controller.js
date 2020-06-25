@@ -125,7 +125,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         });
     });
 
-    $scope.confirm=function(){
+    /*$scope.confirm=function(){
         var data = {
             "friend_handle":$scope.friend,
             "my_handle":$scope.user
@@ -139,9 +139,9 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
             //add error handling
             console.log(data)
         });
-    };
+    };*/
 
-    $scope.showConfirm = function(data) {
+    /*$scope.showConfirm = function(data) {
         // Appending dialog to document.body to cover sidenav in docs app
         var confirm = $mdDialog.confirm()
         .title(" connection request ")
@@ -165,13 +165,13 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
             //}
             })
         });
-    };
+    };*/
 
-    socket.on('message', function(data) {
+    /*socket.on('message', function(data) {
         $scope.showConfirm(data);
-    });
+    });*/
 
-    socket.on('friend', function(data) {
+    /*socket.on('friend', function(data) {
         console.log("Connection Established" + data);
         $scope.$apply(function () {
             if (!$scope.online_friends.includes(data)){
@@ -181,7 +181,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
             }
 
         });
-    });
+    });*/
 
     $scope.friend_request = function(user) {
         $scope.friend = user;
@@ -198,7 +198,6 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         form_date=monthNames[date.getMonth()]+" "+date.getDate()+", "+hour+":"+date.getMinutes()+" "+period;
         return form_date;
     }
-
 
     socket.on('group', function(data) {
         var div = document.createElement('div');
@@ -233,26 +232,6 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         document.getElementById("group").scrollTop=document.getElementById("group").scrollHeight;
         socket.emit('group message',message+"#*@"+$scope.user);
         $scope.groupMessage=null;
-    }
-
-    var insertMessage = function(from,to,msg){
-        /*console.log(from + " " + to);
-        if (to in $scope.messages){
-            if ($scope.messages[to].length>25){
-                $scope.messages[to].splice(0,1);
-            }
-        }
-        else{
-            $scope.messages[to]=[];
-        }
-        $scope.messages[to].push({
-            "sender":from,
-            "msg" : msg,
-            "date" : getDate()
-        });
-        localStorage.setItem(to,JSON.stringify($scope.messages[to]));
-        localStorage.setItem(from,JSON.stringify($scope.messages[from]));
-        console.log(localStorage.getItem(to));*/
     }
 
     var displayMessage = function(messageData) {
