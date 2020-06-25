@@ -149,7 +149,7 @@ module.exports = function (app,io){
                 io.to(socket.id).emit('friend_list', friends);    // Send friends list down socket
                 io.to(socket.id).emit('pending_list', pending);   // TODO review if ANY of this is still necessary
 
-                io.emit('users', users);                         // Update list of online users (do we still need this?)
+                io.emit('users', users);                         // Update list of online users
             }
         });
 
@@ -240,112 +240,5 @@ module.exports = function (app,io){
 
         });
     });
-
-    // The code below allows for the sending of peer to peer friend requests, a feature that has been suspended
-
-  /*  app.post('/friend_request',function(req,res){
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader("Access-Control-Allow-Method","'GET, POST, OPTIONS, PUT, PATCH, DELETE'");
-        friend=true;
-        models.user.find({"handle" : req.body.my_handle,"friends.name":req.body.friend_handle},function(err,doc){
-            if(err){res.json(err);}
-            else if(doc.length!=0){
-                console.log("Friend request : "+doc.length);
-                console.log("Friend request : friend request already sent " + doc);
-                res.send("Friend request already sent ");
-            }
-            else{
-                console.log("Friend request : "+doc.length);
-                models.user.update({
-                    handle:req.body.my_handle
-                },{
-                    $push:{
-                        friends:{
-                            name: req.body.friend_handle,
-                            status: "Pending"
-                        }
-                    }
-                },{
-                    upsert:true
-                },function(err,doc){
-                    if(err){res.json(err);}
-                    //            else{
-                    //                console.log(doc);
-                    //            }
-                });
-                io.to(users[req.body.friend_handle]).emit('message', req.body);
-            }
-        });
-    }); */
-
-    /* app.post('/friend_request/confirmed',function(req,res){
-        console.log("friend request confirmed : "+req.body);
-        if(req.body.confirm=="Yes"){
-            models.user.find({
-                "handle" : req.body.friend_handle,
-                "friends.name":req.body.my_handle
-            },function(err,doc){
-                if(err){
-                    res.json(err);
-                }
-                else if(doc.length!=0){
-                    console.log("Friend request confirmed : "+doc.length);
-                    console.log("Friend request confirmed : friend request already sent "+doc);
-                    res.send("Friend request already accepted");
-                }
-                else{
-                    models.user.update({
-                        "handle":req.body.my_handle,
-                        "friends.name":req.body.friend_handle
-                    },{
-                        '$set':{
-                            "friends.$.status":"Friend"
-                        }
-                    },function(err,doc){
-                        if(err){res.json(err);}
-                        else{
-
-                            console.log("friend request confirmed : Inside yes confirmed");
-                            io.to(users[req.body.friend_handle]).emit('friend', req.body.my_handle);
-                            io.to(users[req.body.my_handle]).emit('friend', req.body.friend_handle);
-                        }
-                    });
-                    models.user.update({
-                        handle:req.body.friend_handle
-                    },{
-                        $push:{
-                            friends:{
-                                name: req.body.my_handle,
-                                status: "Friend"
-                            }
-                        }
-                    },{upsert:true},function(err,doc){
-                        if(err){res.json(err);}
-                        //            else{
-                        //                console.log(doc);
-                        //            }
-                    });
-                }
-            });
-        }
-        else{
-
-            console.log("friend request confirmed : Inside No confirmed");
-            models.user.update({
-                "handle":req.body.my_handle
-            },{
-                '$pull':{
-                    'friends':{
-                        "name":req.body.friend_handle,
-                    }
-                }
-            },function(err,doc){
-            if(err){res.json(err);}
-            else{
-                console.log("No");
-            }
-        });
-        }
-    }); */
 
 }
