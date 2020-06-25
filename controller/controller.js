@@ -175,14 +175,17 @@ module.exports = function (app,io){
                 "date"    : new Date()});
                 */
 
-            /// TODO: reconfigure messages to send in following order :
-              // FROM #*@ MENTOR #*@ MENTEE #*@ MESSAGE #*@ DATE
-            var chatID  = msg.split("#*@")[1] + "#*@" + msg.split("#*@")[1];
+            // FROM #*@ MENTOR #*@ MENTEE #*@ MESSAGE #*@ DATE
+            var chatID  = msg.split("#*@")[1] + "#*@" + msg.split("#*@")[2];
             var message = msg.split("#*@")[3];
             var date    = msg.split("#*@")[4];
             var from    = msg.split("#*@")[0];
 
-            models.messages.findOne( { "connectionID": chatID }, function(err, doc) {
+            var to;
+            if (from == msg.split("#*@")[1] ) { to = msg.split("#*@")[2]; }
+            else { to = msg.split("#*@")[1] }
+
+            models.messages.findOne( { "conversationID": chatID }, function(err, doc) {
               if (doc == null) {
                 // create new chat
                 console.log("new chat");
@@ -201,7 +204,7 @@ module.exports = function (app,io){
               }
             });
 
-            io.to(users[msg.split("#*@")[0]]).emit('private message', msg);     // After processed into an object, send it
+            io.to(users[to]).emit('private message', msg);     // After processed into an object, send it
 
         });
 
