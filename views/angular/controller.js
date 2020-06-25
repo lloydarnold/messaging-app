@@ -324,14 +324,14 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         //console.log( 'private message', $scope.primaryContact +"#*@"+message+"#*@"+$scope.user+"#*@"+getDate() );
 
         //socket.emit('private message', $scope.primaryContact +"#*@"+message+"#*@"+$scope.user+"#*@"+getDate());
-        socket.emit('private message', $scope.mentor + "#*@" + $scope.mentee + "#*@" + message + "#*@" + getDate());
+        socket.emit('private message', $scope.user + "#*@" + $scope.mentor + "#*@" + $scope.mentee + "#*@" + message + "#*@" + getDate());
 
         insertMessage($scope.user, $scope.primaryContact ,message);
 
         $scope.message=null;
     }
 
-    $scope.send_message=function(chat, message){
+    /*$scope.send_message=function(chat, message){
         if (message == null) { return; } // Cheeky guard clause, stop null messages from being sent
         console.log(chat);
         div = document.createElement('div');
@@ -351,7 +351,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         insertMessage($scope.user,chat,message);
 
         $scope.message=null;
-    }
+    } */
 
 /*
     popups=[];
