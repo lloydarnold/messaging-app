@@ -115,8 +115,8 @@ module.exports = function (app,io){
         users[handle]=socket.id;  // Give their connection a unique ID
         keys[socket.id]=handle;
 
-        console.log("Users list : " + users);   // More debug output
-        console.log("keys list : " + keys);
+      /*  console.log("Users list : " + users);   // More debug output
+        console.log("keys list : " + keys); */
 
         models.user.findOne({"handle" : handle},{friends:1,_id:0},function(err,doc){
             if(err){ res.json(err); } // If we get hit by a bug, give it to thems
