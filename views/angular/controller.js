@@ -70,11 +70,12 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
 
     socket.on('primaryContact', function(data) {
       $scope.primaryContact = data;
+      // console.log("primary contact: " + $scope.primaryContact);
       // need to find out if they are mentor or mentee
     });
 
     socket.on('userType', function(data) {
-      console.log("usertype received");
+      // console.log("usertype received. usertype is: " + data);
       if (data == "mentor") {
         $scope.mentor = $scope.user;
         $scope.mentee = $scope.primaryContact;
@@ -82,6 +83,8 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         $scope.mentor = $scope.primaryContact;
         $scope.mentee = $scope.user;
       }
+      /*console.log("mentor is : " + $scope.mentor );
+      console.log("mentee is : " + $scope.mentee );*/
     });
 
     socket.on('friend_list', function(data) {
@@ -97,15 +100,15 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
     });
 
     socket.on('users', function(data) {
-        console.log("users list : "+data);
+        // console.log("users list : "+data);
         $scope.$apply(function () {
             $scope.users=[];
             $scope.online_friends=[];
             for(var i in data){
-                console.log("users list : "+i);
+                // console.log("users list : "+i);
                 if (i!=$scope.user){
                     console.log(i);
-                    console.log("users list : "+$scope.allfriends);
+                    // console.log("users list : "+$scope.allfriends);
                     if ( $scope.allfriends.includes(i) ){
                         $scope.online_friends.push(i);
                     }
@@ -115,9 +118,9 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
 
                 }
             }
-            console.log("users list : "+$scope.allfriends);
-            console.log("users list : "+$scope.users);
-            console.log("users list : "+$scope.online_friends);
+            // console.log("users list : "+$scope.allfriends);
+            // console.log("users list : "+$scope.users);
+          //  console.log("users list : "+$scope.online_friends);
         });
     });
 
@@ -272,7 +275,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
                         '</div>\
                         </div>';
         var chat_box=document.getElementById(data.split("#*@")[2]);
-        console.log(chat_box);
+        // console.log(chat_box);
 
         div.innerHTML='<div class="direct-chat-msg right">\
                         <div class="direct-chat-info clearfix">\
@@ -315,8 +318,8 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         document.getElementById("group").appendChild(div);
         document.getElementById("group").scrollTop=document.getElementById("group").scrollHeight;
 
-        console.log($scope.user);
-        console.log($scope.primaryContact);
+        // console.log($scope.user);
+        // console.log($scope.primaryContact);
 
         //console.log( 'private message', $scope.primaryContact +"#*@"+message+"#*@"+$scope.user+"#*@"+getDate() );
 
