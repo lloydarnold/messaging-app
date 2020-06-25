@@ -90,6 +90,14 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
 
     socket.on('messageLog', function(data) {
       console.log(data);
+      var tempMsg;
+      // message model ::
+      // (0) FROM #*@ (1) MENTOR #*@ (2) MENTEE #*@ (3) MESSAGE #*@ (4) DATE
+      data.forEach((message, i) => {
+        tempMsg = message.from + "#*@" + $scope.mentor + "#*@" + $scope.mentee + "#*@" + message.message + "#*@" + message.date;
+        displayMessage(tempMsg);
+      });
+
     });
 
     /*socket.on('friend_list', function(data) {
@@ -193,7 +201,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
 
     var getDate=function(){
         date = new Date();
-        hour=date.getHours();
+        hour = date.getHours();
         period="AM";
         if (hour>12){
             hour=hour%12;
@@ -265,6 +273,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
                         </div>'; }
 
       document.getElementById("group").appendChild(div);
+      document.getElementById("group").scrollTop = document.getElementById("group").scrollHeight;
 
     }
 
