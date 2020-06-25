@@ -34,8 +34,16 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlR
             }
         }
     })
+    .state('loggedinAdmin', {
+      url:'/admin',
+      views:{
+        'body':{
+          templateURL:'views/admin.html',
+          controller:'adminController'
+        }
+      }
+    })
 }]);
-
 
 
 
@@ -58,8 +66,6 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
  '$sessionStorage',function($scope,socket,$http,$mdDialog,$compile,$location,$state,$localStorage, $sessionStorage){
     url= location.host;
     $scope.users=[];
-    $scope.online_friends=[];
-    $scope.allfriends=[];
     $scope.messages={};
     var monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October","November", "December"];
 
@@ -251,4 +257,9 @@ app.controller('registerController',['$scope','encrypt','$http','$state',functio
             console.log(data)
         });
     }
+}]);
+
+app.controller('adminController', ['$scope','encrypt','$http','$state',function($scope,encrypt,$http,$state){
+    url= location.host;
+
 }]);
