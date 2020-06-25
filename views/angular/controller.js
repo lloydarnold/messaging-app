@@ -199,10 +199,11 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         $scope.friend = user;
     };
 
-    var getDate=function(date=new Date() ){
+    var getDate=function(date=null ){   // TODO upgrade this from the date to the RIGHT date :)
+        date = new Date(date);
         hour = date.getHours();
         period="AM";
-        if (hour>12){
+        if (hour>=12){
             hour=hour%12;
             period="PM";
         }
