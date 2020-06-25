@@ -257,7 +257,9 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
 
     var displayMessgae = function(messageData) {
       var div = document.createElement('div');
-      console.log("entered display code");
+
+      // message model ::
+      // (0) FROM #*@ (1) MENTOR #*@ (2) MENTEE #*@ (3) MESSAGE #*@ (4) DATE
 
       div.innerHTML='<div class="direct-chat-msg right">\
                       <div class="direct-chat-info clearfix">\
@@ -270,46 +272,19 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
                       </div>';
 
       document.getElementById("group").appendChild(div);
-      // document.getElementById("group").scrollTop=document.getElementById("group").scrollHeight;
 
     }
 
     socket.on('private message', function(data) {
-        console.log("barry, we got em.");
-
-        // message model ::
-        // (0) FROM #*@ (1) MENTOR #*@ (2) MENTEE #*@ (3) MESSAGE #*@ (4) DATE
         displayMessgae(data);
-
-        document.getElementById(data.split("#*@")[2]).scrollTop=document.getElementById(data.split("#*@")[2]).scrollHeight;
     });
 
     $scope.send_message_primary=function(message){
         if (message == null) { return; } // Cheeky guard clause, stop null messages from being sent
 
-        div = document.createElement('div');
-        div.innerHTML='<div class="direct-chat-msg"> \
-                        <div class="direct-chat-info clearfix">\
-                        <span class="direct-chat-name pull-left">'+$scope.user+'</span>\
-                        <span class="direct-chat-timestamp pull-right">'+getDate()+'</span>\
-                        </div>\
-                        <div class="direct-chat-text">'
-                        +message+
-                        '</div>\
-                        </div>';
-
-        document.getElementById("group").appendChild(div);
-        document.getElementById("group").scrollTop=document.getElementById("group").scrollHeight;
-
-        // console.log($scope.user);
-        // console.log($scope.primaryContact);
-
-        //console.log( 'private message', $scope.primaryContact +"#*@"+message+"#*@"+$scope.user+"#*@"+getDate() );
-
-        //socket.emit('private message', $scope.primaryContact +"#*@"+message+"#*@"+$scope.user+"#*@"+getDate());
-        socket.emit('private message', $scope.user + "#*@" + $scope.mentor + "#*@" + $scope.mentee + "#*@" + message + "#*@" + getDate());
-
-        insertMessage($scope.user, $scope.primaryContact ,message);
+        var formattedMessage = $scope.user + "#*@" + $scope.mentor + "#*@" + $scope.mentee + "#*@" + message + "#*@" + getDate()
+        displayMessgae(formattedMessage);
+        socket.emit('private message', formattedMessage);
 
         $scope.message=null;
     }
