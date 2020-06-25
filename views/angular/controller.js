@@ -239,16 +239,26 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
 
       // message model ::
       // (0) FROM #*@ (1) MENTOR #*@ (2) MENTEE #*@ (3) MESSAGE #*@ (4) DATE
-
+      if ( messageData.split("#*@")[0] == $scope.user ) {         // These look similar, but aren't the same.
       div.innerHTML='<div class="direct-chat-msg right">\
                       <div class="direct-chat-info clearfix">\
                       <span class="direct-chat-name pull-right">'   + messageData.split("#*@")[0] + '</span>\
                       <span class="direct-chat-timestamp pull-left">' + messageData.split("#*@")[4] + '</span>\
                       </div>\
                       <div class="direct-chat-text">'
-                      +messageData.split("#*@")[3]+
+                      + messageData.split("#*@")[3] +
                       '</div>\
-                      </div>';
+                      </div>'; }
+      else {
+        div.innerHTML='<div class="direct-chat-msg"> \
+                        <div class="direct-chat-info clearfix">\
+                        <span class="direct-chat-name pull-left">'+ messageData.split("#*@")[0] +'</span>\
+                        <span class="direct-chat-timestamp pull-right">'+ messageData.split("#*@")[4] +'</span>\
+                        </div>\
+                        <div class="direct-chat-text">'
+                        + messageData.split("#*@")[3] +
+                        '</div>\
+                        </div>'; }
 
       document.getElementById("group").appendChild(div);
 
