@@ -84,8 +84,12 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         $scope.mentor = $scope.primaryContact;
         $scope.mentee = $scope.user;
       }
-      /*console.log("mentor is : " + $scope.mentor );
-      console.log("mentee is : " + $scope.mentee );*/
+
+      socket.emit('load messages', $scope.user + "~%$" + $scope.mentor + "#*@" + $scope.mentee)
+    });
+
+    socket.on('messageLog', function(data) {
+      console.log(data);
     });
 
     /*socket.on('friend_list', function(data) {
