@@ -26,7 +26,7 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlR
         }
     })
     .state('loggedin',{
-        url:'/login',
+        url:'/chat',
         views:{
             'body':{
                 templateUrl:'/views/chat.html',
