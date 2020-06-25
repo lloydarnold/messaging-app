@@ -200,7 +200,16 @@ module.exports = function (app,io){
 
               } else {
                 // push message to chat
-                console.log("saving to chat");
+                // console.log("saving to chat");
+
+                models.messages.findOneAndUpdate(
+                  { "conversationID" : chatID },
+                  { $push: { chatLog : {"message": message , "date" : date } } } ,function(err, success) {
+                    if (err) {console.log(err);}
+                    // else {console.log("it did it"); }
+                  }
+                 )
+
               }
             });
 
