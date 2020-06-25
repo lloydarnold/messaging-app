@@ -100,7 +100,7 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
 
     });
 
-    var getDate=function(date=null ){   // TODO upgrade this from the date to the RIGHT date :)
+    var getDate=function(date=new Date() ){
         date = new Date(date);
         hour = date.getHours();
         period="AM";
