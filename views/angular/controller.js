@@ -96,9 +96,9 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         // console.log("Friends list : " + $scope.allfriends);
     });*/
 
-    /*socket.on('pending_list', function(data) {*/
+    /*socket.on('pending_list', function(data) {
 
-    });
+    }); */
 
     /*socket.on('users', function(data) {
         // console.log("users list : "+data);
