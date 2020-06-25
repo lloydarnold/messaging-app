@@ -88,19 +88,19 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
       console.log("mentee is : " + $scope.mentee );*/
     });
 
-    socket.on('friend_list', function(data) {
+    /*socket.on('friend_list', function(data) {
         // console.log("Friends list : " + data);
         $scope.$apply(function () {
             $scope.allfriends.push.apply($scope.allfriends,data);
         });
         // console.log("Friends list : " + $scope.allfriends);
+    });*/
+
+    /*socket.on('pending_list', function(data) {*/
+
     });
 
-    socket.on('pending_list', function(data) {
-
-    });
-
-    socket.on('users', function(data) {
+    /*socket.on('users', function(data) {
         // console.log("users list : "+data);
         $scope.$apply(function () {
             $scope.users=[];
@@ -123,7 +123,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
             // console.log("users list : "+$scope.users);
           //  console.log("users list : "+$scope.online_friends);
         });
-    });
+    });*/
 
     /*$scope.confirm=function(){
         var data = {
