@@ -199,8 +199,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         $scope.friend = user;
     };
 
-    var getDate=function(){
-        date = new Date();
+    var getDate=function(date=new Date() ){
         hour = date.getHours();
         period="AM";
         if (hour>12){
@@ -255,7 +254,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
       div.innerHTML='<div class="direct-chat-msg right">\
                       <div class="direct-chat-info clearfix">\
                       <span class="direct-chat-name pull-right">'   + messageData.split("#*@")[0] + '</span>\
-                      <span class="direct-chat-timestamp pull-left">' + messageData.split("#*@")[4] + '</span>\
+                      <span class="direct-chat-timestamp pull-left">' + getDate(messageData.split("#*@")[4]) + '</span>\
                       </div>\
                       <div class="direct-chat-text">'
                       + messageData.split("#*@")[3] +
@@ -265,7 +264,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         div.innerHTML='<div class="direct-chat-msg"> \
                         <div class="direct-chat-info clearfix">\
                         <span class="direct-chat-name pull-left">'+ messageData.split("#*@")[0] +'</span>\
-                        <span class="direct-chat-timestamp pull-right">'+ messageData.split("#*@")[4] +'</span>\
+                        <span class="direct-chat-timestamp pull-right">'+ getDate(messageData.split("#*@")[4]) +'</span>\
                         </div>\
                         <div class="direct-chat-text">'
                         + messageData.split("#*@")[3] +
