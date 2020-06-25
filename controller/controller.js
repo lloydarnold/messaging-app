@@ -165,10 +165,10 @@ module.exports = function (app,io){
             if (err) {
               console.log(err);
               messageLog = [];
+            } else if (doc == null) {
+              messageLog = [];
             } else {
               messageLog = doc.chatLog;
-//              console.log(doc.chatLog);
-              console.log(messageLog[0]);
             }
             io.to(users[requestee]).emit('messageLog', messageLog);
 
@@ -201,7 +201,7 @@ module.exports = function (app,io){
               if (doc == null) {
                 // create new chat
                 //console.log("new chat");
-                
+
                 models.messages.create( {
                   "conversationID" : chatID,
                   "chatLog"        : [ {
