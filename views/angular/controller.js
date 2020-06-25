@@ -255,7 +255,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         console.log(localStorage.getItem(to));*/
     }
 
-    var displayMessgae = function(messageData) {
+    var displayMessage = function(messageData) {
       var div = document.createElement('div');
 
       // message model ::
@@ -276,14 +276,14 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
     }
 
     socket.on('private message', function(data) {
-        displayMessgae(data);
+        displayMessage(data);
     });
 
     $scope.send_message_primary=function(message){
         if (message == null) { return; } // Cheeky guard clause, stop null messages from being sent
 
         var formattedMessage = $scope.user + "#*@" + $scope.mentor + "#*@" + $scope.mentee + "#*@" + message + "#*@" + getDate()
-        displayMessgae(formattedMessage);
+        displayMessage(formattedMessage);
         socket.emit('private message', formattedMessage);
 
         $scope.message=null;
