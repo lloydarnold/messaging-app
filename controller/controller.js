@@ -86,6 +86,25 @@ module.exports = function (app,io){
     });
     });
 
+    app.post('/adminLogin',function(req,res){
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader("Access-Control-Allow-Method","'GET, POST, OPTIONS, PUT, PATCH, DELETE'");
+      handle = req.body.handle;
+
+      smodels.user.findOne({"handle":req.body.handle, "password":req.body.password, "isAdmin":true},function(err,doc){
+          if(err){
+              res.send(err);
+          }
+          if(doc==null){
+              res.send("User has not registered or is not admin");
+          }
+          else{
+              console.log("Asas"+__dirname);
+              res.send("success");
+          }
+
+    });
+
     // When the users log in is successful, and they connect
     io.on('connection',function(socket){
         if (handle == null) {         // guard clause -- stops user from ruining everything (but doesn't log them out)
@@ -229,7 +248,6 @@ module.exports = function (app,io){
             io.to(users[to]).emit('private message', msg);     // After we've processed msg object, send it
 
         });
-
 
         socket.on('disconnect', function(){
             // when the user disconnects, remove them from online

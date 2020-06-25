@@ -263,8 +263,8 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
     $scope.adminLogin = function(){
         console.log("login");
         $scope.admin_data.password=encrypt.hash($scope.admin_data.password);
-        console.log($scope.login_data);
-        $http({ method: 'POST', url:'http://'+url+'/login', data:$scope.admin_data })//, headers:config})
+        console.log($scope.admin_data);
+        $http({ method: 'POST', url:'http://'+url+'/adminLogin', data:$scope.admin_data })//, headers:config})
             .success(function (data) {
             if(data=="success"){
                 console.log("Inside success admin login");
