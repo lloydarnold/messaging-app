@@ -25,9 +25,10 @@ module.exports = function (app,io){
             "password":req.body.password,
             "phone":req.body.phone,
             "email":req.body.email,
+            "yearGroup":12,
             "userType":req.body.mentor_mentee,
-            "isAdmin":false,
             "primaryContact":req.body.primaryContact,
+            "isAdmin":false,
         };
         console.log(user);
 
@@ -104,8 +105,9 @@ module.exports = function (app,io){
             primaryContact = doc.primaryContact; // assign local variable primary contact to value yoinked from db
             userType = doc.userType;
 
+            // console.log("primary contact : " + primaryContact);
             io.to(socket.id).emit('primaryContact', primaryContact);      // we need to send them their primary contact (mentor or mentee)
-            console.log("user type : " + userType);
+            // console.log("user type : " + userType);
             io.to(socket.id).emit('userType', userType);
             primaryContact = null;
             userType = null;
