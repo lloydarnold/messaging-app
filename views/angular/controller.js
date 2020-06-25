@@ -65,6 +65,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
 
     socket.on('handle', function(data) {
         $scope.user = data;
+        if (handle == null) { console.log("kick me"); } // TODO kick them if handle is null
         console.log("Get handle : " + $scope.user);
     });
 
@@ -273,7 +274,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         document.getElementById("group").appendChild(div);
         document.getElementById("group").scrollTop=document.getElementById("group").scrollHeight;
 
-        insertMessage(data.split("#*@")[2],data.split("#*@")[2],data.split("#*@")[1]);
+        // insertMessage(data.split("#*@")[2],data.split("#*@")[2],data.split("#*@")[1]);
         document.getElementById(data.split("#*@")[2]).scrollTop=document.getElementById(data.split("#*@")[2]).scrollHeight;
     });
 
