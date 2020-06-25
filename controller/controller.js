@@ -129,7 +129,7 @@ module.exports = function (app,io){
                 // console.log("friends list: "+doc);
                 try { list=doc.friends.slice(); }    // catch errors thrown if friends list doesn't exist
                 catch(err) { list = {} }
-                finally { console.log(list); }
+                finally { /*console.log(list);*/ }
 
                 for(var i in list){
                     if(list[i].status=="Friend"){
@@ -160,17 +160,20 @@ module.exports = function (app,io){
           var convoID   = socketData.split("~%$")[1];
           var messageLog;
 
-          console.log();
+          console.log("convo ID: " + convoID);
           models.messages.findOne( {"conversationID":convoID},{chatLog:1, _id:0}, function(err, doc){
             if (err) {
               console.log(err);
               messageLog = [];
             } else {
               messageLog = doc.chatLog;
+//              console.log(doc.chatLog);
+              console.log(messageLog[0]);
             }
+            io.to(users[requestee]).emit('messageLog', messageLog);
+
           });
-          console.log(messageLog);
-          io.to(users[requestee]).emit('messageLog', messageLog);
+          //console.log(messageLog);
         });
 
         socket.on('group message',function(msg){
@@ -213,7 +216,7 @@ module.exports = function (app,io){
 
                 models.messages.findOneAndUpdate(
                   { "conversationID" : chatID },
-                  { $push: { chatLog : {"message": message , "date" : date } } } ,function(err, success) {
+                  { $push: { chatLog : {"message": message , "from" : from, "date" : date } } } ,function(err, success) {
                     if (err) {console.log(err);}
                     // else {console.log("it did it"); }
                   }
