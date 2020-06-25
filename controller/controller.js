@@ -163,18 +163,7 @@ module.exports = function (app,io){
 
         // When we receive a private message, handle it
         socket.on('private message',function(msg){
-
-          // TODO : save messages
-
-            // console.log('message  :'+msg.split("#*@")[0]);
-
-            /* models.messages.create({                 // we create a new message as per messages model in model.js
-                "message" :msg.split("#*@")[1],      // we split on "#*@" -- this is as good a separator as any
-                "sender"  :msg.split("#*@")[2],      // important details are: sender, receiver, datestamp
-                "reciever":msg.split("#*@")[0],
-                "date"    : new Date()});
-                */
-
+          
             // message model ::
             // (0) FROM #*@ (1) MENTOR #*@ (2) MENTEE #*@ (3) MESSAGE #*@ (4) DATE
             var chatID  = msg.split("#*@")[1] + "#*@" + msg.split("#*@")[2];
