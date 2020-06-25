@@ -65,7 +65,7 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
 
     socket.on('handle', function(data) {
         $scope.user = data;
-        if (handle == null) { console.log("kick me"); } // TODO kick them if handle is null
+        if ($scope.user == null) { console.log("kick me"); } // TODO kick them if handle is null
         console.log("Get handle : " + $scope.user);
     });
 
@@ -255,26 +255,32 @@ app.controller('myController',['$scope','socket','$http','$mdDialog','$compile',
         console.log(localStorage.getItem(to));*/
     }
 
+    var displayMessgae = function(messageData) {
+      var div = document.createElement('div');
+      console.log("entered display code");
+
+      div.innerHTML='<div class="direct-chat-msg right">\
+                      <div class="direct-chat-info clearfix">\
+                      <span class="direct-chat-name pull-right">'   + messageData.split("#*@")[0] + '</span>\
+                      <span class="direct-chat-timestamp pull-left">' + messageData.split("#*@")[4] + '</span>\
+                      </div>\
+                      <div class="direct-chat-text">'
+                      +messageData.split("#*@")[3]+
+                      '</div>\
+                      </div>';
+
+      document.getElementById("group").appendChild(div);
+      // document.getElementById("group").scrollTop=document.getElementById("group").scrollHeight;
+
+    }
+
     socket.on('private message', function(data) {
         console.log("barry, we got em.");
-        var div = document.createElement('div');
 
         // message model ::
         // (0) FROM #*@ (1) MENTOR #*@ (2) MENTEE #*@ (3) MESSAGE #*@ (4) DATE
+        displayMessgae(data);
 
-        div.innerHTML='<div class="direct-chat-msg right">\
-                        <div class="direct-chat-info clearfix">\
-                        <span class="direct-chat-name pull-right">'   + data.split("#*@")[0] + '</span>\
-                        <span class="direct-chat-timestamp pull-left">' + data.split("#*@")[4] + '</span>\
-                        </div>\
-                        <div class="direct-chat-text">'
-                        +data.split("#*@")[3]+
-                        '</div>\
-                        </div>';
-        document.getElementById("group").appendChild(div);
-        document.getElementById("group").scrollTop=document.getElementById("group").scrollHeight;
-
-        // insertMessage(data.split("#*@")[2],data.split("#*@")[2],data.split("#*@")[1]);
         document.getElementById(data.split("#*@")[2]).scrollTop=document.getElementById(data.split("#*@")[2]).scrollHeight;
     });
 
