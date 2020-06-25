@@ -175,7 +175,8 @@ module.exports = function (app,io){
                 "date"    : new Date()});
                 */
 
-            // FROM #*@ MENTOR #*@ MENTEE #*@ MESSAGE #*@ DATE
+            // message model ::
+            // (0) FROM #*@ (1) MENTOR #*@ (2) MENTEE #*@ (3) MESSAGE #*@ (4) DATE
             var chatID  = msg.split("#*@")[1] + "#*@" + msg.split("#*@")[2];
             var message = msg.split("#*@")[3];
             var date    = msg.split("#*@")[4];
@@ -213,7 +214,7 @@ module.exports = function (app,io){
               }
             });
 
-            io.to(users[to]).emit('private message', msg);     // After processed into an object, send it
+            io.to(users[to]).emit('private message', msg);     // After we've processed msg object, send it
 
         });
 
