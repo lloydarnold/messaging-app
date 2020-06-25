@@ -39,8 +39,10 @@
                 </div>
 
             </form>
-        </div>
     </div>
+    <div class="form-group pull-right">Admin? <a href="#" data-toggle="modal" data-target="#myModalAdmin"> Log in here</a>
+    </div>
+
 </div>
 
 
@@ -120,6 +122,43 @@
 
         </div>
     </div>
+</div>
+
+
+<div class="modal fade" id="myModalAdmin" role="dialog">
+  <div class="modal-dialog">
+
+      <div class="modal-content" >
+
+          <div class="modal-header" style="padding:15px 50px;">
+
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="text-center"><span class="glyphicon glyphicon-lock"></span> Login as Admin</h4>
+
+          </div>
+
+          <div class="modal-body" style="padding:20px 50px;">
+            <form>
+
+              <div class="form-group input-group">
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                  <input class="form-control" type="text" name='handle' placeholder="handle" ng-model="login_data.handle"/>
+              </div>
+
+              <div class="form-group input-group">
+                  <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                  <input class="form-control" type="password" name='password' placeholder="password" ng-model="admin_data.password" my-enter="login()"/>
+              </div>
+
+              <button type="button" class="btn btn-primary btn-block" ng-click="adminLogin()"><span class="glyphicon glyphicon-off"></span>
+                  Login</button>
+
+            </form>
+          </div>
+
+
+      </div>
+  </div>
 </div>
 
 <div class="modal fade" id="myModalForgotPass" role="dialog">
