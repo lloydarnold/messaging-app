@@ -153,6 +153,25 @@ module.exports = function (app,io){
             }
         });
 
+        socket.on('load messages', function(socketData) {
+          // socketData model ::        // DIFFERENT SEPARATOR USED HERE because convoID already contains #*@
+          // (0) REQUESTEE ~%$ (1) CONVERSATION_ID
+          var requestee = socketData.split("~%$")[0];
+          var convoID   = socketData.split("~%$")[1];
+          var messageLog;
+
+          console.log();
+          models.messages.findOne( {"conversationID":convoID},{chatLog:1, _id:0}, function(err, doc){
+            if (err) {
+              console.log(err);
+              messageLog = [];
+            } else {
+              messageLog = doc.chatLog;
+            }
+          });
+          console.log(messageLog);
+          io.to(users[requestee]).emit('messageLog', messageLog);
+        });
 
         socket.on('group message',function(msg){
           // global messaging is turned off, for now.
@@ -163,7 +182,7 @@ module.exports = function (app,io){
 
         // When we receive a private message, handle it
         socket.on('private message',function(msg){
-          
+
             // message model ::
             // (0) FROM #*@ (1) MENTOR #*@ (2) MENTEE #*@ (3) MESSAGE #*@ (4) DATE
             var chatID  = msg.split("#*@")[1] + "#*@" + msg.split("#*@")[2];
