@@ -38,7 +38,7 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlR
       url:'/admin',
       views:{
         'body':{
-          templateURL:'views/admin.html',
+          templateURL:'/views/admin.html',
           controller:'adminController'
         }
       }
@@ -244,9 +244,9 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
     }
 
     $scope.login = function(){
-        console.log("login");
+        // console.log("login");
         $scope.login_data.password=encrypt.hash($scope.login_data.password);
-        console.log($scope.login_data);
+        // console.log($scope.login_data);
         $http({ method: 'POST', url:'http://'+url+'/login', data:$scope.login_data })//, headers:config})
             .success(function (data) {
             if(data=="success"){
@@ -261,14 +261,14 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
     }
 
     $scope.adminLogin = function(){
-        console.log("login");
+        // console.log("login");
         $scope.admin_data.password=encrypt.hash($scope.admin_data.password);
-        console.log($scope.admin_data);
+        // console.log($scope.admin_data);
         $http({ method: 'POST', url:'http://'+url+'/adminLogin', data:$scope.admin_data })//, headers:config})
             .success(function (data) {
             if(data=="success"){
                 console.log("Inside success admin login");
-                $state.go('loggedin');
+                $state.go('loggedinAdmin');
             }
         })
             .error(function (data) {
@@ -279,7 +279,8 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
 
 }]);
 
-app.controller('adminController', ['$scope','encrypt','$http','$state',function($scope,encrypt,$http,$state){
+app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compile','$location','$state','$localStorage',
+ '$sessionStorage',function($scope,socket,$http,$mdDialog,$compile,$location,$state,$localStorage, $sessionStorage){
     url= location.host;
 
 }]);
