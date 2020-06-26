@@ -34,7 +34,7 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlR
             }
         }
     })
-    .state('loggedinAdmin', {
+    .state('admin', {
       url:'/admin',
       views:{
         'body':{
@@ -61,6 +61,7 @@ app.directive('myEnter', function () {
 
 app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile','$location','$state','$localStorage',
  '$sessionStorage',function($scope,socket,$http,$mdDialog,$compile,$location,$state,$localStorage, $sessionStorage){
+
     url= location.host;
     $scope.users=[];
     $scope.messages={};
@@ -244,10 +245,16 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
     }
 
     $scope.login = function(){
-        // console.log("login");
-        $scope.login_data.password=encrypt.hash($scope.login_data.password);
+      var handle = $scope.login_data.handle;
+      var pass = encrypt.hash($scope.login_data.password);
+      adminLogin();
+      standardLogin();
+    }
+
+    var standardLogin = function(handle, pass){
+        console.log("inside login");
         // console.log($scope.login_data);
-        $http({ method: 'POST', url:'http://'+url+'/login', data:$scope.login_data })//, headers:config})
+        $http({ method: 'POST', url:'http://'+url+'/login', data:{ handle, pass } })//, headers:config})
             .success(function (data) {
             if(data=="success"){
                 // console.log("Inside success login");
@@ -260,21 +267,24 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
         });
     }
 
-    $scope.adminLogin = function(){
-        // console.log("login");
-        $scope.admin_data.password=encrypt.hash($scope.admin_data.password);
+   var adminLogin = function(handle, pass){
+        console.log("inside admin login");
+
+        /*$('#myModalAdmin').modal('hide');
+        console.log("closing the modal");*/
+
         // console.log($scope.admin_data);
-        $http({ method: 'POST', url:'http://'+url+'/adminLogin', data:$scope.admin_data })//, headers:config})
+        $http({ method: 'POST', url:'http://'+url+'/adminLogin', data:{ handle, pass } })//, headers:config})
             .success(function (data) {
             if(data=="success"){
                 console.log("Inside success admin login");
-                $state.go('loggedinAdmin');
+                $state.go('admin');
             }
         })
-            .error(function (data) {
+            /*.error(function (data) {
             //add error handling
             console.log(data);
-        });
+        }*/
     }
 
 }]);
@@ -282,5 +292,11 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
 app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compile','$location','$state','$localStorage',
  '$sessionStorage',function($scope,socket,$http,$mdDialog,$compile,$location,$state,$localStorage, $sessionStorage){
     url= location.host;
+
+    socket.on('handle', function(data) {
+        $scope.user = data;
+        if ($scope.user == null) { console.log("kick me"); } // TODO kick them if handle is null
+        console.log("Get handle : " + $scope.user);
+    });
 
 }]);
