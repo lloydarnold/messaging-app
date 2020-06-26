@@ -245,16 +245,16 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
     }
 
     $scope.login = function(){
+      // console.log($scope.login_data);
       var handle = $scope.login_data.handle;
       var pass = encrypt.hash($scope.login_data.password);
-      adminLogin();
-      standardLogin();
+      adminLogin(handle, pass);
     }
 
     var standardLogin = function(handle, pass){
         console.log("inside login");
         // console.log($scope.login_data);
-        $http({ method: 'POST', url:'http://'+url+'/login', data:{ handle, pass } })//, headers:config})
+        $http({ method: 'POST', url:'http://'+url+'/login', data:{ "handle":handle, "password":pass } })//, headers:config})
             .success(function (data) {
             if(data=="success"){
                 // console.log("Inside success login");
@@ -274,20 +274,21 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
         console.log("closing the modal");*/
 
         // console.log($scope.admin_data);
-        $http({ method: 'POST', url:'http://'+url+'/adminLogin', data:{ handle, pass } })//, headers:config})
+        $http({ method: 'POST', url:'http://'+url+'/adminLogin', data:{ "handle":handle, "password":pass } })//, headers:config})
             .success(function (data) {
             if(data=="success"){
                 console.log("Inside success admin login");
                 $state.go('admin');
+            } else {
+              standardLogin(handle, pass);        // If they're not an admin, try a standard login
             }
-        })
-            /*.error(function (data) {
+            })
+            .error(function (data) {
             //add error handling
             console.log(data);
-        }*/
-    }
-
-}]);
+          })
+      }
+  }]);
 
 app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compile','$location','$state','$localStorage',
  '$sessionStorage',function($scope,socket,$http,$mdDialog,$compile,$location,$state,$localStorage, $sessionStorage){
