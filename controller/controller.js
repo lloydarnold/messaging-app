@@ -96,8 +96,8 @@ module.exports = function (app,io){
               res.send(err);
           }
           if(doc==null){
-              res.send("success");
-              /*res.send("User has not registered or is not admin");*/
+              // res.send("success");
+              res.send("User has not registered or is not admin");
           }
           else{
               console.log("Asas"+__dirname);
