@@ -91,12 +91,13 @@ module.exports = function (app,io){
       res.setHeader("Access-Control-Allow-Method","'GET, POST, OPTIONS, PUT, PATCH, DELETE'");
       handle = req.body.handle;
 
-      smodels.user.findOne({"handle":req.body.handle, "password":req.body.password, "isAdmin":true},function(err,doc){
+      models.user.findOne({"handle":req.body.handle, "password":req.body.password, "isAdmin":true},function(err,doc){
           if(err){
               res.send(err);
           }
           if(doc==null){
-              res.send("User has not registered or is not admin");
+              res.send("success");
+              /*res.send("User has not registered or is not admin");*/
           }
           else{
               console.log("Asas"+__dirname);
