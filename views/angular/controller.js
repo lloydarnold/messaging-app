@@ -16,6 +16,7 @@ app.factory('socket', ['$rootScope', function($rootScope) {
 app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlRouterProvider){
     $urlRouterProvider.otherwise('/');
     $stateProvider
+
     .state('login',{
         url:'/',
         views:{
@@ -25,24 +26,27 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlR
             }
         }
     })
+
+    .state('admin',{
+      url:'/admin',
+      views:{
+        'body':{
+          templateUrl: '/views/admin.html',
+          controller : 'adminController'
+        }
+      }
+    })
+
     .state('loggedin',{
         url:'/chat',
         views:{
             'body':{
-                templateUrl:'/views/chat.html',
-                controller:'chatController'
+                templateUrl: '/views/chat.html',
+                controller : 'chatController'
             }
         }
     })
-    .state('admin', {
-      url:'/admin',
-      views:{
-        'body':{
-          templateURL:'/views/admin.html',
-          controller:'adminController'
-        }
-      }
-    })
+
 }]);
 
 app.directive('myEnter', function () {
@@ -58,6 +62,20 @@ app.directive('myEnter', function () {
         });
     };
 });
+
+app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compile','$location','$state','$localStorage',
+ '$sessionStorage',function($scope,socket,$http,$mdDialog,$compile,$location,$state,$localStorage, $sessionStorage){
+    url= location.host;
+    $scope.test = [];
+
+    socket.on('handle', function(data) {
+        $scope.user = data;
+        if ($scope.user == null) { console.log("kick me"); } // TODO kick them if handle is null
+        console.log("Get handle : " + $scope.user);
+        console.log("this is the admin controller");
+    });
+
+}]);
 
 app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile','$location','$state','$localStorage',
  '$sessionStorage',function($scope,socket,$http,$mdDialog,$compile,$location,$state,$localStorage, $sessionStorage){
@@ -252,8 +270,7 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
     }
 
     var standardLogin = function(handle, pass){
-        console.log("inside login");
-        // console.log($scope.login_data);
+        // console.log("inside login");
         $http({ method: 'POST', url:'http://'+url+'/login', data:{ "handle":handle, "password":pass } })//, headers:config})
             .success(function (data) {
             if(data=="success"){
@@ -268,7 +285,7 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
     }
 
    var adminLogin = function(handle, pass){
-        console.log("inside admin login");
+        // console.log("inside admin login");
 
         /*$('#myModalAdmin').modal('hide');
         console.log("closing the modal");*/
@@ -289,15 +306,3 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
           })
       }
   }]);
-
-app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compile','$location','$state','$localStorage',
- '$sessionStorage',function($scope,socket,$http,$mdDialog,$compile,$location,$state,$localStorage, $sessionStorage){
-    url= location.host;
-
-    socket.on('handle', function(data) {
-        $scope.user = data;
-        if ($scope.user == null) { console.log("kick me"); } // TODO kick them if handle is null
-        console.log("Get handle : " + $scope.user);
-    });
-
-}]);
