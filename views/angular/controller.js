@@ -81,12 +81,42 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
     });
 
     $scope.findUser = function(handle) {
-
+      socket.emit('user lookup', handle);
     };
 
     socket.on('user details', function(data){
-      
+      displayUserInfo(data);
     });
+
+    var displayUserInfo = function(user) {
+
+      var div = document.createElement('div');
+      div.innerHTML='<div class="direct-chat-msg ">\
+                      <div class="direct-chat-info clearfix">\
+                      <span class="direct-chat-timestamp pull-right">' + user.name + '</span>\
+                      <span class="direct-chat-name pull-left">'+ " Name: " +'</span>\
+                      </div>\
+                      <div class="direct-chat-info clearfix">\
+                      <span class="direct-chat-timestamp pull-right">' + user.handle + '</span>\
+                      <span class="direct-chat-name pull-left">'+ " Handle: " +'</span>\
+                      </div>\
+                      <div class="direct-chat-info clearfix">\
+                      <span class="direct-chat-timestamp pull-right">' + user.email + '</span>\
+                      <span class="direct-chat-name pull-left">'+ " Email: " +'</span>\
+                      </div>\
+                      <div class="direct-chat-info clearfix">\
+                      <span class="direct-chat-timestamp pull-right">' + user.phone + '</span>\
+                      <span class="direct-chat-name pull-left">'+ " Phone Number: " +'</span>\
+                      </div>\
+                      <div class="direct-chat-info clearfix">\
+                      <span class="direct-chat-timestamp pull-right">' + user.userType + '</span>\
+                      <span class="direct-chat-name pull-left">'+ " User Type: " +'</span>\
+                      </div>\
+                      </div>';
+          document.getElementById("user-details").appendChild(div);
+          document.getElementById("user-details").scrollTop=document.getElementById("user-details").scrollHeight;
+
+    };
 
     socket.on('endpoint', function(data) {
 
