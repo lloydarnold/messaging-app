@@ -44,7 +44,7 @@
             <!-- USERS LIST -->
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title">  </h3>
+                    <h3 class="box-title"> Find User Details </h3>
 
                     <div class="box-tools pull-right">
                         <span class="label label-danger">{{users.length}}</span>
@@ -56,17 +56,19 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body direct-chat-messages">
-                    <ul class="users-list clearfix" >
-                        <li ng-repeat="user in users">
-                            <button  data-toggle="modal" data-target="#myModal" ng-click="friend_request(user)">
-                                <img src="" alt="User Image">
-                                <a class="users-list-name">{{user}}</a></button>
-                        </li>
-                    </ul>
-                    <!-- /.users-list -->
+                  <div id="user-details">
+
+                  </div>
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer text-center">
+                  <div class="input-group">
+                      <input type="text" name="message" placeholder="Search by handle ..." class="form-control"
+                            ng-model="userHandle" my-enter="findUser('{{userHandle}}')">
+                      <span class="input-group-btn">
+                          <button type="button" class="btn btn-primary btn-flat" ng-click="findUser(userHandle)">Search</button>
+                      </span>
+                  </div>
 
                 </div>
                 <!-- /.box-footer -->
@@ -80,7 +82,7 @@
             <!-- USERS LIST -->
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h3 class="box-title"> User Lookup </h3>
+                    <h3 class="box-title"> Search Users </h3>
 
                     <div class="box-tools">
                         <span class="label label-danger">{{online_friends.length}}</span>
