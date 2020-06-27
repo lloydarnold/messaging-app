@@ -84,16 +84,26 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
 
     });
 
-    $scope.kick = function(){
+    $scope.kick = function(userHandle){
 
     };
 
-    $scope.lookupUser = function(){
-      //
+    $scope.lookupUser = function(searchParameters){
+      var data = ".*" + searchParameters + ".*";
+      console.log(data);
+      socket.emit('find users', data);
     };
 
-    socket.on('user details', function(data){
-      //
+    socket.on('matching users', function(data){
+      if (data == []) {
+        console.log("no matches");
+      } else {
+        data.forEach((user, i) => {
+          console.log(user.name);
+          console.log(user.handle);
+        });
+
+      }
     });
 
 }]);
