@@ -17,6 +17,9 @@ body
   height:80%;
 }
 
+form {
+  text-align: left;
+}
 
 .popup-box {
     background-color: #ffffff;
