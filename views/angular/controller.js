@@ -89,7 +89,26 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
       // for chat in chat list
       // add chat to output
       console.log(data);
+
+      clearChats();
+      data.forEach((chat, i) => {
+        displayChat(chat);
+      });
+
     });
+
+    var clearChats = function(){
+      document.getElementById("convoLog").innerHTML = "";
+    };
+
+    var displayChat = function(chat){
+      var div = document.createElement('div');
+      div.innerHTML='<div>\
+                     <p>' + chat.conversationID + '</p>\
+                     </div>'
+      document.getElementById("convoLog").appendChild(div);
+    };
+
 
     $scope.findUser = function(handle) {
       socket.emit('user lookup', handle);
@@ -156,7 +175,7 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
     });
 
     var clearUserMatches = function(){
-          document.getElementById("matchingUsers").innerHTML = "";
+        document.getElementById("matchingUsers").innerHTML = "";
     };
 
     var displayUsers = function(name, handle){
@@ -168,7 +187,7 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
                       </div>\
                       </div>';
           document.getElementById("matchingUsers").appendChild(div);
-          document.getElementById("matchingUsers").scrollTop=document.getElementById("matchingUsers").scrollHeight;
+          // document.getElementById("matchingUsers").scrollTop=document.getElementById("matchingUsers").scrollHeight;
     };
 
 }]);
