@@ -98,13 +98,29 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
       if (data == []) {
         console.log("no matches");
       } else {
+        clearUserMatches();
         data.forEach((user, i) => {
-          console.log(user.name);
-          console.log(user.handle);
+          displayUsers(user.name, user.handle);
         });
 
       }
     });
+
+    var clearUserMatches = function(){
+          document.getElementById("matchingUsers").innerHTML = "";
+    };
+
+    var displayUsers = function(name, handle){
+      var div = document.createElement('div');
+      div.innerHTML='<div class="direct-chat-msg right">\
+                      <div class="direct-chat-info clearfix">\
+                      <span class="direct-chat-timestamp pull-right">' +"@" +handle+ '</span>\
+                      <span class="direct-chat-name pull-left">'+ name +'</span>\
+                      </div>\
+                      </div>';
+          document.getElementById("matchingUsers").appendChild(div);
+          document.getElementById("matchingUsers").scrollTop=document.getElementById("matchingUsers").scrollHeight;
+    };
 
 }]);
 
