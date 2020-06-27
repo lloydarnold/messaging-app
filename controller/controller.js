@@ -86,6 +86,7 @@ module.exports = function (app,io){
     });
     });
 
+    // handle user admin connection
     app.post('/adminLogin',function(req,res){
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.setHeader("Access-Control-Allow-Method","'GET, POST, OPTIONS, PUT, PATCH, DELETE'");
@@ -100,11 +101,12 @@ module.exports = function (app,io){
               res.send("User has not registered or is not admin");
           }
           else{
-              console.log("Asas"+__dirname);
+              // console.log("Asas"+__dirname);
               res.send("success");
           }
 
     });
+  });
 
     // When the users log in is successful, and they connect
     io.on('connection',function(socket){
@@ -180,7 +182,7 @@ module.exports = function (app,io){
           var convoID   = socketData.split("~%$")[1];
           var messageLog;
 
-          console.log("convo ID: " + convoID);
+          // console.log("convo ID: " + convoID);
           models.messages.findOne( {"conversationID":convoID},{chatLog:1, _id:0}, function(err, doc){
             if (err) {
               console.log(err);
@@ -255,11 +257,10 @@ module.exports = function (app,io){
             delete users[keys[socket.id]];
             delete keys[socket.id];
             io.emit('users',users);   // Send new online user list to all other users
-            console.log(users);       // Output new user list to our console
+            // console.log(users);       // Output new user list to our console
 
         });
     });
 
-});
 
 }
