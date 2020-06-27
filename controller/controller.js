@@ -260,7 +260,27 @@ module.exports = function (app,io){
             // console.log(users);       // Output new user list to our console
 
         });
+
+
+
+        // following are ADMIN ONLY endpoints
+
+        socket.on('find users', function(data){
+          console.log(data);
+          models.user.find( { $or: [ { "handle": {$regex: data, $options: "i"}},
+                                     { "name"  : {$regex: data, $options: "i"}} ] },
+                            {_id:0, name:1, handle:1},
+          function(err, doc){
+            if (err) {console.log(err); }
+            else { io.emit('matching users', doc); }
+          });
+
+          /*models.user.findOne( { "handle": {$regex: data, $options: "i"} }, function(err, doc){
+            console.log(doc);
+          });*/
+
+
+        });
+
     });
-
-
 }
