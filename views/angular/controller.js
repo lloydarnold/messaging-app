@@ -120,8 +120,13 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
     };
 
     socket.on('user details', function(data){
+      clearUserInfo();
       displayUserInfo(data);
     });
+
+    var clearUserInfo = function(user) {
+      document.getElementById("user-details").innerHTML = "";
+    };
 
     var displayUserInfo = function(user) {
 
