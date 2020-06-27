@@ -80,6 +80,14 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
       // add chat to
     });
 
+    $scope.findUser = function(handle) {
+
+    };
+
+    socket.on('user details', function(data){
+      
+    });
+
     socket.on('endpoint', function(data) {
 
     });
