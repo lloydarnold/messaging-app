@@ -41,7 +41,7 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlR
         url:'/chat',
         views:{
             'body':{
-                templateUrl: '/views/chat_old.html',
+                templateUrl: '/views/chat.html',
                 controller : 'chatController'
             }
         }
@@ -93,7 +93,7 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
     };
 
     socket.on('user details', function(data){
-      // 
+      //
     });
 
 }]);
