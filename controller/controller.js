@@ -265,7 +265,7 @@ module.exports = function (app,io){
 
         // following are ADMIN ONLY endpoints
 
-        socket.on('find users', function(data){
+        socket.on('find users', function(data){   // REGEX lookup, option i means case insensitive. Match name or handle.
           models.user.find( { $or: [ { "handle": {$regex: data, $options: "i"}},
                                      { "name"  : {$regex: data, $options: "i"}} ] },
                             {_id:0, name:1, handle:1},
@@ -283,6 +283,15 @@ module.exports = function (app,io){
               io.emit('user details', doc);
             };
           });
+        })
+
+        socket.on('find chats', function(data){   // REGEX lookup, option i means case insensitive
+          models.messages.find( {"conversationID": {$regex: data, $options: "i"} }, function(err, doc){
+            if (err) {console.log(err);}
+            else {
+              socket.emit('chats list', doc);
+            }
+          } );
         })
 
     });
