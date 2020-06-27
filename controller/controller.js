@@ -136,7 +136,7 @@ module.exports = function (app,io){
         users[handle]=socket.id;  // Give their connection a unique ID
         keys[socket.id]=handle;
 
-        });
+        // });
 
         socket.on('load messages', function(socketData) {
           // socketData model ::        // DIFFERENT SEPARATOR USED HERE because convoID already contains #*@
@@ -221,7 +221,6 @@ module.exports = function (app,io){
             delete keys[socket.id];
             io.emit('users',users);   // Send new online user list to all other users
             // console.log(users);       // Output new user list to our console
-
         });
 
 
