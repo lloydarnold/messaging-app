@@ -3,7 +3,21 @@
 body
 {
     font-family: 'Open Sans', sans-serif;
+    height:100%;
 }
+
+.ng-scope{
+  height: auto%;
+}
+
+.be-tall{
+  height:80vh;
+}
+.box-body{
+  height:80%;
+}
+
+
 .popup-box {
     background-color: #ffffff;
     border: 1px solid #b0b0b0;
@@ -175,9 +189,9 @@ body
     position: relative;
     text-align: center;
 }
-.popup-messages .direct-chat-messages {
+/*.popup-messages .direct-chat-messages {
     height: auto;
-}
+}*/
 .popup-messages .direct-chat-text {
     background: #dfece7 none repeat scroll 0 0;
     border: 1px solid #dfece7;
