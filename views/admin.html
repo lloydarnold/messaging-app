@@ -30,9 +30,9 @@
                 <div class="box-footer">
                     <div>
                         <div class="input-group">
-                            <input type="text" name="message" placeholder="Search by handle ..." class="form-control" ng-model="lookupChat" my-enter="group_message('{{lookupChat}}')">
+                            <input type="text" name="message" placeholder="Search by handle ..." class="form-control" ng-model="lookupChat" my-enter="searchChats('{{lookupChat}}')">
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-primary btn-flat" ng-click="group_message(lookupChat)">Search</button>
+                                <button type="button" class="btn btn-primary btn-flat" ng-click="searchChats(lookupChat)">Search</button>
                             </span>
                         </div>
                     </div>
