@@ -78,11 +78,17 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
         $scope.searchChats("");
     });
 
-    $scope.searchChats = function(){};
+    $scope.searchChats = function(searchParameters){
+      var data = ".*" + searchParameters + ".*";    // We use REGEX matching in our search -- we want to match the search
+                                                    // phrase, + any other characters before or after
+      socket.emit('find chats', data);
+
+    };
 
     socket.on('chats list', function(data) {
       // for chat in chat list
-      // add chat to
+      // add chat to output
+      console.log(data);
     });
 
     $scope.findUser = function(handle) {
