@@ -263,7 +263,7 @@ module.exports = function (app,io){
 
 
 
-        // following are ADMIN ONLY endpoints
+        // following are ADMIN ONLY endpoints -- TODO incorporate admin socket ID into requests
 
         socket.on('find users', function(data){   // REGEX lookup, option i means case insensitive. Match name or handle.
           models.user.find( { $or: [ { "handle": {$regex: data, $options: "i"}},
@@ -292,6 +292,13 @@ module.exports = function (app,io){
               socket.emit('chats list', doc);
             }
           } );
+        })
+
+        socket.on('delete user', function(handle){
+          models.users.deleteOne({"handle":handle}, function(err){
+            if (err) { console.log(err); }
+            else { socket.emit('user deleted', handle); }
+          });
         })
 
     });
