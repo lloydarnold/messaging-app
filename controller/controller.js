@@ -122,16 +122,13 @@ module.exports = function (app,io){
         models.user.findOne({"handle":handle},{primaryContact:1, userType:1, _id:0}, function(err, doc) {
           if (err) { console.log(err); }
           else {
-            /*console.log("mentor: " + doc);
-            console.log("mentor: " + doc.primaryContact);*/
             primaryContact = doc.primaryContact; // assign local variable primary contact to value yoinked from db
             userType = doc.userType;
 
-            // console.log("primary contact : " + primaryContact);
             io.to(socket.id).emit('primaryContact', primaryContact);      // we need to send them their primary contact (mentor or mentee)
-            // console.log("user type : " + userType);
             io.to(socket.id).emit('userType', userType);
-            primaryContact = null;
+
+            primaryContact = null;    // Reset variables to null
             userType = null;
           }
         });
@@ -139,40 +136,6 @@ module.exports = function (app,io){
         users[handle]=socket.id;  // Give their connection a unique ID
         keys[socket.id]=handle;
 
-      /*  console.log("Users list : " + users);   // More debug output
-        console.log("keys list : " + keys); */
-
-        models.user.findOne({"handle" : handle},{friends:1,_id:0},function(err,doc){
-            if(err){ res.json(err); } // If we get hit by a bug, give it to thems
-            else{
-                friends=[];
-                pending=[];
-                all_friends=[];
-                // console.log("friends list: "+doc);
-                try { list=doc.friends.slice(); }    // catch errors thrown if friends list doesn't exist
-                catch(err) { list = {} }
-                finally { /*console.log(list);*/ }
-
-                for(var i in list){
-                    if(list[i].status=="Friend"){
-                        friends.push(list[i].name);
-                    }
-                    else if (list[i].status=="Pending"){
-                        pending.push(list[i].name);
-                    }
-                    else{
-                        continue;
-                    }
-                }
-
-                /* console.log("pending list: " +pending);
-                console.log("friends list: " +friends); */
-
-                io.to(socket.id).emit('friend_list', friends);    // Send friends list down socket
-                io.to(socket.id).emit('pending_list', pending);   // TODO review if ANY of this is still necessary
-
-                io.emit('users', users);                         // Update list of online users
-            }
         });
 
         socket.on('load messages', function(socketData) {
