@@ -41,7 +41,7 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlR
         url:'/chat',
         views:{
             'body':{
-                templateUrl: '/views/chat.html',
+                templateUrl: '/views/chat_old.html',
                 controller : 'chatController'
             }
         }
@@ -73,6 +73,27 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
         if ($scope.user == null) { console.log("kick me"); } // TODO kick them if handle is null
         console.log("Get handle : " + $scope.user);
         console.log("this is the admin controller");
+    });
+
+    socket.on('chats list', function(data) {
+      // for chat in chat list
+      // add chat to
+    });
+
+    socket.on('endpoint', function(data) {
+
+    });
+
+    $scope.kick = function(){
+
+    };
+
+    $scope.lookupUser = function(){
+      //
+    };
+
+    socket.on('user details', function(data){
+      // 
     });
 
 }]);
@@ -132,7 +153,7 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
         }
         form_date=monthNames[date.getMonth()]+" "+date.getDate()+", "+hour+":"+date.getMinutes()+" "+period;
         return form_date;
-    }
+    };
 
     socket.on('group', function(data) {
         var div = document.createElement('div');
@@ -167,7 +188,7 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
         document.getElementById("group").scrollTop=document.getElementById("group").scrollHeight;
         socket.emit('group message',message+"#*@"+$scope.user);
         $scope.groupMessage=null;
-    }
+    };
 
     var displayMessage = function(messageData) {
       var div = document.createElement('div');
@@ -198,7 +219,7 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
       document.getElementById("group").appendChild(div);
       document.getElementById("group").scrollTop = document.getElementById("group").scrollHeight;
 
-    }
+    };
 
     socket.on('private message', function(data) {
         displayMessage(data);
@@ -212,7 +233,7 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
         socket.emit('private message', formattedMessage);
 
         $scope.message=null;
-    }
+    };
 
 }]);
 
