@@ -7,6 +7,6 @@ app.use(express.static('./'));
 
 require("./controller/controller.js")(app,io);
 
-http.listen(1337,function(){
+http.listen(1337,'0.0.0.0', function(){
     console.log("Node Server is setup and it is listening on http://"+ip.address()+":1337");
 })
