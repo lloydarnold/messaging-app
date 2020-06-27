@@ -70,7 +70,10 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
 
     socket.on('handle', function(data) {
         $scope.user = data;
-        if ($scope.user == null) { console.log("kick me"); } // TODO kick them if handle is null
+        if ($scope.user == null) {
+          console.log("kick me");
+          $state.go('login');
+        } // TODO kick them if handle is null
         console.log("Get handle : " + $scope.user);
         console.log("this is the admin controller");
 
@@ -212,7 +215,10 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
 
     socket.on('handle', function(data) {
         $scope.user = data;
-        if ($scope.user == null) { console.log("kick me"); } // TODO kick them if handle is null
+        if ($scope.user == null) {
+          console.log("kick me");
+          $state.go('login');
+        } // TODO kick them if handle is null
         console.log("Get handle : " + $scope.user);
     });
 
