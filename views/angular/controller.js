@@ -102,13 +102,18 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
     };
 
     var displayChat = function(chat){
-      var div = document.createElement('div');
+      var div = document.createElement('div');  // TODO fix chat loading
       div.innerHTML='<div>\
-                     <p>' + chat.conversationID + '</p>\
+                     <p> <b> Conversation ID: </b>' + chat.conversationID + '</p>\
+                     <button type="button" class="btn btn-primary btn-flat" ng-click="loadChat('+chat.conversationID+')">View Messages</button>\
                      </div>'
       document.getElementById("convoLog").appendChild(div);
     };
 
+
+    $scope.loadChat = function(convoID) {
+      console.log(convoID);
+    };
 
     $scope.findUser = function(handle) {
       socket.emit('user lookup', handle);
