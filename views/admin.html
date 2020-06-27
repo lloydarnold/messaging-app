@@ -92,14 +92,11 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body direct-chat-messages">
-                    <ul class="users-list clearfix" >
-                        <li ng-repeat="friend in online_friends track by $index">
-                            <button ng-click="chat_popup(friend)">
-                                <img src="" alt="User Image">
-                                <a class="users-list-name">{{friend}}</a></button>
-                        </li>
-                    </ul>
-                    <!-- /.users-list -->
+
+                  <div id="matchingUsers">
+
+                  </div>
+
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer text-center">
