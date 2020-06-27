@@ -88,7 +88,7 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
 
     };
 
-    $scope.lookupUser = function(searchParameters){
+    $scope.searchUsers = function(searchParameters){
       var data = ".*" + searchParameters + ".*";
       console.log(data);
       socket.emit('find users', data);
