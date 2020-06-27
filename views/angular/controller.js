@@ -73,7 +73,12 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
         if ($scope.user == null) { console.log("kick me"); } // TODO kick them if handle is null
         console.log("Get handle : " + $scope.user);
         console.log("this is the admin controller");
+
+        $scope.searchUsers("");
+        $scope.searchChats("");
     });
+
+    $scope.searchChats = function(){};
 
     socket.on('chats list', function(data) {
       // for chat in chat list
