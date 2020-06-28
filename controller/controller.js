@@ -245,23 +245,32 @@ module.exports = function (app,io){
               io.emit('user details', doc);
             };
           });
-        })
+        });
 
         socket.on('find chats', function(data){   // REGEX lookup, option i means case insensitive
-          models.messages.find( {"conversationID": {$regex: data, $options: "i"} }, function(err, doc){
+          models.messages.find( {"conversationID": {$regex: data, $options: "i"} }, {_id:0, conversationID:1}, function(err, doc){
             if (err) {console.log(err);}
             else {
               socket.emit('chats list', doc);
             }
           } );
-        })
+        });
 
         socket.on('delete user', function(handle){
           models.users.deleteOne({"handle":handle}, function(err){
             if (err) { console.log(err); }
             else { socket.emit('user deleted', handle); }
           });
-        })
+        });
+
+        socket.on('get chat log', function(data){
+          models.messages.find( {"conversationID": data }, {_id:0, chatLog:1}, function(err, doc){
+            if (err) {console.log(err);}
+            else {
+              socket.emit('chat log', doc);
+            }
+          });
+        });
 
     });
 }
