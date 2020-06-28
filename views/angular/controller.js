@@ -108,17 +108,20 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
       var div = document.createElement('div');  // TODO fix chat loading
       div.innerHTML='<div>\
                      <p> <b> Conversation ID: </b>' + chat.conversationID + '</p>\
-                     <button type="button" class="btn btn-primary btn-flat" ng-click="loadChat('+chat.conversationID+')">View Messages</button>\
+                     <button type="button" class="btn btn-primary btn-flat" ng-click="loadChat()">View Messages</button>\
                      </div>'
-      document.getElementById("convoLog").appendChild(div);
+      var angularElement = angular.element(div);                // This bit of code is kinda weird -- As we need to
+      var linkFun = $compile(div);                              // Append a new dynamically created element to our template
+      var final = linkFun($scope);                              // We also need to make angular aware of this. This is done using
+      document.getElementById("convoLog").appendChild(final[0]);  // $compile, and through a process called currying ( see recommended reading )
     };
 
 
-    $scope.loadChat = function(convoID) {
-      console.log(convoID);
+    $scope.loadChat = function() {
+      console.log("loadChat called");
     };
 
-    $scope.findUser = function(handle) {
+    $scope.findUser = function(handle = "") {
       socket.emit('user lookup', handle);
     };
 
@@ -169,7 +172,7 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
 
     };
 
-    $scope.searchUsers = function(searchParameters){
+    $scope.searchUsers = function(searchParameters = ""){
       var data = ".*" + searchParameters + ".*";
       console.log(data);
       socket.emit('find users', data);
