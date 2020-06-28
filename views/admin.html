@@ -139,3 +139,65 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modalUpdateUser" role="dialog">
+  <div class="modal-dialog">
+
+      <div class="modal-content" >
+
+          <div class="modal-header" style="padding:15px 50px;">
+
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="text-center"><span class="glyphicon glyphicon-padlock"></span> Update User </h4>
+
+          </div>
+
+          <div class="modal-body" style="padding:20px 50px;">
+
+            <form role="form"">
+
+                <div class="form-group">
+                    <label for="name"><span class="glyphicon glyphicon-user"></span> Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Full Name" ng-model="newUser.name">
+                </div>
+
+                <div class="form-group">
+                    <label for="handle"><span class="glyphicon glyphicon-user"></span> Handle</label>
+                    <input type="text" class="form-control" id="handle" placeholder="Enter Handle" ng-model="newUser.handle">
+                </div>
+
+                <div class="form-group">
+                  <label for="userType"><span class="glyphicon glyphicon-leaf"></span> User Type </label>
+                  <input type="text" class="form-control" id="userType" placeholder="Please select" ng-model="newUser.userType">
+                </div>
+
+
+                <div class="form-group">
+                    <label for="primaryContact"><span class="glyphicon glyphicon-user"></span> Primary Contact </label>
+                    <input type="text" class="form-control" id="primaryContact" placeholder="Enter mentor name" ng-model="newUser.primaryContact">
+                </div>
+
+                <div class="form-group">
+                    <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Password</label>
+                    <input type="password" class="form-control" id="psw" placeholder="Set new password" ng-model="newUser.password">
+                </div>
+
+                <div class="form-group">
+                    <label for="email"><span class="glyphicon glyphicon-envelope"></span> Email</label>
+                    <input type="text" class="form-control" id="email" placeholder="Enter Email" ng-model="newUser.email">
+                </div>
+
+                <div class="form-group">
+                    <label for="phone"><span class="glyphicon glyphicon-phone"></span> Phone</label>
+                    <input type="text" class="form-control" id="phone" placeholder="Enter Phone number" ng-model="newUser.phone">
+                </div>
+
+                <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" ng-click="saveUserChanges()">
+                  <span class="glyphicon glyphicon-off"></span> Update</button>
+            </form>
+
+          </div>
+      </div>
+  </div>
+
+</div>
