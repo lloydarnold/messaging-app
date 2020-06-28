@@ -262,7 +262,7 @@ module.exports = function (app,io){
         });
 
         socket.on('get chat log', function(data){
-          models.messages.find( {"conversationID": data }, {_id:0, chatLog:1}, function(err, doc){
+          models.messages.find( {"conversationID": data }, {_id:0,conversationID:1, chatLog:1}, function(err, doc){
             if (err) {console.log(err);}
             else {
               socket.emit('chat log', doc);
