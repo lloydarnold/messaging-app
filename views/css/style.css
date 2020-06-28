@@ -136,11 +136,12 @@ form {
     height: 275px;
     overflow: auto;
 }
+
 .direct-chat-messages {
     overflow-y: scroll;
-    max-height: 40vh;
+    height: 60vh !important;
     padding: 10px;
-    transform: translate(0px, 0px);
+    /*transform: translate(0px, 0px);*/
 
 }
 .popup-messages .chat-box-single-line {
