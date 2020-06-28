@@ -105,10 +105,11 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
     };
 
     var displayChat = function(chat){
-      var div = document.createElement('div');  // TODO fix chat loading
+      var div = document.createElement('div');  // \ is an escape character and is needed to make computer read this bit
       div.innerHTML='<div>\
                      <p> <b> Conversation ID: </b>' + chat.conversationID + '</p>\
-                     <button type="button" class="btn btn-primary btn-flat" ng-click="loadChat()">View Messages</button>\
+                     <button type="button" class="btn btn-primary btn-flat" ng-click="loadChat(\'\
+                     '+ chat.conversationID + '\')">View Messages</button>\
                      </div>'
       var angularElement = angular.element(div);                // This bit of code is kinda weird -- As we need to
       var linkFun = $compile(div);                              // Append a new dynamically created element to our template
@@ -117,8 +118,9 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
     };
 
 
-    $scope.loadChat = function() {
+    $scope.loadChat = function(id) {
       console.log("loadChat called");
+      console.log("id: " + id);
     };
 
     $scope.findUser = function(handle = "") {
