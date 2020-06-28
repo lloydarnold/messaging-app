@@ -66,6 +66,7 @@ app.directive('myEnter', function () {
 app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compile','$location','$state','$localStorage',
  '$sessionStorage',function($scope,socket,$http,$mdDialog,$compile,$location,$state,$localStorage, $sessionStorage){
     url= location.host;
+    $scope.currentDisplayedUser;
     var monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October","November", "December"];
 
     socket.on('handle', function(data) {
@@ -173,6 +174,7 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
     };
 
     var displayUserInfo = function(user) {
+      $scope.currentDisplayedUser = user;
 
       var div = document.createElement('div');
       div.innerHTML='<div class="direct-chat-msg ">\
@@ -196,10 +198,47 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
                       <span class="direct-chat-timestamp pull-right">' + user.userType + '</span>\
                       <span class="direct-chat-name pull-left">'+ " User Type: " +'</span>\
                       </div>\
-                      </div>';
-          document.getElementById("user-details").appendChild(div);
+                      <button type="button" class="btn btn-primary btn-flat" ng-click="showUpdateUser()">Update User</button>'
+
+          var angularElement = angular.element(div);                // This bit of code is kinda weird -- As we need to
+          var linkFun = $compile(div);                              // Append a new dynamically created element to our template
+          var final = linkFun($scope);                              // We also need to make angular aware of this. This is done using
+          document.getElementById("user-details").appendChild(final[0]);  // $compile, and through a process called currying ( see recommended reading )
           document.getElementById("user-details").scrollTop=document.getElementById("user-details").scrollHeight;
 
+    };
+
+    $scope.showUpdateUser = function() {
+      var user = $scope.currentDisplayedUser;
+      populateUpdateForm(user);
+      $('#modalUpdateUser').modal('show');
+    };
+
+    $scope.saveUserChanges = function() {
+      toSave = mergeUsers(($scope.currentDisplayedUser), $scope.newUser);
+      console.log(toSave);
+    }
+
+    var mergeUsers = function(oldUser, newUser){
+      var merged = {"name":"", "handle":"", "userType":"", "primaryContact":"",
+                    "password":"", "isAdmin":"", "email":"", "phone":""};
+      for (item in merged){
+        console.log(item);
+        if (newUser[item] == undefined) {
+          console.log(oldUser[item]);
+          merged[item] = oldUser[item]; }
+        else { merged[item] = newUser[item]; }
+      };
+      return merged;
+    }
+
+    var populateUpdateForm = function(user){
+      document.getElementById("name").placeholder           = user.name;
+      document.getElementById("handle").placeholder         = user.handle;
+      document.getElementById("userType").placeholder       = user.userType;
+      document.getElementById("primaryContact").placeholder = user.primaryContact;
+      document.getElementById("email").placeholder          = user.email;
+      document.getElementById("phone").placeholder          = user.phone;
     };
 
     socket.on('endpoint', function(data) {
