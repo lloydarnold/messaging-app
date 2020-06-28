@@ -136,8 +136,6 @@ module.exports = function (app,io){
         users[handle]=socket.id;  // Give their connection a unique ID
         keys[socket.id]=handle;
 
-        // });
-
         socket.on('load messages', function(socketData) {
           // socketData model ::        // DIFFERENT SEPARATOR USED HERE because convoID already contains #*@
           // (0) REQUESTEE ~%$ (1) CONVERSATION_ID
