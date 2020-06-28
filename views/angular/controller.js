@@ -119,9 +119,13 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
 
 
     $scope.loadChat = function(id) {
-      console.log("loadChat called");
       console.log("id: " + id);
+      socket.emit('get chat log', id.trim());
     };
+
+    socket.on('chat log', function(data) {
+      console.log(data);
+    });
 
     $scope.findUser = function(handle = "") {
       socket.emit('user lookup', handle);
