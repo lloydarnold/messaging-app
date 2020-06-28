@@ -66,7 +66,7 @@ app.directive('myEnter', function () {
 app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compile','$location','$state','$localStorage',
  '$sessionStorage',function($scope,socket,$http,$mdDialog,$compile,$location,$state,$localStorage, $sessionStorage){
     url= location.host;
-    $scope.test = [];
+    var monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October","November", "December"];
 
     socket.on('handle', function(data) {
         $scope.user = data;
@@ -117,15 +117,47 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
       document.getElementById("convoLog").appendChild(final[0]);  // $compile, and through a process called currying ( see recommended reading )
     };
 
-
     $scope.loadChat = function(id) {
       console.log("id: " + id);
       socket.emit('get chat log', id.trim());
     };
 
     socket.on('chat log', function(data) {
-      console.log(data);
+      var tMentor = data[0].conversationID.split("#*@")[0];
+      data[0].chatLog.forEach((message, i) => {
+        displayMessageAdmin(message, tMentor);
+      });
+      $('#modalChatLog').modal('show');
     });
+
+    var displayMessageAdmin = function(msg, mentor){
+      //console.log(msg.message);
+      var div = document.createElement('div');
+      if ( msg.from == mentor ) {         // These look similar, but aren't the same.
+      div.innerHTML='<div class="direct-chat-msg right">\
+                      <div class="direct-chat-info clearfix">\
+                      <span class="direct-chat-name pull-right">'   + msg.from + '</span>\
+                      <span class="direct-chat-timestamp pull-left">' + getDate(msg.date) + '</span>\
+                      </div>\
+                      <div class="direct-chat-text">'
+                      + msg.message +
+                      '</div>\
+                      </div>'; }
+      else {
+        div.innerHTML='<div class="direct-chat-msg"> \
+                        <div class="direct-chat-info clearfix">\
+                        <span class="direct-chat-name pull-left">'+ msg.from +'</span>\
+                        <span class="direct-chat-timestamp pull-right">'+ getDate(msg.date) +'</span>\
+                        </div>\
+                        <div class="direct-chat-text">'
+                        + msg.message +
+                        '</div>\
+                        </div>'; }
+
+      document.getElementById("message-target").appendChild(div);
+      document.getElementById("message-target").scrollTop = document.getElementById("message-target").scrollHeight;
+
+    };
 
     $scope.findUser = function(handle = "") {
       socket.emit('user lookup', handle);
@@ -211,6 +243,18 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
           document.getElementById("matchingUsers").appendChild(div);
           // document.getElementById("matchingUsers").scrollTop=document.getElementById("matchingUsers").scrollHeight;
     };
+
+    var getDate=function(date=new Date() ){
+        date = new Date(date);
+        hour = date.getHours();
+        period="AM";
+        if (hour>=12){
+            hour=hour%12;
+            period="PM";
+        }
+        form_date=monthNames[date.getMonth()]+" "+date.getDate()+", "+hour+":"+date.getMinutes()+" "+period;
+        return form_date;
+    };      // has to be here as well as in chatController because of scope
 
 }]);
 
