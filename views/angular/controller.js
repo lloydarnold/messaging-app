@@ -455,8 +455,6 @@ app.service('encrypt', function() {
 app.controller('loginController',['$scope','encrypt','$http','$state',function($scope,encrypt,$http,$state){
     url= location.host;
 
-    $scope.user = {};
-
     $scope.user={
         'name':'',
         'handle':'',
@@ -531,6 +529,7 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
 
     var send_details = function() {
       $scope.user.password=encrypt.hash($scope.user.password);
+      if ($scope.user.mentor_mentee == "mentor") { $scope.user.primaryContact = '';}
 
       $http({method: 'POST',url:'http://'+url+'/register', data:$scope.user})//, headers:config})
           .success(function (data) {
@@ -540,6 +539,11 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
           } else if (data == "User already found") {
             document.getElementById("handleError").innerHTML = "That handle is unavailable";
             highlightElement(document.getElementById("handle"));
+          } else if (data == "mentor unavailable") {
+            document.getElementById("primContError").innerHTML = "That mentor is unavailable. If the problem persists,\
+                                                                  contact admin@theblackexcellencenetwork.tk";
+            highlightElement(document.getElementById("handle"));
+
           }
       })
           .error(function (data) {
