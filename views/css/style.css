@@ -21,6 +21,10 @@ form {
   text-align: left;
 }
 
+.form-error {
+  color: red;
+}
+
 .popup-box {
     background-color: #ffffff;
     border: 1px solid #b0b0b0;
