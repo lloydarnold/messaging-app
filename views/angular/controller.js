@@ -455,13 +455,15 @@ app.service('encrypt', function() {
 app.controller('loginController',['$scope','encrypt','$http','$state',function($scope,encrypt,$http,$state){
     url= location.host;
 
-    $scope.user={
+    $scope.user = {};
+
+    /*$scope.user={
         'name':'',
         'handle':'',
         'password':'',
         'email':'',
         'phone':''
-    };
+    };*/
 
     $scope.login_data={
         'handle':'',
@@ -475,12 +477,48 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
 
     $scope.Register = function(){
       var valid = true;
+      if ($scope.user.name == undefined){
+        valid = false;
+        document.getElementById("nameError").innerHTML = "Please enter your name";
+        highlightElement(document.getElementById("name"));
+      }
+      if ($scope.user.handle == undefined){
+        valid = false;
+        document.getElementById("handleError").innerHTML = "That handle is unavailable";
+        highlightElement(document.getElementById("handle"));
+      }
+      if ($scope.user.mentor_mentee == undefined){
+        valid = false;
+        document.getElementById("userTypeError").innerHTML = "Please select a user type";
+        highlightElement(document.getElementById("mentor_mentee"));
+      }
+      if ($scope.user.primaryContact == undefined){
+        valid = false;
+        document.getElementById("primContError").innerHTML = "Please enter your mentor's handle";
+        highlightElement(document.getElementById("primaryContact"));
+      }
+      if ($scope.user.password == undefined){
+        valid = false;
+        document.getElementById("passwordError").innerHTML = "Please enter a password";
+        highlightElement(document.getElementById("password"));
+      }
       if (!valid_email($scope.user.email)) {
         valid = false;
         document.getElementById("emailError").innerHTML = "Please enter a valid email address";
         highlightElement(document.getElementById("email"));
       }
+      if (!valid_phone($scope.user.phone)) {
+        valid = false;
+        document.getElementById("phoneError").innerHTML = "Please enter a valid UK phone number";
+        highlightElement(document.getElementById("phone"));
+      }
+
       if (valid) { send_details(); }
+    };
+
+    var valid_phone = function(phoneNum){   // Validates phone using REGEX. Only allows UK numbers
+      var phonePattern = /^(\(?(?:0(?:0|11)\)?[\s-]?\(?|\+)(44)\)?[\s-]?)?\(?0?(?:\)[\s-]?)?([1-9]\d{1,4}\)?[\d\s-]+)((?:x|ext\.?|\#)\d{3,4})?$/;
+      return phonePattern.test(phoneNum);
     };
 
     var valid_email = function(email){    // Validates email using REGEX
@@ -493,11 +531,17 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
 
       $http({method: 'POST',url:'http://'+url+'/register', data:$scope.user})//, headers:config})
           .success(function (data) {
-          console.log(data)
+          if (data == "success"){
+            $('#myModalRegister').modal('hide');
+            alert("You have now registered. Please proceed to log in");
+          } else if (data == "User already found") {
+            document.getElementById("handleError").innerHTML = "That handle is unavailable";
+            highlightElement(document.getElementById("handle"));
+          }
       })
           .error(function (data) {
           //add error handling
-          console.log(data)
+          console.log(data);
       });
 
     };
