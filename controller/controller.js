@@ -32,23 +32,51 @@ module.exports = function (app,io){
         };
         console.log(user);
 
+        var createUser = function(user) {
+          models.user.create(user,function(err,doc){
+            if(err) { res.json(err); }
+            else{
+              console.log("3");
+              res.send("success");
+            }
+          });
+        }
+
         // Lookup our user handle, to see if they exist -- N.B. This doesn't limit one account per email address,
-        // or validate their email -- this could be implemented in a future update (validation should be done on frontend)
+        // -- this could be implemented in a future update
         models.user.findOne({"handle":req.body.handle},function(err,doc){
             if(err){
                 res.json(err);
             }
             if(doc == null){
-                // If they do not, try to create them. If this doesn't work, log error
-                models.user.create(user,function(err,doc){
-                    if(err) res.json(err);
-                    else{
-                        res.send("success");
+                // If they do not exist, try to create them. If this doesn't work, log error
+
+                if (user.userType == "mentee") {    // if they're a mentee, check that their mentor is free
+                  models.user.findOne({ "handle":user.primaryContact }, {_id:0, primaryContact:1}, function(err, doc){
+                    if (err) {console.log(err);}
+                    if (doc == null){
+                      create = false;
+                      console.log("1");
+                      res.send("mentor unavailable");
+                    } else if (doc.primaryContact != "") {
+                      create = false;
+                      console.log("2");
+                      res.send("mentor unavailable");
                     }
-                });
+                    else {
+                      models.user.findOneAndUpdate({ "handle":user.primaryContact }, {$set: { primaryContact: user.handle }},
+                            function(err,doc){
+                              if (err) { console.log(err); }
+                            });
+                      createUser(user);
+                    }
+                  })
+                } else {
+                  createUser(user);
+                }
+
             } else {
                 // Tell their end that the user already exists
-                // N.B. don't think that this does anything atm -- // TODO: add a message clientside ?
                 res.send("User already found");
             }
         })
