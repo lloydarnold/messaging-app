@@ -102,7 +102,7 @@ module.exports = function (app,io){
                 res.send("User has not registered");
             }
             else{
-                console.log("Asas"+__dirname);
+                // console.log("Asas"+__dirname);
                 res.send("success");
             }
 
@@ -185,7 +185,7 @@ module.exports = function (app,io){
         socket.on('group message',function(msg){
           // global messaging is turned off, for now.
 
-              console.log(msg);
+              // console.log(msg);
               io.emit('group',msg);
         });
 
@@ -295,7 +295,7 @@ module.exports = function (app,io){
 
         socket.on('update user', function(data){
           var handle = data[0].handle;
-          console.log(handle);
+          // console.log(handle);
           models.user.findOneAndUpdate({"handle":handle},
                                         { $set: { "name":data[1].name,
                                                   "handle":data[1].handle,
@@ -307,7 +307,7 @@ module.exports = function (app,io){
                                                   "userType":data[1].userType
                                                 }}, function(err, success){
                                                   if (err) {console.log(err);}
-                                                  else {console.log("success");}
+                                                  else { /*console.log("success");*/ }
                                                 });
         });
 
