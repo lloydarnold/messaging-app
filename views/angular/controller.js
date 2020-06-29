@@ -125,10 +125,14 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
 
     socket.on('chat log', function(data) {
       var tMentor = data[0].conversationID.split("#*@")[0];
+      document.getElementById("message-target").innerHTML = '';
+
       data[0].chatLog.forEach((message, i) => {
         displayMessageAdmin(message, tMentor);
       });
+      document.getElementById("message-target").scrollTop = document.getElementById("message-target").scrollHeight;
       $('#modalChatLog').modal('show');
+
     });
 
     var displayMessageAdmin = function(msg, mentor){
@@ -156,8 +160,6 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
                         </div>'; }
 
       document.getElementById("message-target").appendChild(div);
-      document.getElementById("message-target").scrollTop = document.getElementById("message-target").scrollHeight;
-
     };
 
     $scope.findUser = function(handle = "") {
