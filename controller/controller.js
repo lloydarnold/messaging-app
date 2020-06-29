@@ -270,5 +270,23 @@ module.exports = function (app,io){
           });
         });
 
+        socket.on('update user', function(data){
+          var handle = data[0].handle;
+          console.log(handle);
+          models.user.findOneAndUpdate({"handle":handle},
+                                        { $set: { "name":data[1].name,
+                                                  "handle":data[1].handle,
+                                                  "password":data[1].password,
+                                                  "phone":data[1].phone,
+                                                  "email":data[1].email,
+                                                  "primaryContact":data[1].primaryContact,
+                                                  "isAdmin":data[1].isAdmin,
+                                                  "userType":data[1].userType
+                                                }}, function(err, success){
+                                                  if (err) {console.log(err);}
+                                                  else {console.log("success");}
+                                                });
+        });
+
     });
 }
