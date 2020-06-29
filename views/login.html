@@ -67,11 +67,13 @@
                     <div class="form-group">
                         <label for="name"><span class="glyphicon glyphicon-user"></span> Name</label>
                         <input type="text" class="form-control" id="name" placeholder="Full Name" ng-model="user.name">
+                        <p class="form-error" id="nameError"></p>
                     </div>
 
                     <div class="form-group">
                         <label for="handle"><span class="glyphicon glyphicon-user"></span> Handle</label>
                         <input type="text" class="form-control" id="handle" placeholder="Enter Handle" ng-model="user.handle">
+                        <p class="form-error" id="handleError"></p>
                     </div>
 
                     <!-- <div class="radio-button-group">
@@ -91,28 +93,32 @@
                         <option value="mentor"> Mentor </option>
                         <option value="mentee"> Mentee </option>
                       </select>
-
+                      <p class="form-error" id="userTypeError"></p>
                     </div>
 
 
                     <div class="form-group" id="primaryContactGroup">
                         <label for="primaryContact"><span class="glyphicon glyphicon-user"></span> Mentor</label>
                         <input type="text" class="form-control" id="primaryContact" placeholder="Enter mentor name" ng-model="user.primaryContact">
+                        <p class="form-error" id="primContError"></p>
                     </div>
 
                     <div class="form-group">
                         <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Password</label>
                         <input type="password" class="form-control" id="psw" placeholder="Enter password" ng-model="user.password">
+                        <p class="form-error" id="passwordError"></p>
                     </div>
 
                     <div class="form-group">
                         <label for="email"><span class="glyphicon glyphicon-envelope"></span> Email</label>
                         <input type="text" class="form-control" id="email" placeholder="Enter Email" ng-model="user.email">
+                        <p class="form-error" id="emailError"></p>
                     </div>
 
                     <div class="form-group">
                         <label for="phone"><span class="glyphicon glyphicon-phone"></span> Phone</label>
                         <input type="text" class="form-control" id="phone" placeholder="Enter Phone number" ng-model="user.phone">
+                        <p class="form-error" id="phoneError"></p>
                     </div>
 
                     <button type="button" class="btn btn-primary btn-block" ng-click="Register()"><span class="glyphicon glyphicon-off"></span>
