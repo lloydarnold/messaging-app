@@ -1,3 +1,5 @@
+<script src="/views/js/show-hide-mentor.js"></script>
+
 <nav class="navbar navbar-dark bg-primary">
     <div class="container-fluid">
     </div>
@@ -60,7 +62,7 @@
             <!-- This is the form linked to the ./action API endpoint in controller.js -->
 
             <div class="modal-body" style="padding:20px 50px;">
-                <form role="form" action="http://localhost:8080/register" method="post">
+                <form role="form">
 
                     <div class="form-group">
                         <label for="name"><span class="glyphicon glyphicon-user"></span> Name</label>
@@ -84,7 +86,8 @@
 
                     <div class="form-group">
                       <label for="mentor_mentee"><span class="glyphicon glyphicon-leaf"></span> You are? </label>
-                      <select class="form-control" id="mentor_mentee" placeholder="Please select" ng-model="user.mentor_mentee">
+                      <select class="form-control" onchange="set_mentor_state()" id="mentor_mentee" ng-model="user.mentor_mentee" ng-selected="mentor">
+                        <option value="">----- Please select -----</option>
                         <option value="mentor"> Mentor </option>
                         <option value="mentee"> Mentee </option>
                       </select>
@@ -92,9 +95,9 @@
                     </div>
 
 
-                    <div class="form-group">
+                    <div class="form-group" id="primaryContactGroup">
                         <label for="primaryContact"><span class="glyphicon glyphicon-user"></span> Mentor</label>
-                        <input type="text" class="form-control" id="mentor" placeholder="Enter mentor name" ng-model="user.primaryContact">
+                        <input type="text" class="form-control" id="primaryContact" placeholder="Enter mentor name" ng-model="user.primaryContact">
                     </div>
 
                     <div class="form-group">
