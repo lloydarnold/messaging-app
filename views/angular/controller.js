@@ -547,7 +547,6 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
           }
       })
           .error(function (data) {
-          //add error handling
           console.log(data);
       });
 
