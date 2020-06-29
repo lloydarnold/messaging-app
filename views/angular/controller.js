@@ -232,6 +232,8 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
           merged[item] = oldUser[item]; }
         else { merged[item] = newUser[item]; }
       };
+
+      if (newUser.primaryContact == "clear") { merged.primaryContact = ""; }
       return merged;
     }
 
