@@ -474,16 +474,73 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
     };
 
     $scope.Register = function(){
-        $scope.user.password=encrypt.hash($scope.user.password);
+      var valid = true;
+      if (!valid_email($scope.user.email)) {
+        valid = false;
+        // alert("Please enter a valid email address");
+        highlightElement(document.getElementById("email"));
+      }
+      if (valid) { send_details(); }
+    };
 
-        $http({method: 'POST',url:'http://'+url+'/register', data:$scope.user})//, headers:config})
-            .success(function (data) {
-            console.log(data)
-        })
-            .error(function (data) {
-            //add error handling
-            console.log(data)
-        });
+    var valid_email = function(email){    // Validates email using REGEX
+      var emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return emailPattern.test(email);
+    };
+
+    var send_details = function() {
+      $scope.user.password=encrypt.hash($scope.user.password);
+
+      $http({method: 'POST',url:'http://'+url+'/register', data:$scope.user})//, headers:config})
+          .success(function (data) {
+          console.log(data)
+      })
+          .error(function (data) {
+          //add error handling
+          console.log(data)
+      });
+
+    };
+
+    function highlightElement (element) {
+      element.style.borderColor = "#ff2200";
+      fadeBack(element, "#BBBBBB");
+    }
+
+    function fadeBack (element, targetCol) {
+      // three second fade
+      var startCol = element.style.borderColor;
+      var steps = 30;
+
+      startCol = formatRGB(startCol);
+
+      deltaR = (hexToR(targetCol) - startCol[0]) / steps
+      deltaG = (hexToG(targetCol) - startCol[1]) / steps
+      deltaB = (hexToB(targetCol) - startCol[2]) / steps
+
+      for (var i = 0; i < steps; i++) {
+        temp = `rgb( ${ startCol[0] + (deltaR * i)}, ${ startCol[1] + deltaG * i}, ${startCol[2] + deltaB * i} )`;
+        setColour(element, temp, i)
+      }
+    }
+
+    function setColour(element, colour, count) {
+      setTimeout( function() {element.style.borderColor = colour;}, count * 100);
+    }
+
+    function hexToR(h) {return parseInt((cutHex(h)).substring(0,2),16)}
+    function hexToG(h) {return parseInt((cutHex(h)).substring(2,4),16)}
+    function hexToB(h) {return parseInt((cutHex(h)).substring(4,6),16)}
+    function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h}
+    function formatRGB(raw) {
+      raw = raw.substring(4, raw.length-1)
+               .replace(/ /g, '')
+               .split(',');
+      var cooked = new Array(2);
+      for (var i = 0; i < raw.length; i++) {
+       cooked[i] = parseInt(raw[i]);
+      }
+      return cooked;
     }
 
     $scope.login = function(){
@@ -508,7 +565,7 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
         });
     }
 
-   var adminLogin = function(handle, pass){
+    var adminLogin = function(handle, pass){
         // console.log("inside admin login");
 
         /*$('#myModalAdmin').modal('hide');
