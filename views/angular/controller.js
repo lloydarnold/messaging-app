@@ -470,11 +470,6 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
         'password':''
     };
 
-    $scope.admin_data={
-      'handle':'',
-      'password':''
-    };
-
     $scope.Register = function(){
       var valid = true;
       if ($scope.user.name == ''){
