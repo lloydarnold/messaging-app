@@ -36,7 +36,6 @@ module.exports = function (app,io){
           models.user.create(user,function(err,doc){
             if(err) { res.json(err); }
             else{
-              console.log("3");
               res.send("success");
             }
           });
@@ -55,12 +54,8 @@ module.exports = function (app,io){
                   models.user.findOne({ "handle":user.primaryContact }, {_id:0, primaryContact:1}, function(err, doc){
                     if (err) {console.log(err);}
                     if (doc == null){
-                      create = false;
-                      console.log("1");
                       res.send("mentor unavailable");
                     } else if (doc.primaryContact != "") {
-                      create = false;
-                      console.log("2");
                       res.send("mentor unavailable");
                     }
                     else {
