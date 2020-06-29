@@ -216,7 +216,8 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
 
     $scope.saveUserChanges = function() {
       toSave = mergeUsers(($scope.currentDisplayedUser), $scope.newUser);
-      console.log(toSave);
+      let data = [ {"handle":$scope.currentDisplayedUser.handle}, toSave]
+      socket.emit('update user', data);
     }
 
     var mergeUsers = function(oldUser, newUser){
