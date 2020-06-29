@@ -477,7 +477,7 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
       var valid = true;
       if (!valid_email($scope.user.email)) {
         valid = false;
-        // alert("Please enter a valid email address");
+        document.getElementById("emailError").innerHTML = "Please enter a valid email address";
         highlightElement(document.getElementById("email"));
       }
       if (valid) { send_details(); }
