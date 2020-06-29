@@ -457,13 +457,15 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
 
     $scope.user = {};
 
-    /*$scope.user={
+    $scope.user={
         'name':'',
         'handle':'',
         'password':'',
         'email':'',
-        'phone':''
-    };*/
+        'phone':'',
+        'mentor_mentee':'',
+        'primaryContact':''
+    };
 
     $scope.login_data={
         'handle':'',
@@ -477,30 +479,31 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
 
     $scope.Register = function(){
       var valid = true;
-      if ($scope.user.name == undefined){
+      if ($scope.user.name == ''){
         valid = false;
         document.getElementById("nameError").innerHTML = "Please enter your name";
         highlightElement(document.getElementById("name"));
       }
-      if ($scope.user.handle == undefined){
+      if ($scope.user.handle == ''){
         valid = false;
         document.getElementById("handleError").innerHTML = "That handle is unavailable";
         highlightElement(document.getElementById("handle"));
       }
-      if ($scope.user.mentor_mentee == undefined){
+      console.log($scope.user.mentor_mentee);
+      if ($scope.user.mentor_mentee == ''){
         valid = false;
         document.getElementById("userTypeError").innerHTML = "Please select a user type";
         highlightElement(document.getElementById("mentor_mentee"));
       }
-      if ($scope.user.primaryContact == undefined){
+      if ($scope.user.mentor_mentee != 'mentor' && $scope.user.primaryContact == ''){
         valid = false;
         document.getElementById("primContError").innerHTML = "Please enter your mentor's handle";
         highlightElement(document.getElementById("primaryContact"));
       }
-      if ($scope.user.password == undefined){
+      if ($scope.user.password == ''){
         valid = false;
         document.getElementById("passwordError").innerHTML = "Please enter a password";
-        highlightElement(document.getElementById("password"));
+        highlightElement(document.getElementById("psw"));
       }
       if (!valid_email($scope.user.email)) {
         valid = false;
