@@ -246,14 +246,6 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
       document.getElementById("phone").placeholder          = user.phone;
     };
 
-    socket.on('endpoint', function(data) {
-
-    });
-
-    $scope.kick = function(userHandle){
-
-    };
-
     $scope.searchUsers = function(searchParameters = ""){
       var data = ".*" + searchParameters + ".*";
       console.log(data);
