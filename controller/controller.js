@@ -278,7 +278,17 @@ module.exports = function (app,io){
         });
 
         socket.on('delete user', function(handle){
-          models.users.deleteOne({"handle":handle}, function(err){
+          var tempUser;
+          models.findOne({"handle":handle}, function(err, user){
+            if (err) { console.log(err); }
+            else { var tempUser = user; }
+          })
+
+          if (tempUser == undefined) {return;}  // guard clause
+
+          models.deleted_user.create(user);
+
+          models.user.deleteOne({"handle":handle}, function(err){
             if (err) { console.log(err); }
             else { socket.emit('user deleted', handle); }
           });

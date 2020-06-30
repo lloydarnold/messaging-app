@@ -29,6 +29,19 @@ module.exports.user=mongoose.model('User',new Schema({
     groups:[String]           // This is all the groups that the user
 },{strict: false}));
 
+module.exports.deleted_user=mongoose.model('deletedUser',new Schema({
+    name:String,              // self explanatory
+    handle: String,           // unique user id
+    password: String,         // self explanatory
+    phone:String,             // ditto
+    email:String,             // primary contact email
+    yearGroup: Number,        // year group -- TODO increment this every september
+    primaryContact:String,    // mentor or mentee
+    isAdmin:Boolean,          // by default, set to false -- this can be set to true in admin dashboard
+    userType:String,          // mentor or mentee (could set this to boolean isMentor) ?
+    groups:[String]           // This is all the groups that the user
+},{strict: false}));
+
 module.exports.online=mongoose.model('online',new Schema({
     handle:String,            // keep temporary record of all online users -- this logs their handle
     connection_id:String      // log connection ID to send messages down socket
