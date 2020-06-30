@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
-// Connect to our database
+// Connect to our database -- ON_DEPLOY : change this to use amazon database
 mongoose.connect('mongodb://localhost:27017/chat', {  useMongoClient: true  } );
 
 // Output result of connection to logs
@@ -21,11 +21,12 @@ module.exports.user=mongoose.model('User',new Schema({
     handle: String,           // unique user id
     password: String,         // self explanatory
     phone:String,             // ditto
-    email:String,             // primary contact email -- TODO validate this on input (use clientside js)
+    email:String,             // primary contact email
     yearGroup: Number,        // year group -- TODO increment this every september
     primaryContact:String,    // mentor or mentee
-    isAdmin:Boolean,          // by default, set to false -- TODO either add admin accounts manually from server OR do something neat
-    userType:String           // mentor or mentee (could set this to boolean isMentor) ?
+    isAdmin:Boolean,          // by default, set to false -- this can be set to true in admin dashboard
+    userType:String,          // mentor or mentee (could set this to boolean isMentor) ?
+    groups:[String]           // This is all the groups that the user
 },{strict: false}));
 
 module.exports.online=mongoose.model('online',new Schema({
@@ -33,9 +34,7 @@ module.exports.online=mongoose.model('online',new Schema({
     connection_id:String      // log connection ID to send messages down socket
 }));
 
-// This is current model for message
-// TODO make messages a nested document
-// top is convo ID (hash of names involved? -- maybe just append names) and contents is messages sent
+// This is old model for message
 module.exports.messages_old = mongoose.model('message_old',new Schema({
     message : String,
     sender  : String,
@@ -43,7 +42,8 @@ module.exports.messages_old = mongoose.model('message_old',new Schema({
     date    : Date
 }));
 
-
+// This is the model for message storage. It consists of a nested document. The conversationID
+// is stored as mentorHandle#*@menteeHandle
 module.exports.messages = mongoose.model('message', new Schema({
   conversationID : String,
   chatLog        : [ new Schema({ message : String,
