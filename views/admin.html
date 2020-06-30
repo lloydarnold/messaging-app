@@ -192,6 +192,15 @@
                     <input type="text" class="form-control" id="phone" placeholder="Enter Phone number" ng-model="newUser.phone">
                 </div>
 
+                <div class="form-group">
+                  <label for="isAdmin"><span class="glyphicon glyphicon-padlock"></span> Admin rights? </label>
+                  <select class="form-control" id="isAdmin" ng-model="newUser.isAdmin">
+                    <option value="" id="admin-current"> Unset -- please do not touch & contact system admin </option>
+                    <option value="false"> False </option>
+                    <option value="true"> True </option>
+                  </select>
+                </div>
+
                 <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" ng-click="saveUserChanges()">
                   <span class="glyphicon glyphicon-off"></span> Update</button>
             </form>
