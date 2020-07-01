@@ -67,6 +67,7 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
  '$sessionStorage',function($scope,socket,$http,$mdDialog,$compile,$location,$state,$localStorage, $sessionStorage){
     url= location.host;
     $scope.currentDisplayedUser;
+    $scope.currentUserHandle;
     var monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October","November", "December"];
 
     socket.on('handle', function(data) {
@@ -74,7 +75,7 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
         if ($scope.user == null) {
           console.log("kick me");
           $state.go('login');
-        } // TODO kick them if handle is null
+        }
         console.log("Get handle : " + $scope.user);
         console.log("this is the admin controller");
 
@@ -200,7 +201,8 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
                       <span class="direct-chat-timestamp pull-right">' + user.userType + '</span>\
                       <span class="direct-chat-name pull-left">'+ " User Type: " +'</span>\
                       </div>\
-                      <button type="button" class="btn btn-primary btn-flat" ng-click="showUpdateUser()">Update User</button>'
+                      <button type="button" class="btn btn-primary btn-flat" ng-click="showUpdateUser()">Update User</button>\
+                      <button type="button" class="btn btn-primary btn-flat" ng-click="confirmDelete()"> Delete User</button>'
 
           var angularElement = angular.element(div);                // This bit of code is kinda weird -- As we need to
           var linkFun = $compile(div);                              // Append a new dynamically created element to our template
@@ -208,6 +210,20 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
           document.getElementById("user-details").appendChild(final[0]);  // $compile, and through a process called currying ( see recommended reading )
           document.getElementById("user-details").scrollTop=document.getElementById("user-details").scrollHeight;
 
+    };
+
+    $scope.confirmDelete = function() {
+      $scope.currentUserHandle = $scope.currentDisplayedUser.handle;
+      var user = $scope.currentDisplayedUser;
+      $("#myModalDeleteUser").modal("show");
+    };
+
+    $scope.deleteUser = function() {
+      socket.emit('delete user', $scope.currentUserHandle);
+      $scope.currentUserHandle = null;                  // After we have deleted user, clean up our records clientside
+      $scope.currentDisplayedUser = null;
+      clearUserInfo();
+      $scope.searchUsers("");
     };
 
     $scope.showUpdateUser = function() {
@@ -251,6 +267,10 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
       console.log(data);
       socket.emit('find users', data);
     };
+
+    socket.on('alert', function(data) {
+      alert(data);
+    });
 
     socket.on('matching users', function(data){
       if (data == []) {
