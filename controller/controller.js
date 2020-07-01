@@ -279,19 +279,30 @@ module.exports = function (app,io){
 
         socket.on('delete user', function(handle){
           var tempUser;
-          models.findOne({"handle":handle}, function(err, user){
+          models.user.findOne({"handle":handle}, function(err, user){
             if (err) { console.log(err); }
-            else { var tempUser = user; }
+            else {
+              if (user == undefined) { return; } // guard clause
+              else {
+                models.deleted_user.create({ "name" : user.name,
+                                             "handle" : user.handle,
+                                             "phone" : user.phone,
+                                             "email" : user.email,
+                                             "yearGroup" : user.yearGroup,
+                                             "primaryContact" : user.primaryContact,
+                                             "userType" : user.userType,
+                                             "groups" : user.groupMessage
+                                           }, function(err, success){
+                    if (err) {console.log(err);}
+                  });
+
+                models.user.deleteOne({"handle":handle}, function(err){
+                  if (err) { console.log(err); }
+                  else { socket.emit('user deleted', handle); }
+                });
+              }
+            }
           })
-
-          if (tempUser == undefined) {return;}  // guard clause
-
-          models.deleted_user.create(user);
-
-          models.user.deleteOne({"handle":handle}, function(err){
-            if (err) { console.log(err); }
-            else { socket.emit('user deleted', handle); }
-          });
         });
 
         socket.on('get chat log', function(data){
