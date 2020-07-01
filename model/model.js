@@ -30,15 +30,13 @@ module.exports.user=mongoose.model('User',new Schema({
 },{strict: false}));
 
 module.exports.deleted_user=mongoose.model('deletedUser',new Schema({
-    name:String,              // self explanatory
+    name:String,              // self explanatory           // Slightly reduced data from user (not everything needs to be saved)
     handle: String,           // unique user id
-    password: String,         // self explanatory
     phone:String,             // ditto
     email:String,             // primary contact email
-    yearGroup: Number,        // year group -- TODO increment this every september
-    primaryContact:String,    // mentor or mentee
-    isAdmin:Boolean,          // by default, set to false -- this can be set to true in admin dashboard
-    userType:String,          // mentor or mentee (could set this to boolean isMentor) ?
+    yearGroup: Number,        // year group
+    primaryContact:String,    // their mentor or mentee
+    userType:String,          // are they a mentor or mentee
     groups:[String]           // This is all the groups that the user
 },{strict: false}));
 
