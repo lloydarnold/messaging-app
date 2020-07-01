@@ -322,24 +322,31 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
     $scope.messages={};
     var monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October","November", "December"];
 
-    socket.on('handle', function(data) {
+    socket.on('user data', function(data) {
+      $scope.user = data.handle;
+      if ($scope.user == null) {    // reject them if their handle is null
+        console.log("kick me");
+        $state.go('login');
+      }
+      $scope.primaryContact = data.primaryContact;
+      setMentorMentee(data.userType);
+    });
+
+    socket.on('handle', function(data) {      // TODO change this to be get user data & send it all in a cute little JSON
         $scope.user = data;
         if ($scope.user == null) {
           console.log("kick me");
           $state.go('login');
-        } // TODO kick them if handle is null
+        }
         console.log("Get handle : " + $scope.user);
     });
 
     socket.on('primaryContact', function(data) {
       $scope.primaryContact = data;
-      // console.log("primary contact: " + $scope.primaryContact);
-      // need to find out if they are mentor or mentee
     });
 
-    socket.on('userType', function(data) {
-      // console.log("usertype received. usertype is: " + data);
-      if (data == "mentor") {
+    var setMentorMentee = function(userType) {
+      if (userType == "mentor") {
         $scope.mentor = $scope.user;
         $scope.mentee = $scope.primaryContact;
       } else {
