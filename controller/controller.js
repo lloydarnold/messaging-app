@@ -140,19 +140,24 @@ module.exports = function (app,io){
         console.log("Connection : User is connected "+handle);
         console.log("Connection : " + socket.id);
 
-        io.to(socket.id).emit('handle', handle);
+        // io.to(socket.id).emit('handle', handle);
 
-        models.user.findOne({"handle":handle},{primaryContact:1, userType:1, _id:0}, function(err, doc) {
+        models.user.findOne({"handle":handle},{primaryContact:1, userType:1, groups:1, _id:0}, function(err, doc) {
           if (err) { console.log(err); }
           else {
             primaryContact = doc.primaryContact; // assign local variable primary contact to value yoinked from db
             userType = doc.userType;
+            groups = doc.groups;
 
-            io.to(socket.id).emit('primaryContact', primaryContact);      // we need to send them their primary contact (mentor or mentee)
-            io.to(socket.id).emit('userType', userType);
+            /*io.to(socket.id).emit('primaryContact', primaryContact);      // we need to send them their primary contact (mentor or mentee)
+            io.to(socket.id).emit('userType', userType);*/
+
+            toSend = { "handle":handle, "primaryContact": primaryContact, "userType":userType, "groups":groups};
+            io.to(socket.id).emit('user data', toSend);
 
             primaryContact = null;    // Reset variables to null
             userType = null;
+            groups = null;
           }
         });
 
