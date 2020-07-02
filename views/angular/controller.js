@@ -70,6 +70,7 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
     $scope.currentUserHandle;
     $scope.noticeGroupSelected;
     var monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October","November", "December"];
+    var allGroups = ["global", "12", "13", "mentors", "oxbridge", "STEM", "liberal arts", "creative arts", "social sciences"];
 
     socket.on('user data', function (data) {
       $scope.user = data.handle;
@@ -82,7 +83,7 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
 
       $scope.searchUsers("");
       $scope.searchChats("");
-
+      showGroupButtons();
     });
 
     $scope.searchChats = function(searchParameters){
@@ -270,6 +271,18 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
       socket.emit('find users', data);
     };
 
+    var showGroupButtons = function(){
+      var tempDiv = document.createElement('div');
+      allGroups.forEach((group, i) => {
+        // make group button & append it to div.
+        console.log(group);     // TODO MOVE THIS TO NEW FUNCTION AS ISSA BIATCH
+        tempDiv.innerHTML = '<button type="button" class="btn btn-primary btn-flat" ng-click="changeGroup(\' ' + group + ' \' )">\
+                            ' + group + '</button>';
+        document.getElementById("noticeBoardTabs").appendChild(tempDiv);
+      });
+
+    };
+
     socket.on('alert', function(data) {
       alert(data);
     });
@@ -306,7 +319,7 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
       if (message == null) { return; } // Cheeky guard clause, stop null messages from being sent
 
       group = $scope.noticeGroupSelected;
-      var formattedMessage = $scope.user + "#*@" + group + "#@~" message + "#*@" + getDate();
+      var formattedMessage = $scope.user + "#*@" + group + "#@~" + message + "#*@" + getDate();
       displayNoticeAdmin(formattedMessage);
       socket.emit('group message', formattedMessage);
     };
