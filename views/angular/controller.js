@@ -412,7 +412,7 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
         }
     });
 
-    $scope.group_message= function(message){
+    /*$scope.group_message= function(message){
         if (message == null) { return; } // Cheeky guard clause, stop null messages from being sent
         div = document.createElement('div');
         div.innerHTML='<div class="direct-chat-msg"> \
@@ -428,7 +428,7 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
         document.getElementById("group").scrollTop=document.getElementById("group").scrollHeight;
         socket.emit('group message',message+"#*@"+$scope.user);
         $scope.groupMessage=null;
-    };
+    };*/
 
     var displayMessage = function(messageData) {
       var div = document.createElement('div');
@@ -467,7 +467,10 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
 
     $scope.send_message_primary=function(message){
         if (message == null) { return; } // Cheeky guard clause, stop null messages from being sent
-
+        if ( $scope.mentor == null || $scope.mentee == null ) { // if primary contact not set, don't let them send a message
+          alert("Sorry, you don't appear to be connected to a mentor / mentee yet. If you believe you are, please refresh the page.\
+                If this problem persists, please contact an admin. ");    // This stops our database being clogged
+        };
         var formattedMessage = $scope.user + "#*@" + $scope.mentor + "#*@" + $scope.mentee + "#*@" + message + "#*@" + getDate()
         displayMessage(formattedMessage);
         socket.emit('private message', formattedMessage);
