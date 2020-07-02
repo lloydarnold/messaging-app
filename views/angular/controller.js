@@ -68,7 +68,7 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
     url= location.host;
     $scope.currentDisplayedUser;
     $scope.currentUserHandle;
-    $scope.noticeGroupSelected;
+    $scope.noticeGroupSelected="global";
     var monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
     var allGroups = ["global", "12", "13", "mentors", "oxbridge", "STEM", "liberal arts", "creative arts", "social sciences"];
 
@@ -290,7 +290,12 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
       var tempDiv = document.createElement('div');
       tempDiv.innerHTML = '<button type="button" class="btn btn-primary btn-flat" ng-click="changeGroup(\' ' + group + ' \' )">\
                           ' + group + '</button>';
-      document.getElementById("noticeBoardTabs").appendChild(tempDiv);
+
+      var angularElement = angular.element(tempDiv);
+      var linkFun = $compile(angularElement);
+      var final = linkFun($scope);
+
+      document.getElementById("noticeBoardTabs").appendChild(final[0]);
     };
 
     socket.on('alert', function(data) {
@@ -322,8 +327,15 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
                       </div>\
                       </div>';
           document.getElementById("matchingUsers").appendChild(div);
-          // document.getElementById("matchingUsers").scrollTop=document.getElementById("matchingUsers").scrollHeight;
     };
+
+    socket.on('notice log', function(data) {
+      console.log('data');
+      data.forEach((group, i) => {
+
+      });
+
+    });
 
     var displayNoticeAdmin = function(message){
       var div = document.createElement('div');
@@ -336,8 +348,15 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
                       + message.split("#*~")[2] +
                       '</div>\
                       </div>';
-
+      console.log("notices-" + message.split("#*~")[1]);
       document.getElementById("notices-" + message.split("#*~")[1]).appendChild(div);
+    };
+
+    $scope.changeGroup = function(group){
+      console.log("notices-" + group);
+      document.getElementById("notice-" + $scope.noticeGroupSelected).style.display = "none";
+      $scope.noticeGroupSelected = group;
+      document.getElementById("notice-" + $scope.noticeGroupSelected).style.display = "block";
     };
 
     $scope.send_group_message = function(message){
