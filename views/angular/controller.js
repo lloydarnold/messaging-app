@@ -84,19 +84,6 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
 
     });
 
-    /*socket.on('handle', function(data) {
-        $scope.user = data;
-        if ($scope.user == null) {
-          console.log("kick me");
-          $state.go('login');
-        }
-        console.log("Get handle : " + $scope.user);
-        console.log("this is the admin controller");
-
-        $scope.searchUsers("");
-        $scope.searchChats("");
-    });*/
-
     $scope.searchChats = function(searchParameters){
       var data = ".*" + searchParameters + ".*";    // We use REGEX matching in our search -- we want to match the search
                                                     // phrase, + any other characters before or after
