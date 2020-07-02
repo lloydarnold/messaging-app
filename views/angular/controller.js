@@ -334,6 +334,7 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
     url= location.host;
     $scope.users=[];
     $scope.messages={};
+    $scope.groups=[];
     var monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October","November", "December"];
 
     socket.on('user data', function(data) {
@@ -343,6 +344,7 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
         $state.go('login');
       }
       $scope.primaryContact = data.primaryContact;
+      $scope.groups = data.groups;
       setMentorMentee(data.userType);
     });
 
@@ -397,22 +399,25 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
         return form_date;
     };
 
-    socket.on('group message clientside', function(data) {    // this is called group message clientside
-        var div = document.createElement('div');              // because I don't like name shadowing, that is all.
-        if(data.split("#*@")[1]!=$scope.user){
-            div.innerHTML='<div class="direct-chat-msg right">\
-                            <div class="direct-chat-info clearfix">\
-                            <span class="direct-chat-name pull-right">'+data.split("#*@")[1]+'</span>\
-                            <span class="direct-chat-timestamp pull-left">'+getDate()+'</span>\
-                            </div>\
-                            <div class="direct-chat-text">'
-                            +data.split("#*@")[0]+
-                            '</div>\
-                            </div>';
+    socket.on('group message clientside', function(data) {    // data[0] should be group, data[1] should be message
+        // this is called group message clientside because I don't like name shadowing, that is all.
+        if ( !$scope.groups.includes(data[0]) ) { return; };
+
+        var div = document.createElement('div');
+
+        div.innerHTML='<div class="direct-chat-msg right">\
+                        <div class="direct-chat-info clearfix">\
+                        <span class="direct-chat-name pull-right">'+ data[1].from +'</span>\
+                        <span class="direct-chat-timestamp pull-left">'+getDate(data[1].date)+'</span>\
+                        </div>\
+                        <div class="direct-chat-text">'
+                        + data[1].message +
+                        '</div>\
+                        </div>';
+
             document.getElementById("group").appendChild(div);    // Sort out which div it goes into
             document.getElementById("group").scrollTop=document.getElementById("group").scrollHeight;
-        }
-    });
+        });
 
     /*$scope.group_message= function(message){
         if (message == null) { return; } // Cheeky guard clause, stop null messages from being sent
@@ -524,7 +529,6 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
         document.getElementById("handleError").innerHTML = "That handle is unavailable";
         highlightElement(document.getElementById("handle"));
       }
-      console.log($scope.user.mentor_mentee);
       if ($scope.user.mentor_mentee == ''){
         valid = false;
         document.getElementById("userTypeError").innerHTML = "Please select a user type";
