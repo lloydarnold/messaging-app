@@ -272,15 +272,19 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
     };
 
     var showGroupButtons = function(){
-      var tempDiv = document.createElement('div');
       allGroups.forEach((group, i) => {
         // make group button & append it to div.
-        console.log(group);     // TODO MOVE THIS TO NEW FUNCTION AS ISSA BIATCH
-        tempDiv.innerHTML = '<button type="button" class="btn btn-primary btn-flat" ng-click="changeGroup(\' ' + group + ' \' )">\
-                            ' + group + '</button>';
-        document.getElementById("noticeBoardTabs").appendChild(tempDiv);
+        displayGroupButton(group);
       });
 
+    };
+
+    var displayGroupButton = function(group) {
+      var tempDiv = document.createElement('div');
+      console.log(group);
+      tempDiv.innerHTML = '<button type="button" class="btn btn-primary btn-flat" ng-click="changeGroup(\' ' + group + ' \' )">\
+                          ' + group + '</button>';
+      document.getElementById("noticeBoardTabs").appendChild(tempDiv);
     };
 
     socket.on('alert', function(data) {
