@@ -45,14 +45,6 @@ module.exports.online=mongoose.model('online',new Schema({
     connection_id:String      // log connection ID to send messages down socket
 }));
 
-// This is old model for message
-module.exports.messages_old = mongoose.model('message_old',new Schema({
-    message : String,
-    sender  : String,
-    reciever: String,
-    date    : Date
-}));
-
 // This is the model for message storage. It consists of a nested document. The conversationID
 // is stored as mentorHandle#*@menteeHandle
 module.exports.messages = mongoose.model('message', new Schema({
@@ -60,4 +52,14 @@ module.exports.messages = mongoose.model('message', new Schema({
   chatLog        : [ new Schema({ message : String,
                                   from    : String,
                                   date    : Date }) ]
+}));
+
+// This is the model for group messages. We could have used the same model as for regular messages
+// but A this helps us with readbility in terms of our database queries (and code is written for people first
+// and computers second) and B we too indie for that :cool_emoji:
+module.exports.group_notices = mongoose.model('notice', new Schema({
+  groupName : String,
+  chatLog   : [ new Schema({ message : String,            // Notice this is THE SAME as messages, just with different
+                             from    : String,            // names. This means code can be reused, but it's clear which bit
+                             date    : Date }) ]          // it refers to. 
 }));
