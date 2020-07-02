@@ -70,7 +70,21 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
     $scope.currentUserHandle;
     var monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October","November", "December"];
 
-    socket.on('handle', function(data) {
+    socket.on('user data', function (data) {
+      $scope.user = data.handle;
+      if ($scope.user == null) {
+        console.log("kick me");
+        $state.go('login');
+      }
+      console.log("Get handle : " + $scope.user);
+      console.log("this is the admin controller");
+
+      $scope.searchUsers("");
+      $scope.searchChats("");
+
+    });
+
+    /*socket.on('handle', function(data) {
         $scope.user = data;
         if ($scope.user == null) {
           console.log("kick me");
@@ -81,7 +95,7 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
 
         $scope.searchUsers("");
         $scope.searchChats("");
-    });
+    });*/
 
     $scope.searchChats = function(searchParameters){
       var data = ".*" + searchParameters + ".*";    // We use REGEX matching in our search -- we want to match the search
@@ -354,8 +368,8 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
         $scope.mentee = $scope.user;
       }
 
-      socket.emit('load messages', $scope.user + "~%$" + $scope.mentor + "#*@" + $scope.mentee)
-    });
+      socket.emit('load messages', $scope.user + "~%$" + $scope.mentor + "#*@" + $scope.mentee);
+    };
 
     socket.on('messageLog', function(data) {
       console.log(data);
