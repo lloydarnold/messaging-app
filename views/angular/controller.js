@@ -346,7 +346,8 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
       setMentorMentee(data.userType);
     });
 
-    socket.on('handle', function(data) {      // TODO change this to be get user data & send it all in a cute little JSON
+    socket.on('handle', function(data) {
+      // DEFUNCT
         $scope.user = data;
         if ($scope.user == null) {
           console.log("kick me");
@@ -356,6 +357,7 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
     });
 
     socket.on('primaryContact', function(data) {
+      // DEFUNCT
       $scope.primaryContact = data;
     });
 
