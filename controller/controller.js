@@ -187,13 +187,6 @@ module.exports = function (app,io){
           //console.log(messageLog);
         });
 
-        socket.on('group message',function(msg){
-          // global messaging is turned off, for now.
-
-              // console.log(msg);
-              io.emit('group message clientside',msg);
-        });
-
         // When we receive a private message, handle it
         socket.on('private message',function(msg){
 
@@ -252,6 +245,46 @@ module.exports = function (app,io){
 
 
         // following are ADMIN ONLY endpoints -- TODO incorporate admin socket ID into requests
+
+        socket.on('group message',function(msg){
+            // message model ::
+            // (0) FROM #*@ (1) GROUPID #*@ (2) MESSAGE #*@ (3) DATE
+
+            var chatID  = msg.split("#*@")[1]
+            var message = msg.split("#*@")[2];
+            var date    = msg.split("#*@")[3];
+            var from    = msg.split("#*@")[0];
+
+            models.group_notices.findOne( { "groupName": chatID }, function(err, doc) {
+              if (doc == null) {
+                // create new chat
+                // console.log("new chat");
+
+                models.group_notices.create( {
+                  "groupName" : chatID,
+                  "chatLog"        : [ {
+                                        "message" : message,
+                                        "from"    : from,
+                                        "date"    : date
+                                        } ]
+                } )
+              } else {
+                // push message to chat
+                // console.log("saving to chat");
+
+                models.group_notices.findOneAndUpdate(
+                  { "groupName" : chatID },
+                  { $push: { chatLog : {"message": message , "from" : from, "date" : date } } } ,function(err, success) {
+                    if (err) {console.log(err);}
+                    // else {console.log("it did it"); }
+                  }
+                 )
+
+              }
+            });
+
+            io.emit('group message clientside',msg);
+        });
 
         socket.on('find users', function(data){   // REGEX lookup, option i means case insensitive. Match name or handle.
           models.user.find( { $or: [ { "handle": {$regex: data, $options: "i"}},
