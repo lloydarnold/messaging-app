@@ -395,8 +395,8 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
         return form_date;
     };
 
-    socket.on('group', function(data) {
-        var div = document.createElement('div');
+    socket.on('group message clientside', function(data) {    // this is called group message clientside
+        var div = document.createElement('div');              // because I don't like name shadowing, that is all.
         if(data.split("#*@")[1]!=$scope.user){
             div.innerHTML='<div class="direct-chat-msg right">\
                             <div class="direct-chat-info clearfix">\
@@ -407,7 +407,7 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
                             +data.split("#*@")[0]+
                             '</div>\
                             </div>';
-            document.getElementById("group").appendChild(div);
+            document.getElementById("group").appendChild(div);    // Sort out which div it goes into
             document.getElementById("group").scrollTop=document.getElementById("group").scrollHeight;
         }
     });
