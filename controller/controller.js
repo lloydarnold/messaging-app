@@ -191,7 +191,7 @@ module.exports = function (app,io){
           // global messaging is turned off, for now.
 
               // console.log(msg);
-              io.emit('group',msg);
+              io.emit('group message clientside',msg);
         });
 
         // When we receive a private message, handle it
