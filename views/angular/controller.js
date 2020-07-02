@@ -331,7 +331,6 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
     };
 
     socket.on('notice log', function(data) {
-      console.log(data);
       var tempGroup;
 
       data.forEach((group, i) => {
@@ -396,7 +395,7 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
     url= location.host;
     $scope.users=[];
     $scope.messages={};
-    $scope.groups=[];
+    $scope.myGroups=[];
     var monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October","November", "December"];
 
     socket.on('user data', function(data) {
@@ -406,8 +405,10 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
         $state.go('login');
       }
       $scope.primaryContact = data.primaryContact;
-      $scope.groups = data.groups;
+      $scope.myGroups = data.groups;
       setMentorMentee(data.userType);
+      initGroups();
+      socket.emit('load notices', $scope.user)
     });
 
     socket.on('handle', function(data) {
@@ -481,24 +482,6 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
             document.getElementById("group").scrollTop=document.getElementById("group").scrollHeight;
         });
 
-    /*$scope.group_message= function(message){
-        if (message == null) { return; } // Cheeky guard clause, stop null messages from being sent
-        div = document.createElement('div');
-        div.innerHTML='<div class="direct-chat-msg"> \
-                        <div class="direct-chat-info clearfix">\
-                        <span class="direct-chat-name pull-left">'+$scope.user+'</span>\
-                        <span class="direct-chat-timestamp pull-right">'+getDate()+'</span>\
-                        </div>\
-                        <div class="direct-chat-text">'
-                        +message+
-                        '</div>\
-                        </div>';
-        document.getElementById("group").appendChild(div);
-        document.getElementById("group").scrollTop=document.getElementById("group").scrollHeight;
-        socket.emit('group message',message+"#*@"+$scope.user);
-        $scope.groupMessage=null;
-    };*/
-
     var displayMessage = function(messageData) {
       var div = document.createElement('div');
 
@@ -546,6 +529,48 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
 
         $scope.message=null;
     };
+
+    socket.on('notice log', function(data) {
+      var tempGroup;
+
+      data.forEach((group, i) => {
+        tempGroup = group.groupName;
+        if (!$scope.myGroups.includes(tempGroup) { return; })
+
+        group.chatLog.forEach((notice, i) => {
+          formattedNotice = notice.from + "#*@" + tempGroup + "#*@" + notice.message + "#*@" + notice.date;
+          displayNotice(formattedNotice);
+        });
+      });
+
+    var initGroups = function(){
+      $scope.myGroups.forEach((group, i) => {
+        displayGroupButton(group);
+        createGroupDiv(group);
+      });
+      document.getElementById("notices-global").style.display = "block";
+    };
+
+    var createGroupDiv = function(group) {
+      var tempDiv = document.createElement('div');
+      tempDiv.setAttribute("id", "notices-" + group);
+      tempDiv.setAttribute("class", "noticeboard-hide");
+
+      document.getElementById("noticeBoard").appendChild(tempDiv);
+    };
+
+    var displayGroupButton = function(group) {
+      var tempDiv = document.createElement('div');
+      tempDiv.innerHTML = '<button type="button" class="btn btn-primary btn-flat" ng-click="changeGroup(\' ' + group + ' \' )">\
+                          ' + group + '</button>';
+
+      var angularElement = angular.element(tempDiv);
+      var linkFun = $compile(angularElement);
+      var final = linkFun($scope);
+
+      document.getElementById("noticeBoardTabs").appendChild(final[0]);
+    };
+
 
 }]);
 
