@@ -69,7 +69,7 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
     $scope.currentDisplayedUser;
     $scope.currentUserHandle;
     $scope.noticeGroupSelected;
-    var monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October","November", "December"];
+    var monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
     var allGroups = ["global", "12", "13", "mentors", "oxbridge", "STEM", "liberal arts", "creative arts", "social sciences"];
 
     socket.on('user data', function (data) {
@@ -274,20 +274,20 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
     var initGroups = function(){
       allGroups.forEach((group, i) => {
         displayGroupButton(group);
+        createGroupDiv(group);
       });
-
     };
 
     var createGroupDiv = function(group) {
       var tempDiv = document.createElement('div');
       tempDiv.setAttribute("id", "notices-" + group);
+      tempDiv.setAttribute("class", "noticeboard-hide");
 
       document.getElementById("noticeBoard").appendChild(tempDiv);
     };
 
     var displayGroupButton = function(group) {
       var tempDiv = document.createElement('div');
-      console.log(group);
       tempDiv.innerHTML = '<button type="button" class="btn btn-primary btn-flat" ng-click="changeGroup(\' ' + group + ' \' )">\
                           ' + group + '</button>';
       document.getElementById("noticeBoardTabs").appendChild(tempDiv);
