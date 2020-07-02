@@ -341,29 +341,29 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
       var div = document.createElement('div');
       div.innerHTML='<div class="direct-chat-msg right">\
                       <div class="direct-chat-info clearfix">\
-                      <span class="direct-chat-name pull-right">'   + message.split("#*~")[0] + '</span>\
-                      <span class="direct-chat-timestamp pull-left">' + getDate(message.split("#*~")[3]) + '</span>\
+                      <span class="direct-chat-name pull-right">'   + message.split("#*@")[0] + '</span>\
+                      <span class="direct-chat-timestamp pull-left">' + getDate(message.split("#*@")[3]) + '</span>\
                       </div>\
                       <div class="direct-chat-text">'
-                      + message.split("#*~")[2] +
+                      + message.split("#*@")[2] +
                       '</div>\
                       </div>';
-      console.log("notices-" + message.split("#*~")[1]);
-      document.getElementById("notices-" + message.split("#*~")[1]).appendChild(div);
+      console.log("notices-" + message.split("#*@")[1]);
+      document.getElementById("notices-" + message.split("#*@")[1].trim()).appendChild(div);
     };
 
-    $scope.changeGroup = function(group){
-      console.log("notices-" + group);
-      document.getElementById("notice-" + $scope.noticeGroupSelected).style.display = "none";
+    $scope.changeGroup = function(rawGroup){
+      var group = rawGroup.trim();
+      document.getElementById("notices-" + $scope.noticeGroupSelected.trim()).style.display = "none";
       $scope.noticeGroupSelected = group;
-      document.getElementById("notice-" + $scope.noticeGroupSelected).style.display = "block";
+      document.getElementById("notices-" + $scope.noticeGroupSelected).style.display = "block";
     };
 
     $scope.send_group_message = function(message){
       if (message == null) { return; } // Cheeky guard clause, stop null messages from being sent
 
       group = $scope.noticeGroupSelected;
-      var formattedMessage = $scope.user + "#*@" + group + "#@~" + message + "#*@" + getDate();
+      var formattedMessage = $scope.user + "#*@" + group + "#*@" + message + "#*@" + getDate();
       displayNoticeAdmin(formattedMessage);
       socket.emit('group message', formattedMessage);
     };
