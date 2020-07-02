@@ -20,6 +20,10 @@ body
   border-radius: 5px;
 }
 
+.noticeboard-hide {
+  display: none;
+}
+
 .be-tall{
   height:80vh;
 }
