@@ -242,7 +242,14 @@ module.exports = function (app,io){
             // console.log(users);       // Output new user list to our console
         });
 
-
+        socket.on('load notices', function(data){
+          models.group_notices.find({}, function(err, doc) {
+            if (err) { console.log(err); }
+            else {
+              io.to(users[data]).emit('notice log', doc);
+            }
+          });
+        });
 
         // following are ADMIN ONLY endpoints -- TODO incorporate admin socket ID into requests
 
