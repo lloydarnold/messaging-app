@@ -83,7 +83,7 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
 
       $scope.searchUsers("");
       $scope.searchChats("");
-      showGroupButtons();
+      initGroups();
     });
 
     $scope.searchChats = function(searchParameters){
@@ -271,12 +271,18 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
       socket.emit('find users', data);
     };
 
-    var showGroupButtons = function(){
+    var initGroups = function(){
       allGroups.forEach((group, i) => {
-        // make group button & append it to div.
         displayGroupButton(group);
       });
 
+    };
+
+    var createGroupDiv = function(group) {
+      var tempDiv = document.createElement('div');
+      tempDiv.setAttribute("id", "notices-" + group);
+
+      document.getElementById("noticeBoard").appendChild(tempDiv);
     };
 
     var displayGroupButton = function(group) {
@@ -317,6 +323,21 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
                       </div>';
           document.getElementById("matchingUsers").appendChild(div);
           // document.getElementById("matchingUsers").scrollTop=document.getElementById("matchingUsers").scrollHeight;
+    };
+
+    var displayNoticeAdmin = function(message){
+      var div = document.createElement('div');
+      div.innerHTML='<div class="direct-chat-msg right">\
+                      <div class="direct-chat-info clearfix">\
+                      <span class="direct-chat-name pull-right">'   + message.split("#*~")[0] + '</span>\
+                      <span class="direct-chat-timestamp pull-left">' + getDate(message.split("#*~")[3]) + '</span>\
+                      </div>\
+                      <div class="direct-chat-text">'
+                      + message.split("#*~")[2] +
+                      '</div>\
+                      </div>';
+
+      document.getElementById("notices-" + message.split("#*~")[1]).appendChild(div);
     };
 
     $scope.send_group_message = function(message){
