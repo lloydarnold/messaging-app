@@ -78,12 +78,12 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
         console.log("kick me");
         $state.go('login');
       }
-      console.log("Get handle : " + $scope.user);
-      console.log("this is the admin controller");
 
       $scope.searchUsers("");
       $scope.searchChats("");
       initGroups();
+
+      socket.emit('load notices', $scope.user);
     });
 
     $scope.searchChats = function(searchParameters){
@@ -276,6 +276,7 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
         displayGroupButton(group);
         createGroupDiv(group);
       });
+      document.getElementById("notices-global").style.display = "block";
     };
 
     var createGroupDiv = function(group) {
@@ -330,10 +331,17 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
     };
 
     socket.on('notice log', function(data) {
-      console.log('data');
-      data.forEach((group, i) => {
+      console.log(data);
+      var tempGroup;
 
+      data.forEach((group, i) => {
+        tempGroup = group.groupName;
+        group.chatLog.forEach((notice, i) => {
+          formattedNotice = notice.from + "#*@" + tempGroup + "#*@" + notice.message + "#*@" + notice.date;
+          displayNoticeAdmin(formattedNotice);
+        });
       });
+
 
     });
 
