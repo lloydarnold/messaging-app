@@ -119,6 +119,45 @@
 
 </div>
 
+  <div class="container-fluid">
+
+      <div class="box box-primary direct-chat direct-chat-primary"">
+          <div class="box-header with-border">
+              <h3 class="box-title"> Notice Boards </h3>
+          </div>
+
+          <div class="box-body">
+              <!-- This top bar is for loading tab buttons. The block below that is for loading notices. -->
+              <div class="" id="noticeBoardTabs" style="height:10%">
+              </div>
+              <div class="direct-chat-messages" id="noticeBoard" style="height:90%;">
+              </div>
+          </div>
+
+          <div class="box-footer">
+              <div>
+                  <div class="input-group">   <!-- TODO change this over to direct chat with mentor / mentee -->
+
+                      <input type="text" name="message" placeholder="Type Message ..." class="form-control"
+                             ng-model="message" my-enter="send_message_primary({{message}}')">
+
+                      <!-- ng-model="message" my-enter="send_message(\''+chat_friend+'\',\'{{message}}\')" -->
+                      <span class="input-group-btn">
+                          <button type="button" class="btn btn-primary btn-flat" ng-click="send_group_message(message)">Send</button>
+                      </span>
+                  </div>
+
+                  <!-- <button class="bg_none pull-right" ng-click="send_message('+chat_friend+',message)"><i class="glyphicon  glyphicon-thumbs-up"></i> </button>\ -->
+
+
+              </div>
+          </div
+
+      </div>
+  <br>
+</div>
+
+
 <div class="modal fade" id="modalChatLog" role="dialog">
 
     <div class="modal-dialog">
