@@ -68,6 +68,7 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
     url= location.host;
     $scope.currentDisplayedUser;
     $scope.currentUserHandle;
+    $scope.noticeGroupSelected;
     var monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October","November", "December"];
 
     socket.on('user data', function (data) {
@@ -299,6 +300,15 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
                       </div>';
           document.getElementById("matchingUsers").appendChild(div);
           // document.getElementById("matchingUsers").scrollTop=document.getElementById("matchingUsers").scrollHeight;
+    };
+
+    $scope.send_group_message = function(message){
+      if (message == null) { return; } // Cheeky guard clause, stop null messages from being sent
+
+      group = $scope.noticeGroupSelected;
+      var formattedMessage = $scope.user + "#*@" + group + "#@~" message + "#*@" + getDate();
+      displayNoticeAdmin(formattedMessage);
+      socket.emit('group message', formattedMessage);
     };
 
     var getDate=function(date=new Date() ){
