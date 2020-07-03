@@ -25,10 +25,11 @@ module.exports = function (app,io){
             "password":req.body.password,
             "phone":req.body.phone,
             "email":req.body.email,
-            "yearGroup":12,
+            "yearGroup":parseInt(req.body.yearGroup),     // Type casting, as it's a string clientside. 
             "userType":req.body.mentor_mentee,
             "primaryContact":req.body.primaryContact,
             "isAdmin":false,
+            "groups":req.body.groups
         };
         console.log(user);
 
