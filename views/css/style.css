@@ -13,6 +13,7 @@ body
   justify-content: center;
   padding: 10px;
   border-bottom: 2px solid;
+  flex-wrap: wrap;
 }
 
 #noticeBoardTabs * {
