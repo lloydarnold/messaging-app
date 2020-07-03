@@ -70,7 +70,9 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
     $scope.currentUserHandle;
     $scope.noticeGroupSelected="global";
     var monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
-    var allGroups = ["global", "12", "13", "mentors", "oxbridge", "STEM", "liberal arts", "creative arts", "social sciences"];
+    var allGroups = ["global", "12", "13", "mentors", "oxbridge", "Mathematical-Sciences", "Natural-Sciences", "Economics-Management-and-Business",
+                    "Medicinal-Sciences", "Social-Sciences", "Creative-Arts", "Liberal-Arts", "Humanities", "Linguistics-and-Language",
+                    "Law" ];
 
     socket.on('user data', function (data) {
       $scope.user = data.handle;
@@ -290,7 +292,7 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
     var displayGroupButton = function(group) {
       var tempDiv = document.createElement('div');
       tempDiv.innerHTML = '<button type="button" class="btn btn-primary btn-flat" ng-click="changeGroup(\' ' + group + ' \' )">\
-                          ' + group + '</button>';
+                          ' + group.replace("-", " ") + '</button>';
 
       var angularElement = angular.element(tempDiv);
       var linkFun = $compile(angularElement);
