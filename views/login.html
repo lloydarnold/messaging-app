@@ -70,21 +70,36 @@
                         <p class="form-error" id="nameError"></p>
                     </div>
 
+
                     <div class="form-group">
                         <label for="handle"><span class="glyphicon glyphicon-user"></span> Handle</label>
                         <input type="text" class="form-control" id="handle" placeholder="Enter Handle" ng-model="user.handle">
                         <p class="form-error" id="handleError"></p>
                     </div>
 
-                    <!-- <div class="radio-button-group">
-                      <label> You are? </label>
-                        <label for="mentor_mentee"> A mentor </label>
-                        <input type="radio" id="mentor" name="mentor_mentee" value="mentor"></input> <!-- TODO come back here !!! - ->
 
-                        <label for="mentor_mentee"> A mentee </label>
-                        <input type="radio" id="mentee" name="mentor_mentee" value="mentee"></input> <!-- TODO come back here !!! - ->
+                    <div class="form-group">
+                        <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Password</label>
+                        <input type="password" class="form-control" id="psw" placeholder="Enter password" ng-model="user.password">
+                        <p class="form-error" id="passwordError"></p>
+                    </div>
 
-                    </div> -->
+
+                    <div class="form-group">
+                      <label for="mentor_mentee"><span class="glyphicon glyphicon-leaf"></span> What year group are you in? </label>
+                      <select class="form-control" onchange="set_mentor_state()" id="mentor_mentee" ng-model="user.yearGroup">
+                        <option value="" >----- Please select -----</option>
+                        <option value="12"> Year 12 </option>
+                        <option value="13"> Year 13 </option>
+                        <option value="14"> Degree Year 1 </option>
+                        <option value="15"> Degree Year 2 </option>
+                        <option value="16"> Degree Year 3 </option>
+                        <option value="17"> Degree Year 4 </option>
+                        <option value="18"> Degree Year 5 </option>
+                      </select>
+                      <p class="form-error" id="yearGroupError"></p>
+                    </div>
+
 
                     <div class="form-group">
                       <label for="mentor_mentee"><span class="glyphicon glyphicon-leaf"></span> You are? </label>
@@ -103,11 +118,36 @@
                         <p class="form-error" id="primContError"></p>
                     </div>
 
-                    <div class="form-group">
-                        <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Password</label>
-                        <input type="password" class="form-control" id="psw" placeholder="Enter password" ng-model="user.password">
-                        <p class="form-error" id="passwordError"></p>
+
+                    <div class="form-group" id="courseGroup">
+                      <label for="course"><span class="glyphicon glyphicon-education"></span> What area is your course in? </label>
+                      <select class="form-control" id="course" ng-model="groupData.course">
+                        <option value="" >----- Please select -----</option>
+                        <option value="Mathematical-Sciences"> Mathematical Sciences </option>
+                        <option value="Natural-Sciences"> Natural Sciences </option>
+                        <option value="Economics-Management-and-Business"> Economics, Management and Business </option>
+                        <option value="Medicinal-Sciences"> Medicinal Sciences </option>
+                        <option value="Social-Sciences"> Social Sciences </option>
+                        <option value="Creative-Arts"> Creative Arts </option>
+                        <option value="Liberal-Arts"> Natural Sciences </option>
+                        <option value="Humanities"> Humanities </option>
+                        <option value="Linguistics-and-Language"> Linguistics and Language </option>
+                        <option value="Law"> Law </option>
+                      </select>
+                      <p class="form-error" id="courseError"></p>
                     </div>
+
+
+                    <div class="form-group" id="oxbridge">
+                      <label for="course"><span class="glyphicon glyphicon-education"></span> Are you interested in applying to Oxbridge? </label>
+                      <select class="form-control" id="course" ng-model="groupData.oxbridge">
+                        <option value="" >----- Please select -----</option>
+                        <option value="Yes"> Yes </option>
+                        <option value="No"> No </option>
+                      </select>
+                      <p class="form-error" id="oxbridgeError"></p>
+                    </div>
+
 
                     <div class="form-group">
                         <label for="email"><span class="glyphicon glyphicon-envelope"></span> Email</label>
@@ -115,11 +155,13 @@
                         <p class="form-error" id="emailError"></p>
                     </div>
 
+
                     <div class="form-group">
                         <label for="phone"><span class="glyphicon glyphicon-phone"></span> Phone</label>
                         <input type="text" class="form-control" id="phone" placeholder="Enter Phone number" ng-model="user.phone">
                         <p class="form-error" id="phoneError"></p>
                     </div>
+
 
                     <button type="button" class="btn btn-primary btn-block" ng-click="Register()"><span class="glyphicon glyphicon-off"></span>
                         Register</button>
