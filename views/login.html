@@ -86,8 +86,8 @@
 
 
                     <div class="form-group">
-                      <label for="mentor_mentee"><span class="glyphicon glyphicon-leaf"></span> What year group are you in? </label>
-                      <select class="form-control" onchange="set_mentor_state()" id="mentor_mentee" ng-model="user.yearGroup">
+                      <label for="yearGroup"><span class="glyphicon glyphicon-calendar"></span> What year group are you in? </label>
+                      <select class="form-control" onchange="set_mentor_state()" id="yearGroup" ng-model="user.yearGroup">
                         <option value="" >----- Please select -----</option>
                         <option value="12"> Year 12 </option>
                         <option value="13"> Year 13 </option>
@@ -103,7 +103,7 @@
 
                     <div class="form-group">
                       <label for="mentor_mentee"><span class="glyphicon glyphicon-leaf"></span> You are? </label>
-                      <select class="form-control" onchange="set_mentor_state()" id="mentor_mentee" ng-model="user.mentor_mentee">
+                      <select class="form-control" onchange="set_fields_state()" id="mentor_mentee" ng-model="user.mentor_mentee">
                         <option value="" >----- Please select -----</option>
                         <option value="mentor"> Mentor </option>
                         <option value="mentee"> Mentee </option>
@@ -139,8 +139,8 @@
 
 
                     <div class="form-group" id="oxbridge">
-                      <label for="course"><span class="glyphicon glyphicon-education"></span> Are you interested in applying to Oxbridge? </label>
-                      <select class="form-control" id="course" ng-model="groupData.oxbridge">
+                      <label for="course"><span class="glyphicon glyphicon-apple"></span> Are you interested in applying to Oxbridge? </label>
+                      <select class="form-control" id="oxbridge" ng-model="groupData.oxbridge">
                         <option value="" >----- Please select -----</option>
                         <option value="Yes"> Yes </option>
                         <option value="No"> No </option>
