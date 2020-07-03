@@ -87,7 +87,7 @@
 
                     <div class="form-group">
                       <label for="yearGroup"><span class="glyphicon glyphicon-calendar"></span> What year group are you in? </label>
-                      <select class="form-control" onchange="set_mentor_state()" id="yearGroup" ng-model="user.yearGroup">
+                      <select class="form-control" id="yearGroup" ng-model="user.yearGroup">
                         <option value="" >----- Please select -----</option>
                         <option value="12"> Year 12 </option>
                         <option value="13"> Year 13 </option>
@@ -142,8 +142,8 @@
                       <label for="course"><span class="glyphicon glyphicon-apple"></span> Are you interested in applying to Oxbridge? </label>
                       <select class="form-control" id="oxbridge" ng-model="groupData.oxbridge">
                         <option value="" >----- Please select -----</option>
-                        <option value="Yes"> Yes </option>
-                        <option value="No"> No </option>
+                        <option value="yes"> Yes </option>
+                        <option value="no"> No </option>
                       </select>
                       <p class="form-error" id="oxbridgeError"></p>
                     </div>
