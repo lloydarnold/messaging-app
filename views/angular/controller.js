@@ -600,7 +600,13 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
         'phone':'',
         'mentor_mentee':'',
         'primaryContact':'',
+        'yearGroup':'',
         'groups':['global']
+    };
+
+    $scope.groupData={
+      'course':'',
+      'oxbridge':''
     };
 
     $scope.login_data={
