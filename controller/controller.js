@@ -25,7 +25,7 @@ module.exports = function (app,io){
             "password":req.body.password,
             "phone":req.body.phone,
             "email":req.body.email,
-            "yearGroup":parseInt(req.body.yearGroup),     // Type casting, as it's a string clientside. 
+            "yearGroup":parseInt(req.body.yearGroup),     // Type casting, as it's a string clientside.
             "userType":req.body.mentor_mentee,
             "primaryContact":req.body.primaryContact,
             "isAdmin":false,
@@ -291,7 +291,7 @@ module.exports = function (app,io){
               }
             });
 
-            io.emit('group message clientside',msg);
+            io.emit('group message clientside', [chatID, {"message": message , "from" : from, "date" : date} ]);
         });
 
         socket.on('find users', function(data){   // REGEX lookup, option i means case insensitive. Match name or handle.

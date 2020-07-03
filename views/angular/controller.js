@@ -357,7 +357,7 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
                       + message.split("#*@")[2] +
                       '</div>\
                       </div>';
-      console.log("notices-" + message.split("#*@")[1]);
+      // console.log("notices-" + message.split("#*@")[1]);
       document.getElementById("notices-" + message.split("#*@")[1].trim()).appendChild(div);
     };
 
@@ -398,6 +398,7 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
     $scope.users=[];
     $scope.messages={};
     $scope.myGroups=[];
+    $scope.noticeGroupSelected="global";
     var monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October","November", "December"];
 
     socket.on('user data', function(data) {
@@ -467,22 +468,25 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
     socket.on('group message clientside', function(data) {    // data[0] should be group, data[1] should be message
         // this is called group message clientside because I don't like name shadowing, that is all.
         if ( !$scope.groups.includes(data[0]) ) { return; };    // guard clause; check we are subbed to group
-
-        var div = document.createElement('div');
-
-        div.innerHTML='<div class="direct-chat-msg right">\
-                        <div class="direct-chat-info clearfix">\
-                        <span class="direct-chat-name pull-right">'+ data[1].from +'</span>\
-                        <span class="direct-chat-timestamp pull-left">'+getDate(data[1].date)+'</span>\
-                        </div>\
-                        <div class="direct-chat-text">'
-                        + data[1].message +
-                        '</div>\
-                        </div>';
-
-            document.getElementById("group").appendChild(div);    // Sort out which div it goes into
-            document.getElementById("group").scrollTop=document.getElementById("group").scrollHeight;
+          displayNotice(data[0], data[1]);
         });
+
+    var displayNotice = function(group, notice) {
+      var div = document.createElement('div');
+      div.innerHTML='<div class="direct-chat-msg right">\
+                      <div class="direct-chat-info clearfix">\
+                      <span class="direct-chat-name pull-right">'+ notice.from +'</span>\
+                      <span class="direct-chat-timestamp pull-left">'+getDate(notice.date)+'</span>\
+                      </div>\
+                      <div class="direct-chat-text">'
+                      + notice.message +
+                      '</div>\
+                      </div>';
+
+      document.getElementById("notices-" + group.trim()).appendChild(div);
+      document.getElementById("notices-" + group.trim()).scrollTop=document.getElementById("notices-" + group.trim()).scrollHeight;
+
+    };
 
     var displayMessage = function(messageData) {
       var div = document.createElement('div');
@@ -540,11 +544,17 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
         if (!$scope.myGroups.includes(tempGroup)) { return; }   /// guard clause - show only if we are in group
 
         group.chatLog.forEach((notice, i) => {
-          formattedNotice = notice.from + "#*@" + tempGroup + "#*@" + notice.message + "#*@" + notice.date;
-          displayNotice(formattedNotice);
+          displayNotice(tempGroup, notice);
         });
       });
     });
+
+    $scope.changeGroup = function(rawGroup){
+      var group = rawGroup.trim();
+      document.getElementById("notices-" + $scope.noticeGroupSelected.trim()).style.display = "none";
+      $scope.noticeGroupSelected = group;
+      document.getElementById("notices-" + $scope.noticeGroupSelected).style.display = "block";
+    };
 
     var initGroups = function(){
       $scope.myGroups.forEach((group, i) => {
@@ -573,7 +583,6 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
 
       document.getElementById("noticeBoardTabs").appendChild(final[0]);
     };
-
 
 }]);
 
