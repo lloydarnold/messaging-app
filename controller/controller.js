@@ -291,7 +291,7 @@ module.exports = function (app,io){
               }
             });
 
-            io.emit('group message clientside', [chatID, {"message": message , "from" : from, "date" : date} );
+            io.emit('group message clientside', [chatID, {"message": message , "from" : from, "date" : date} ]);
         });
 
         socket.on('find users', function(data){   // REGEX lookup, option i means case insensitive. Match name or handle.
