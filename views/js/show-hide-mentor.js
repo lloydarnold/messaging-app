@@ -1,12 +1,16 @@
-function hide_mentor_bar(){
+function hide_fields(){
   document.getElementById('primaryContactGroup').style.display = "none";
+  document.getElementById('courseGroup').style.display = "none";
+  document.getElementById('oxbridge').style.display = "none";
 };
 
-function show_mentor_bar(){
+function show_fields(){
   document.getElementById('primaryContactGroup').style.display = "block";
+  document.getElementById('courseGroup').style.display = "block";
+  document.getElementById('oxbridge').style.display = "block";
 };
 
-function set_mentor_state() {
-  if (document.getElementById("mentor_mentee").value == "mentor") { hide_mentor_bar(); }
-  else { show_mentor_bar(); }
+function set_fields_state() {
+  if (document.getElementById("mentor_mentee").value == "mentor") { hide_fields(); }
+  else { show_fields(); }
 };
