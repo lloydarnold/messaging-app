@@ -466,7 +466,7 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
 
     socket.on('group message clientside', function(data) {    // data[0] should be group, data[1] should be message
         // this is called group message clientside because I don't like name shadowing, that is all.
-        if ( !$scope.groups.includes(data[0]) ) { return; };
+        if ( !$scope.groups.includes(data[0]) ) { return; };    // guard clause; check we are subbed to group
 
         var div = document.createElement('div');
 
@@ -537,7 +537,7 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
 
       data.forEach((group, i) => {
         tempGroup = group.groupName;
-        if (!$scope.myGroups.includes(tempGroup)) { return; }
+        if (!$scope.myGroups.includes(tempGroup)) { return; }   /// guard clause - show only if we are in group
 
         group.chatLog.forEach((notice, i) => {
           formattedNotice = notice.from + "#*@" + tempGroup + "#*@" + notice.message + "#*@" + notice.date;
@@ -641,6 +641,11 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
         document.getElementById("passwordError").innerHTML = "Please enter a password";
         highlightElement(document.getElementById("psw"));
       }
+      if ($scope.user.yearGroup == ''){
+        valid = false;
+        document.getElementById("yearGroupError").innerHTML = "Please select your year group";
+        highlightElement(document.getElementById("yearGroup"));
+      }
       if (!valid_email($scope.user.email)) {
         valid = false;
         document.getElementById("emailError").innerHTML = "Please enter a valid email address";
@@ -651,8 +656,34 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
         document.getElementById("phoneError").innerHTML = "Please enter a valid UK phone number";
         highlightElement(document.getElementById("phone"));
       }
+      if (!valid_group_data()){
+        valid = false;
+      }
 
       if (valid) { send_details(); }
+    };
+
+    var valid_group_data = function() {
+      let localValid = true;
+      if ($scope.user.mentor_mentee == 'mentor') {
+        $scope.user.groups = ['global', 'mentors'];
+        return localValid;
+      } else{
+        if ($scope.groupData.course == "") {
+          localValid = false;
+          document.getElementById("courseError").innerHTML = "Please select your course";
+          highlightElement(document.getElementById("course"));
+        }
+        if (localValid) { $scope.user.groups = ['global', 'mentee', $scope.groupData.course]; }
+        if ($scope.groupData.oxbridge == "") {
+          localValid = false;
+          document.getElementById("oxbridgeError").innerHTML = "Please select an answer";
+          highlightElement(document.getElementById("course"));
+        } else if ($scope.groupData.oxbridge == "yes"){
+          $scope.user.groups.push("oxbridge");
+        }
+        return localValid
+      }
     };
 
     var valid_phone = function(phoneNum){   // Validates phone using REGEX. Only allows UK numbers
