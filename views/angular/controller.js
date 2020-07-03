@@ -535,13 +535,14 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
 
       data.forEach((group, i) => {
         tempGroup = group.groupName;
-        if (!$scope.myGroups.includes(tempGroup) { return; })
+        if (!$scope.myGroups.includes(tempGroup)) { return; }
 
         group.chatLog.forEach((notice, i) => {
           formattedNotice = notice.from + "#*@" + tempGroup + "#*@" + notice.message + "#*@" + notice.date;
           displayNotice(formattedNotice);
         });
       });
+    });
 
     var initGroups = function(){
       $scope.myGroups.forEach((group, i) => {
@@ -596,7 +597,8 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
         'email':'',
         'phone':'',
         'mentor_mentee':'',
-        'primaryContact':''
+        'primaryContact':'',
+        'groups':['global']
     };
 
     $scope.login_data={
