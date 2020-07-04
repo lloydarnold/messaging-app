@@ -7,6 +7,15 @@ body
     padding: 20px;
 }
 
+.horizontal {
+  display: flex;
+  flex-direction: row;
+}
+
+.push {
+  flex-grow: 1;
+}
+
 #noticeBoardTabs{
   display: flex;
   flex-direction: row;
