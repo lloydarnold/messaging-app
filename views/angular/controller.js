@@ -198,6 +198,7 @@ app.controller('adminController', ['$scope', 'encrypt', 'socket','$http', '$mdDi
                       <span class="direct-chat-timestamp pull-right">' + user.email + '</span>\
                       <span class="direct-chat-name pull-left">'+ " Email: " +'</span>\
                       </div>\
+                      <div class="direct-chat-info clearfix">\
                       <span class="direct-chat-timestamp pull-right">' + user.phone + '</span>\
                       <span class="direct-chat-name pull-left">'+ " Phone Number: " +'</span>\
                       </div>\
@@ -216,6 +217,10 @@ app.controller('adminController', ['$scope', 'encrypt', 'socket','$http', '$mdDi
                       <div class="direct-chat-info clearfix">\
                       <span class="direct-chat-timestamp pull-right">' + user.groups + '</span>\
                       <span class="direct-chat-name pull-left">'+ " Groups: " +'</span>\
+                      </div>\
+                      <div class="direct-chat-info clearfix">\
+                      <span class="direct-chat-timestamp pull-right">' + user.isAdmin + '</span>\
+                      <span class="direct-chat-name pull-left">'+ " Admin Rights? : " +'</span>\
                       </div>\
                       <button type="button" class="btn btn-primary btn-flat" ng-click="showUpdateUser()">Update User</button>\
                       <button type="button" class="btn btn-primary btn-flat" ng-click="confirmDelete()"> Delete User</button>'
@@ -264,18 +269,20 @@ app.controller('adminController', ['$scope', 'encrypt', 'socket','$http', '$mdDi
       };
 
       if (newUser.password != undefined ) { merged.password = encrypt.hash( merged.password ); }
-      console.log(merged);
+      if (newUser.isAdmin == "change") {merged.admin = !oldUser.admin;}
       if (newUser.primaryContact == "clear") { merged.primaryContact = ""; }
       return merged;
     }
 
     var populateUpdateForm = function(user){
-      document.getElementById("name").placeholder           = user.name;
-      document.getElementById("handle").placeholder         = user.handle;
-      document.getElementById("userType").placeholder       = user.userType;
-      document.getElementById("primaryContact").placeholder = user.primaryContact;
-      document.getElementById("email").placeholder          = user.email;
-      document.getElementById("phone").placeholder          = user.phone;
+      document.getElementById("name").placeholder            = user.name;
+      document.getElementById("handle").placeholder          = user.handle;
+      document.getElementById("userType").placeholder        = user.userType;
+      document.getElementById("primaryContact").placeholder  = user.primaryContact;
+      document.getElementById("email").placeholder           = user.email;
+      document.getElementById("phone").placeholder           = user.phone;
+      document.getElementById("admin-current").innerHTML     = user.isAdmin;
+      document.getElementById("change-admin-state").innerHTML= !user.isAdmin;
     };
 
     $scope.searchUsers = function(searchParameters = ""){
