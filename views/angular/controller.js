@@ -729,18 +729,23 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
       if ($scope.user.mentor_mentee == "mentor") { $scope.user.primaryContact = '';}
 
       $http({method: 'POST',url:'http://'+url+'/register', data:$scope.user})//, headers:config})
-          .success(function (data) {
-          if (data == "success"){
-            $('#myModalRegister').modal('hide');
+          .success(function (data) {                                            // This code deals with the potential responses
+          if (data == "success"){                                               // from the server, and tells the user what's what.
+            $('#myModalRegister').modal('hide');                                // See server controller for more.
             alert("You have now registered. Please proceed to log in");
           } else if (data == "User already found") {
             document.getElementById("handleError").innerHTML = "That handle is unavailable";
             highlightElement(document.getElementById("handle"));
           } else if (data == "mentor unavailable") {
             document.getElementById("primContError").innerHTML = "That mentor is unavailable. If the problem persists,\
-                                                                  contact admin@theblackexcellencenetwork.tk";
-            highlightElement(document.getElementById("handle"));
+                                                                  contact an admin";
+            highlightElement(document.getElementById("primaryContact"));
 
+          } else if (data == "email not recognised") {
+            document.getElementById("emailError").innerHTML = "Sorry, you don't appear to be on our list of known emails.\
+                                                               Please check that you have already registered with us as\
+                                                               a mentor. If the problem persists, contact an admin."
+            highlightElement(document.getElementById("email"));
           }
       })
           .error(function (data) {
