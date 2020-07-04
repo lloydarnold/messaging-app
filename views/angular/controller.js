@@ -433,21 +433,6 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
       socket.emit('load notices', $scope.user)
     });
 
-    socket.on('handle', function(data) {
-      // DEFUNCT
-        $scope.user = data;
-        if ($scope.user == null) {
-          console.log("kick me");
-          $state.go('login');
-        }
-        console.log("Get handle : " + $scope.user);
-    });
-
-    socket.on('primaryContact', function(data) {
-      // DEFUNCT
-      $scope.primaryContact = data;
-    });
-
     var setMentorMentee = function(userType) {
       if (userType == "mentor") {
         $scope.mentor = $scope.user;
