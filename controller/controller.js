@@ -15,6 +15,23 @@ module.exports = function (app,io){
         res.sendFile(path.resolve(__dirname+"/../views/index.html"));
     });
 
+    // endpoint for adding email to whitelist
+    app.post('/addAllowedEmail', function(req, res){
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader("Access-Control-Allow-Method","'GET, POST, OPTIONS, PUT, PATCH, DELETE'");
+        var emailEntry = {
+          "name":req.body.name,
+          "email":req.body.email
+        };
+
+        models.emailWhiteList.create(emailEntry, function(err, doc){
+          if(err { res.json(err); }
+          else{
+            res.send("success");
+          }
+        });
+    })
+
     // Self explanatory I think, but is the endpoint for a register request
     app.post('/register',function(req,res){
         res.setHeader('Access-Control-Allow-Origin', '*');
