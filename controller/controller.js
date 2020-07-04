@@ -34,6 +34,11 @@ module.exports = function (app,io){
 
     // Self explanatory I think, but is the endpoint for a register request
     app.post('/register',function(req,res){
+      /* This endpoint is quite ugly. The reason that it is the way it is is because of the asynchronous nature of node,
+          which means things don't always happen in the order you wanted them to. If the user claims to be a mentee, we check
+          that their desired mentor is A existing and B free. If they claim to be a mentor, we check them against the
+          email whitelist. At present, we don't actually pop from the whitelist at this point -- if you wanted to implement
+          this in the future it would be a simple case of adding mongoose removeOne() into the else under mentor. */
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader("Access-Control-Allow-Method","'GET, POST, OPTIONS, PUT, PATCH, DELETE'");
         var user={
@@ -76,7 +81,7 @@ module.exports = function (app,io){
                     } else if (doc.primaryContact != "") {
                       res.send("mentor unavailable");
                     }
-                    else {
+                    else {  // if their mentor is free, assign them as a mentee so the mentor is no longer free.
                       models.user.findOneAndUpdate({ "handle":user.primaryContact }, {$set: { primaryContact: user.handle }},
                             function(err,doc){
                               if (err) { console.log(err); }
@@ -84,8 +89,6 @@ module.exports = function (app,io){
                       createUser(user);
                     }
                   })
-                } else {
-                  createUser(user);
                 } else {  // if they're not a mentee, they're a mentor. check that they are whitelisted
                   models.emailWhiteList.findOne({"email":user.email}, function(err, doc) {
                     if (err) {console.log(err);}
