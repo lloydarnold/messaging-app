@@ -232,6 +232,11 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="addGroups"><span class="glyphicon glyphicon-person"></span> Add To Group</label>
+                    <input type="text" class="form-control" id="addGroup" placeholder="Enter new group (only one)" ng-model="newUser.extraGroup">
+                </div>
+
+                <div class="form-group">
                   <label for="isAdmin"><span class="glyphicon glyphicon-padlock"></span> Admin rights? </label>
                   <select class="form-control" id="isAdmin" ng-model="newUser.isAdmin">
                     <option value="" id="admin-current"> Unset -- please do not touch & contact system admin </option>
