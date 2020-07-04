@@ -63,8 +63,8 @@ app.directive('myEnter', function () {
     };
 });
 
-app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compile','$location','$state','$localStorage',
- '$sessionStorage',function($scope,socket,$http,$mdDialog,$compile,$location,$state,$localStorage, $sessionStorage){
+app.controller('adminController', ['$scope', 'encrypt', 'socket','$http', '$mdDialog','$compile','$location','$state','$localStorage',
+ '$sessionStorage',function($scope,encrypt,socket,$http,$mdDialog,$compile,$location,$state,$localStorage, $sessionStorage){
     url= location.host;
     $scope.currentDisplayedUser;
     $scope.currentUserHandle;
@@ -198,13 +198,24 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
                       <span class="direct-chat-timestamp pull-right">' + user.email + '</span>\
                       <span class="direct-chat-name pull-left">'+ " Email: " +'</span>\
                       </div>\
-                      <div class="direct-chat-info clearfix">\
                       <span class="direct-chat-timestamp pull-right">' + user.phone + '</span>\
                       <span class="direct-chat-name pull-left">'+ " Phone Number: " +'</span>\
                       </div>\
                       <div class="direct-chat-info clearfix">\
+                      <span class="direct-chat-timestamp pull-right">' + user.yearGroup + '</span>\
+                      <span class="direct-chat-name pull-left">'+ " Year Group (> 13 counts into uni): " +'</span>\
+                      </div>\
+                      <div class="direct-chat-info clearfix">\
                       <span class="direct-chat-timestamp pull-right">' + user.userType + '</span>\
                       <span class="direct-chat-name pull-left">'+ " User Type: " +'</span>\
+                      </div>\
+                      <div class="direct-chat-info clearfix">\
+                      <span class="direct-chat-timestamp pull-right">' + user.primaryContact + '</span>\
+                      <span class="direct-chat-name pull-left">'+ " Mentor / Mentee: " +'</span>\
+                      </div>\
+                      <div class="direct-chat-info clearfix">\
+                      <span class="direct-chat-timestamp pull-right">' + user.groups + '</span>\
+                      <span class="direct-chat-name pull-left">'+ " Groups: " +'</span>\
                       </div>\
                       <button type="button" class="btn btn-primary btn-flat" ng-click="showUpdateUser()">Update User</button>\
                       <button type="button" class="btn btn-primary btn-flat" ng-click="confirmDelete()"> Delete User</button>'
@@ -247,13 +258,13 @@ app.controller('adminController', ['$scope','socket','$http','$mdDialog','$compi
       var merged = {"name":"", "handle":"", "userType":"", "primaryContact":"",
                     "password":"", "isAdmin":"", "email":"", "phone":""};
       for (item in merged){
-        console.log(item);
         if (newUser[item] == undefined) {
-          console.log(oldUser[item]);
           merged[item] = oldUser[item]; }
         else { merged[item] = newUser[item]; }
       };
 
+      if (newUser.password != undefined ) { merged.password = encrypt.hash( merged.password ); }
+      console.log(merged);
       if (newUser.primaryContact == "clear") { merged.primaryContact = ""; }
       return merged;
     }
