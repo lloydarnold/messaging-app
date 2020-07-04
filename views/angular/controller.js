@@ -262,15 +262,17 @@ app.controller('adminController', ['$scope', 'encrypt', 'socket','$http', '$mdDi
     var mergeUsers = function(oldUser, newUser){
       var merged = {"name":"", "handle":"", "userType":"", "primaryContact":"",
                     "password":"", "isAdmin":"", "email":"", "phone":""};
-      for (item in merged){
+      for (item in merged){                       // most things we can do like this, some special cases (see below)
         if (newUser[item] == undefined) {
           merged[item] = oldUser[item]; }
         else { merged[item] = newUser[item]; }
       };
 
+      // password needs to be hashed on assignment
       if (newUser.password != undefined ) { merged.password = encrypt.hash( merged.password ); }
-      if (newUser.isAdmin == "change") {merged.admin = !oldUser.admin;}
-      if (newUser.primaryContact == "clear") { merged.primaryContact = ""; }
+      if (newUser.isAdmin == "change") {merged.admin = !oldUser.admin;}       // admin works on 'change' trigger
+      if (newUser.primaryContact == "clear") { merged.primaryContact = ""; }  // if they type clear, clear it
+      if (newUser.extraGroup != undefined) {merged.groups = oldUser.groups.push(newUser.extraGroup); }  // if new group, add it
       return merged;
     }
 
