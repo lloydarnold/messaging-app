@@ -25,7 +25,7 @@ module.exports = function (app,io){
         };
 
         models.emailWhiteList.create(emailEntry, function(err, doc){
-          if(err { res.json(err); }
+          if(err) { res.json(err); }
           else{
             res.send("success");
           }
