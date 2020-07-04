@@ -86,6 +86,15 @@ module.exports = function (app,io){
                   })
                 } else {
                   createUser(user);
+                } else {  // if they're not a mentee, they're a mentor. check that they are whitelisted
+                  models.emailWhiteList.findOne({"email":user.email}, function(err, doc) {
+                    if (err) {console.log(err);}
+                    if (doc == null){
+                      res.send("email not recognised");
+                    } else {
+                      createUser(user);
+                    }
+                  })
                 }
 
             } else {
