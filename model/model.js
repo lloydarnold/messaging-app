@@ -65,7 +65,7 @@ module.exports.group_notices = mongoose.model('notice', new Schema({
 }));
 
 // This is the model for entries to our email whitelist
-module.exports.emailWhiteList = mongoose.model('emailWhitelist', new Scheme({
+module.exports.emailWhiteList = mongoose.model('emailWhitelist', new Schema({
     name : String,
     email : String
 }));
