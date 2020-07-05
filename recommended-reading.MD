@@ -28,7 +28,7 @@ To add an account to the email whitelist (for mentor registration), an HTTP Post
         
         HTTP Post (address/whitelist, {our JSON (see above) }
         
-    set on event listener (event = new data in table)
+    set on event listener (event = new data in table OR new form submission - latter may be easier ? )
     send email name etc in same way as above
   '''
   
@@ -40,3 +40,4 @@ To add an account to the email whitelist (for mentor registration), an HTTP Post
   
   > For HTTP requests : https://developers.google.com/apps-script/reference/url-fetch/url-fetch-app
  
+  > For form handling : https://developers.google.com/apps-script/quickstart/forms
