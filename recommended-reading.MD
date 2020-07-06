@@ -15,7 +15,7 @@ Whilst this project does not include any google Apps script code, I understand t
 google sheets as their current mentor registration management platform. To send data from there to here, a RESTful 
 API endpoint exists (https://en.wikipedia.org/wiki/Representational_state_transfer if you want, but not hugely important).
 
-To add an account to the email whitelist (for mentor registration), an HTTP Post request should be sent to \<address\>\/whitelist.
+To add an account to the email whitelist (for mentor registration), an HTTP Post request should be sent to \<address\>\/addAllowedEmail.
   The body of this request should be a JSON, as follows. { "API_key" : \<key\>, "Name" : \<mentor name\>, "Email" : \<email\> }.
   Some rough pseudo code for looping through google sheets : 
   
@@ -26,7 +26,7 @@ To add an account to the email whitelist (for mentor registration), an HTTP Post
         email <- text value of row
         name <- text value of row next to it
         
-        HTTP Post (address/whitelist, {our JSON (see above) }
+        HTTP Post (address/addAllowedEmail, {our JSON (see above) }
         
     set on event listener (event = new data in table OR new form submission - latter may be easier ? )
     send email name etc in same way as above
