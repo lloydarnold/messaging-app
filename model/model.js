@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 // Connect to our database -- ON_DEPLOY : change this to use amazon database
-mongoose.connect('mongodb://localhost:27017/chat', {  useMongoClient: true  } );
+mongoose.connect('mongodb://localhost:27017/chat', { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Output result of connection to logs
 mongoose.connection.on('open', function (ref) {
