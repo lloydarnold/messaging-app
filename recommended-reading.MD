@@ -10,34 +10,54 @@ have expected, and took me a fair amount of time to work out. This article expla
 
 https://medium.com/@jsoo1/dynamic-content-with-angularjs-7a88b931c136
 
+## AWS
+As mentioned in README.md, this application was deployed on AWS Elastic Beanstalk. Here are a few of the guides that I
+found useful in trying to set this up.
+
+Getting started:
+
+https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/Welcome.html
+
+This tutorial talks about how to use EB with DynamoDB:
+
+https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/nodejs-dynamodb-tutorial.html
+
+Configuration Options:
+
+https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/nodejs-platform-proxy.html
+
+Packaging & deploying future versions:
+
+https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/applications-sourcebundle.html
+
 ## Reading for GSuite code
-Whilst this project does not include any google Apps script code, I understand that the B.E.N. are using 
-google sheets as their current mentor registration management platform. To send data from there to here, a RESTful 
+Whilst this project does not include any google Apps script code, I understand that the B.E.N. are using
+google sheets as their current mentor registration management platform. To send data from there to here, a RESTful
 API endpoint exists (https://en.wikipedia.org/wiki/Representational_state_transfer if you want, but not hugely important).
 
 To add an account to the email whitelist (for mentor registration), an HTTP Post request should be sent to \<address\>\/addAllowedEmail.
   The body of this request should be a JSON, as follows. { "API_key" : \<key\>, "Name" : \<mentor name\>, "Email" : \<email\> }.
-  Some rough pseudo code for looping through google sheets : 
-  
-  ''' 
+  Some rough pseudo code for looping through google sheets :
+
+  '''
     key = import key from secret file
-    
+
     for row in column:
         email <- text value of row
         name <- text value of row next to it
-        
+
         HTTP Post (address/addAllowedEmail, {our JSON (see above) }
-        
+
     set on event listener (event = new data in table OR new form submission - latter may be easier ? )
     send email name etc in same way as above
   '''
-  
-  A bit of reading on g Suite apps script : 
-  
+
+  A bit of reading on g Suite apps script :
+
   > General : https://developers.google.com/gsuite/aspects/appsscript
-  
+
   > Iterating through spreadsheet : https://yagisanatode.com/2017/12/13/google-apps-script-iterating-through-ranges-in-sheets-the-right-and-wrong-way/
-  
+
   > For HTTP requests : https://developers.google.com/apps-script/reference/url-fetch/url-fetch-app
- 
+
   > For form handling : https://developers.google.com/apps-script/quickstart/forms
