@@ -172,7 +172,7 @@ module.exports = function (app,io){
 
         // io.to(socket.id).emit('handle', handle);
 
-        models.user.findOne({"handle":handle},{primaryContact:1, userType:1, groups:1, _id:0}, function(err, doc) {
+        models.user.findOne({"handle":handle},{primaryContact:1, userType:1, groups:1, yearGroup:1, _id:0}, function(err, doc) {
           if (err) { console.log(err); }
           else {
             primaryContact = doc.primaryContact; // assign local variable primary contact to value yoinked from db

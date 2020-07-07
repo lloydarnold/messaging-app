@@ -428,6 +428,7 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
       }
       $scope.primaryContact = data.primaryContact;
       $scope.myGroups = data.groups;
+      $scope.myGroups.push(data.yearGroup);
       setMentorMentee(data.userType);
       initGroups();
       socket.emit('load notices', $scope.user)
