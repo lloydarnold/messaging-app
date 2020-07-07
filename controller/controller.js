@@ -1,7 +1,7 @@
 var models = require('../model/model.js');
 var path = require('path');
 var bodyParser = require('body-parser');
-
+// var myKey = require('secret');
 
 
 module.exports = function (app,io){
@@ -19,6 +19,7 @@ module.exports = function (app,io){
     app.post('/addAllowedEmail', function(req, res){
       res.setHeader('Access-Control-Allow-Origin', '*');
       res.setHeader("Access-Control-Allow-Method","'GET, POST, OPTIONS, PUT, PATCH, DELETE'");
+      // if (req.body.key != myKey) {return;}
         var emailEntry = {
           "name":req.body.name,
           "email":req.body.email
