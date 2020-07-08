@@ -1,6 +1,6 @@
 If it ain't broke, don't fix it
 
-# messaging-app
+# Messaging App
 This is a project developed for the Black Excellence Network, who needed an online chat service for their mentoring system.
 It is shared on here as per the terms of our contract; please see License.MD for the license.
 
@@ -39,5 +39,10 @@ in your browser.
 The entry point for execution is server.js. This sets up an Express HTTP server, listening to all inbound IP addresses on port 8080. 
 On connection to the server, the user is served index.html, which imports all clientside dependencies, including (clientside) controller.js. 
 This manages and controls an Angular app, which communicates with the server using both HTTP requests and web sockets. On the server side, there is a script called 
+controller.js, which is imported by server.js and controls all serverside operations. This implements a number of RESTful API / socket endpoints.
 
-## Angular app
+### Angular app
+Clientside is dealt with in Angular. There are three possible states - login, loggedIn and admin. The first serves the login.html page, dealt with by the register
+controller. The second is the standard user login; this features chat.html and is dealt with by the chat controller. Finally, admin serves admin.html, dealt with 
+by the admin controller. Both logged in and admin states are dealt with by socket connections; the login state is served via express and then interacts with the server
+using HTTP requests to send login credentials. 
