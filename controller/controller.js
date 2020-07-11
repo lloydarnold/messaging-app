@@ -91,7 +91,7 @@ module.exports = function (app,io){
                     }
                   })
                 } else {  // if they're not a mentee, they're a mentor. check that they are whitelisted
-                  models.emailWhiteList.findOne({"email":user.email}, function(err, doc) {
+                  models.emailWhiteList.findOne({"email": {$regex: user.email, $options: "i" } }, function(err, doc) {
                     if (err) {console.log(err);}
                     if (doc == null){
                       res.send("email not recognised");
