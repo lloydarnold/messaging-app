@@ -179,11 +179,11 @@ module.exports = function (app,io){
             primaryContact = doc.primaryContact; // assign local variable primary contact to value yoinked from db
             userType = doc.userType;
             groups = doc.groups;
-
+            yearGroup = doc.yearGroup;
             /*io.to(socket.id).emit('primaryContact', primaryContact);      // we need to send them their primary contact (mentor or mentee)
             io.to(socket.id).emit('userType', userType);*/
 
-            toSend = { "handle":handle, "primaryContact": primaryContact, "userType":userType, "groups":groups};
+            toSend = { "handle":handle, "primaryContact": primaryContact, "userType":userType, "groups":groups, "yearGroup":yearGroup};
             io.to(socket.id).emit('user data', toSend);
 
             primaryContact = null;    // Reset variables to null
