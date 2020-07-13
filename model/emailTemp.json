@@ -1,0 +1,31 @@
+{
+   "Destination":{
+      "CcAddresses":[
+         "EMAIL_ADDRESS"
+      ],
+      "ToAddresses":[
+         "EMAIL_ADDRESS"
+      ]
+   },
+   "Message":{
+      "Body":{
+         "Html":{
+            "Charset":"UTF-8",
+            "Data":"HTML_FORMAT_BODY"
+         },
+         "Text":{
+            "Charset":"UTF-8",
+            "Data":"Hi, you have a new message waiting for you on chat.blackexcellencenetwork.tk. Have a nice day ! :)"
+         }
+      },
+      "Subject":{
+         "Charset":"UTF-8",
+         "Data":"Test email"
+      }
+   },
+   "Source":"noreply@blackexcellencenetwork.tk",
+
+  "ReplyToAddresses":[
+      "EMAIL_ADDRESS",
+   ]
+}
