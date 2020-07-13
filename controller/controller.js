@@ -1,8 +1,11 @@
 var models = require('../model/model.js');
 var path = require('path');
 var bodyParser = require('body-parser');
+var AWS = require('aws-sdk');
+// Set the region
+AWS.config.update({region: 'EU-WEST-2'});
 // var myKey = require('secret');
-
+var emailTemplate = require('../model/emailTemp.js')
 
 module.exports = function (app,io){
     app.use( bodyParser.json() );
