@@ -3,9 +3,9 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var AWS = require('aws-sdk');
 // Set the region
-AWS.config.update({region: 'EU-WEST-2'});
+AWS.config.update({region: 'eu-west-2'});
 // var myKey = require('secret');
-var emailTemplate = require('../model/emailTemp.js')
+var emailTemplate = require('../model/emailTemp.json')
 
 module.exports = function (app,io){
     app.use( bodyParser.json() );
@@ -133,7 +133,7 @@ module.exports = function (app,io){
                 res.send(err);
             }
             if(doc==null){
-                res.send("User has not registered");
+		res.send("User has not registered");
             }
             else{
                 // console.log("Asas"+__dirname);
@@ -267,11 +267,11 @@ module.exports = function (app,io){
             if (users[to] != null) {
               io.to(users[to]).emit('private message', msg);     // After we've processed msg object, send it
             } else {
-              models.users.findOne({"handle" : to}, {email:1, _id:0}, function(err, doc) {
+              models.user.findOne({"handle" : to}, {email:1, _id:0}, function(err, doc) {
                 if (err) { console.log(err); }
                 if (doc != null) {
                   var localEmail = emailTemplate;
-                  localEmail.Destination.ToAddresses.push(localEmail);
+                  localEmail.Destination.ToAddresses.push(doc.email);
                   var sendPromise = new AWS.SES({apiVersion: '2010-12-01'}).sendEmail(localEmail).promise();
 
                   sendPromise.then(
