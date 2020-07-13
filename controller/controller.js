@@ -264,8 +264,27 @@ module.exports = function (app,io){
               }
             });
 
-            io.to(users[to]).emit('private message', msg);     // After we've processed msg object, send it
+            if (users[to] != null) {
+              io.to(users[to]).emit('private message', msg);     // After we've processed msg object, send it
+            } else {
+              models.users.findOne({"handle" : to}, {email:1, _id:0}, function(err, doc) {
+                if (err) { console.log(err); }
+                if (doc != null) {
+                  var localEmail = emailTemplate;
+                  localEmail.Destination.ToAddresses.push(localEmail);
+                  var sendPromise = new AWS.SES({apiVersion: '2010-12-01'}).sendEmail(localEmail).promise();
 
+                  sendPromise.then(
+                    function(data) {
+                      console.log(data.MessageId);
+                    }).catch(
+                      function(err) {
+                      console.error(err, err.stack);
+                    });
+                    
+                }
+              });
+            }
         });
 
         socket.on('disconnect', function(){
