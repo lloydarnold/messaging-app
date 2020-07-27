@@ -22,7 +22,10 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlR
         views:{
             'body':{
                 templateUrl:'/views/login.html',
-                controller:'loginController'
+                controller:'loginController',
+                params: {
+                  userHandle : null
+                }
             }
         }
     })
@@ -411,7 +414,7 @@ app.controller('adminController', ['$scope', 'encrypt', 'socket','$http', '$mdDi
 }]);
 
 app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile','$location','$state','$localStorage',
- '$sessionStorage',function($scope,socket,$http,$mdDialog,$compile,$location,$state,$localStorage, $sessionStorage){
+ '$sessionStorage', '$stateParams' ,function($scope,socket,$http,$mdDialog,$compile,$location,$state,$localStorage, $sessionStorage, $stateParams){
 
     url= location.host;
     $scope.users=[];
@@ -419,6 +422,8 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
     $scope.myGroups=[];
     $scope.noticeGroupSelected="global";
     var monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October","November", "December"];
+
+    $scope.handle = $stateParams.userHandle;
 
     socket.emit('load self', $scope.handle);
     console.loog("emitted");
@@ -797,7 +802,7 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
             .success(function (data) {
             if(data=="success"){
                 // console.log("Inside success login");
-                $state.go('loggedin');
+                $state.go('loggedin', { userHandle : handle });
             }
         })
             .error(function (data) {
