@@ -177,6 +177,7 @@ module.exports = function (app,io){
         // io.to(socket.id).emit('handle', handle);
 
         socket.on('load self', function(socketHandle) {
+          console.log("self loading");
           if (socketHandle == null) {
             return;
           };

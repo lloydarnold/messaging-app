@@ -421,6 +421,7 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
     var monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October","November", "December"];
 
     socket.emit('load self', $scope.handle);
+    console.loog("emitted");
 
     socket.on('user data', function(data) {
       $scope.user = data.handle;
