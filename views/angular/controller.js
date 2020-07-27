@@ -1,4 +1,4 @@
-var app = angular.module('myapp',['ngMaterial','ui.router','ngStorage']);
+// OPTIMIZE: var app = angular.module('myapp',['ngMaterial','ui.router','ngStorage']);
 
 app.factory('socket', ['$rootScope', function($rootScope) {
     var socket = io.connect();
@@ -419,6 +419,8 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
     $scope.myGroups=[];
     $scope.noticeGroupSelected="global";
     var monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October","November", "December"];
+
+    socket.emit('load self', $scope.handle);
 
     socket.on('user data', function(data) {
       $scope.user = data.handle;
