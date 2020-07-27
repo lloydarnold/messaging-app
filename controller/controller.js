@@ -167,11 +167,11 @@ module.exports = function (app,io){
 
     // When the users log in is successful, and they connect
     io.on('connection',function(socket){
-        if (tempHandle == null) {         // guard clause -- stops user from ruining everything (but doesn't log them out)
+        //if (tempHandle == null) {         // guard clause -- stops user from ruining everything (but doesn't log them out)
           // app.sendFile(path.resolve(__dirname+"/../views/index.html"));
-          return;
-        }
-        console.log("Connection : User is connected "+ tempHandle);
+         // return;
+        //}
+        //console.log("Connection : User is connected "+ tempHandle);
         console.log("Connection : " + socket.id);
 
         // io.to(socket.id).emit('handle', handle);
@@ -179,7 +179,8 @@ module.exports = function (app,io){
         socket.on('load self', function(socketHandle) {
           console.log("self loading");
           if (socketHandle == null) {
-            return;
+              console.log("awh shucks");
+	      return;
           };
           models.user.findOne({"handle":socketHandle},{primaryContact:1, userType:1, groups:1, yearGroup:1, _id:0}, function(err, doc) {
             if (err) { console.log(err); }

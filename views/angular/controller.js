@@ -1,4 +1,5 @@
 var app = angular.module('myapp',['ngMaterial','ui.router','ngStorage']);
+var thisUser;
 
 app.factory('socket', ['$rootScope', function($rootScope) {
     var socket = io.connect();
@@ -45,8 +46,11 @@ app.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlR
         views:{
             'body':{
                 templateUrl: '/views/chat.html',
-                controller : 'chatController'
-            }
+                controller : 'chatController',
+            	params: {
+		    userHandle : null
+		}
+	    }
         }
     })
 
@@ -414,7 +418,7 @@ app.controller('adminController', ['$scope', 'encrypt', 'socket','$http', '$mdDi
 }]);
 
 app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile','$location','$state','$localStorage',
- '$sessionStorage', '$stateParams' ,function($scope,socket,$http,$mdDialog,$compile,$location,$state,$localStorage, $sessionStorage, $stateParams){
+ '$sessionStorage', '$stateParams', function($scope,socket,$http,$mdDialog,$compile,$location,$state,$localStorage, $sessionStorage, $stateParams){
 
     url= location.host;
     $scope.users=[];
@@ -423,10 +427,16 @@ app.controller('chatController',['$scope','socket','$http','$mdDialog','$compile
     $scope.noticeGroupSelected="global";
     var monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October","November", "December"];
 
-    $scope.handle = $stateParams.userHandle;
+    $scope.handle = thisUser;
+    if (thisUser == null ) {
+        alert("You have been logged out. Please return to login.");
+	$state.go('login');
+    }
 
+    //console.log($stateParams);
+    //console.log($state.params);
     socket.emit('load self', $scope.handle);
-    console.loog("emitted");
+    console.log("emitted");
 
     socket.on('user data', function(data) {
       $scope.user = data.handle;
@@ -802,7 +812,8 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
             .success(function (data) {
             if(data=="success"){
                 // console.log("Inside success login");
-                $state.go('loggedin', { userHandle : handle });
+                thisUser = handle;
+		$state.go('loggedin');
             }
         })
             .error(function (data) {
@@ -822,7 +833,7 @@ app.controller('loginController',['$scope','encrypt','$http','$state',function($
             .success(function (data) {
             if(data=="success"){
                 console.log("Inside success admin login");
-                $state.go('admin');
+                state.go('admin');
             } else {
               standardLogin(handle, pass);        // If they're not an admin, try a standard login
             }
