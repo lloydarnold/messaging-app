@@ -1,4 +1,4 @@
-// OPTIMIZE: var app = angular.module('myapp',['ngMaterial','ui.router','ngStorage']);
+var app = angular.module('myapp',['ngMaterial','ui.router','ngStorage']);
 
 app.factory('socket', ['$rootScope', function($rootScope) {
     var socket = io.connect();
