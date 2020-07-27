@@ -113,7 +113,7 @@ module.exports = function (app,io){
     });
 
     // Initialise session variables
-    var handle=null;
+    var tempHandle=null;
     var primaryContact=null;
     var private=null;
     var users={};
@@ -167,36 +167,42 @@ module.exports = function (app,io){
 
     // When the users log in is successful, and they connect
     io.on('connection',function(socket){
-        if (handle == null) {         // guard clause -- stops user from ruining everything (but doesn't log them out)
-          // app.sendFile(path.resolve(__dirname+"/../views/index.html"));      // TODO: find way of kicking them
+        if (tempHandle == null) {         // guard clause -- stops user from ruining everything (but doesn't log them out)
+          // app.sendFile(path.resolve(__dirname+"/../views/index.html"));
           return;
         }
-        console.log("Connection : User is connected "+handle);
+        console.log("Connection : User is connected "+ tempHandle);
         console.log("Connection : " + socket.id);
 
         // io.to(socket.id).emit('handle', handle);
 
-        models.user.findOne({"handle":handle},{primaryContact:1, userType:1, groups:1, yearGroup:1, _id:0}, function(err, doc) {
-          if (err) { console.log(err); }
-          else {
-            primaryContact = doc.primaryContact; // assign local variable primary contact to value yoinked from db
-            userType = doc.userType;
-            groups = doc.groups;
-            yearGroup = doc.yearGroup;
-            /*io.to(socket.id).emit('primaryContact', primaryContact);      // we need to send them their primary contact (mentor or mentee)
-            io.to(socket.id).emit('userType', userType);*/
+        socket.on('load self', function(socketHandle) {
+          if (socketHandle == null) {
+            return;
+          };
+          models.user.findOne({"handle":socketHandle},{primaryContact:1, userType:1, groups:1, yearGroup:1, _id:0}, function(err, doc) {
+            if (err) { console.log(err); }
+            else {
+              primaryContact = doc.primaryContact; // assign local variable primary contact to value yoinked from db
+              userType = doc.userType;
+              groups = doc.groups;
+              yearGroup = doc.yearGroup;
+              /*io.to(socket.id).emit('primaryContact', primaryContact);      // we need to send them their primary contact (mentor or mentee)
+              io.to(socket.id).emit('userType', userType);*/
 
-            toSend = { "handle":handle, "primaryContact": primaryContact, "userType":userType, "groups":groups, "yearGroup":yearGroup};
-            io.to(socket.id).emit('user data', toSend);
+              toSend = { "handle":socketHandle, "primaryContact": primaryContact, "userType":userType, "groups":groups, "yearGroup":yearGroup};
+              io.to(socket.id).emit('user data', toSend);
 
-            primaryContact = null;    // Reset variables to null
-            userType = null;
-            groups = null;
-          }
+              primaryContact = null;    // Reset variables to null
+              userType = null;
+              groups = null;
+            }
+          });
+
+          users[socketHandle]=socket.id;  // Give their connection a unique ID
+          keys[socket.id]=socketHandle;
+
         });
-
-        users[handle]=socket.id;  // Give their connection a unique ID
-        keys[socket.id]=handle;
 
         socket.on('load messages', function(socketData) {
           // socketData model ::        // DIFFERENT SEPARATOR USED HERE because convoID already contains #*@
@@ -281,7 +287,7 @@ module.exports = function (app,io){
                       function(err) {
                       console.error(err, err.stack);
                     });
-                    
+
                 }
               });
             }
