@@ -1,5 +1,3 @@
-If it ain't broke, don't fix it
-
 # Messaging App
 This is a project developed for the Black Excellence Network, who needed an online chat service for their mentoring system.
 It is shared on here as per the terms of our contract; please see License.MD for the license.
